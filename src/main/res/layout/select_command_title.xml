@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:gravity="center"
+    android:id="@+id/linearLayout_grid">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_commands"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp" />
+
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:gravity="center"
+    android:id="@+id/linearLayout_grid"
+    android:background="#a4a2a2"
+
+    >
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <!--alguna imagen-->
+
+    </FrameLayout>
+    <TextView
+        android:id="@+id/textview_cmd_name"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:paddingTop="15dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="CommandName"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/textview_cmd_value"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:textSize="12sp"
+        android:text="CommandValue"
+        android:gravity="center_horizontal"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+
+
+</LinearLayout>

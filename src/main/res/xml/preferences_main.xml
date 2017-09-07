@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/title_pref_bluetooth">
+        <ListPreference
+            android:dialogTitle="@string/pref_bluetooth_list_devices_title"
+            android:key="bluetooth_list_preference"
+            android:summary="@string/pref_bluetooth_list_devices_summary"
+            android:title="@string/pref_bluetooth_list_devices_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vehicle_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
+    tools:context="com.cardiag.activity.StateActivity">
+
+     <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+     </TableRow>
+
+    <GridView
+        android:id="@+id/data_grid"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="2"
+        android:verticalSpacing="15dp"
+        android:horizontalSpacing="15dp"
+        android:fadingEdgeLength="0px"
+        >
+    </GridView>
+
+
+</LinearLayout>
