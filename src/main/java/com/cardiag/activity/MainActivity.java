@@ -191,8 +191,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean enableGps(int requestCode){
 
         if(!getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            Intent enableBtIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivityForResult(enableBtIntent, requestCode);
+            ConfirmDialog.showGpsEnabledDialog(MainActivity.this, requestCode);
             return true;
         }
         return false;

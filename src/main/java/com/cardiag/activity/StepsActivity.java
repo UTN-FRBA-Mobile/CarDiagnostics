@@ -34,8 +34,8 @@ public class StepsActivity extends AppCompatActivity {
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(
                getSupportFragmentManager());
        int id = 1;
-      // ArrayList<Step> steps = new DataBaseService(this).getSteps(id);
-       ArrayList<Step> steps = new ArrayList<Step>();steps.add(new Step("ic_btcar","Cardiag"));steps.add(new Step("s0101","abra el capó"));
+       ArrayList<Step> steps = new DataBaseService(this).getStepsDummy(id);
+      // ArrayList<Step> steps = new ArrayList<Step>();steps.add(new Step("ic_btcar","Cardiag"));steps.add(new Step("s0101","abra el capó"));
        //     ArrayList<Step> steps = DataBaseAdapter.getDatabase().getSteps(id);
        int size = steps.size();
        for(int index = 0; index< size; index++){

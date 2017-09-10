@@ -1,24 +1,13 @@
 package com.cardiag.utils;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.text.Layout;
+import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.cardiag.R;
+import com.cardiag.activity.MainActivity;
 import com.cardiag.activity.StateActivity;
-import com.cardiag.models.commands.ObdCommand;
-import com.cardiag.models.runnable.StateTask;
-
-import java.util.ArrayList;
 
 
 public class ConfirmDialog {
@@ -42,6 +31,34 @@ public class ConfirmDialog {
                     }
                 });
 //                .setCustomTitle(view);
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.show();
+    }
+
+    public static void showGpsEnabledDialog(final Context context, final int requestCode) {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                context);
+
+        final MainActivity mainActivity = (MainActivity) context;
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Una aplicación quiere activar el GPS en este dispositivo")
+                .setPositiveButton("Permitir",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        Intent enableBtIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        mainActivity.startActivityForResult(enableBtIntent, requestCode);
+
+                    }
+                })
+                .setNegativeButton("Rechazar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
 

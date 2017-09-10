@@ -371,4 +371,24 @@ public class DataBaseService extends SQLiteOpenHelper {
         }
         return solutions;
     }
+
+    public ArrayList<Step> getStepsDummy(int id) {
+        ArrayList<Step> steps = new ArrayList<Step>();
+     //   steps.add(new Step("ic_btcar","Cardiag"));
+        steps.add(new Step("s1s1","Abrir el capot del auto."));
+        steps.add(new Step("s1s2","Identifique la bateria dentro del capot. Generalmente su ubicacion esta normalizada y es la que se muestra en la imagen. Puede manipularla sin problemas ya que es seguro."));
+        steps.add(new Step("s1s3","Quitamos la protección para dejar la batería al descubierto e identificamos los dos bornes. Tanto el positivo como el negativo deben estar identificados con un signo según su polaridad."));
+        steps.add(new Step("s1s4","Quitamos cada uno de los bornes usando una llave inglesa (normalmente del número 10) para aflojar las tuercas que los sostienen."));
+        steps.add(new Step("s1s5","Una vez hecho esto, la batería quedará suelta eléctricamente. El siguiente paso es soltarla mecánicamente."));
+        steps.add(new Step("s1s6","Para esto hay que desligarla del coche aflojando un tornillo ubicado donde se señala en la imagen."));
+        steps.add(new Step("s1s7","Retirar el tornillo señalado usando una llave (generalmente del número 13). Así se desvinculará la chapa que sostiene la batería."));
+        steps.add(new Step("s1s8","Retirar la placa que sujeta la batería."));
+        steps.add(new Step("s1s9","La batería ya se encuentra suelta, procedemos a retirarla."));
+        steps.add(new Step("s1s10","Comprar una batería de iguales características (Igual medida, voltios y amperios/hora)."));
+        steps.add(new Step("s1s11","Colocar la nueva batería donde se encontraba la anterior."));
+        steps.add(new Step("s1s12","Volver a colocar la placa que sujeta la batería y el tornillo correspondiente."));
+        steps.add(new Step("s1s13","Lijar los contactos con una lima o lija hasta que queden brillantes."));
+        steps.add(new Step("s1s14","Conectar la batería y volver a colocar la protección en la misma."));
+        return steps;
+    }
 }

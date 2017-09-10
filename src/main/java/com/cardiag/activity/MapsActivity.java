@@ -122,10 +122,6 @@ public class MapsActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem selected) {
 
         switch (selected.getItemId()) {
-            case R.id.select_service:
-                popUpServices();
-                return true;
-
             case R.id.finish_map:
                 finish();
                 return true;

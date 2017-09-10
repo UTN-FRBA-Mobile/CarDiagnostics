@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,8 @@ public class StepFragment extends Fragment {
 
         TextView tvStepPosition = (TextView) rootView.findViewById(R.id.tvStep);
         tvStepPosition.setText("Paso "+ String.valueOf(index) + " de "+ String.valueOf(total));
+        tvStepPosition.setGravity(Gravity.CENTER);
+
         int intDrawable= getResourceId(imgid, "drawable", activ.getPackageName());
         // int intDrawable=getResId("back0", Drawable.class);
     //    int intDrawable= getResourceId("back"+String.valueOf(index), "drawable", activ.getPackageName()); //va

@@ -12,7 +12,7 @@
     android:onClick="searchServices"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="left|bottom"
+    android:layout_gravity="left|top"
     style="@style/Base.Widget.AppCompat.ImageButton"
     android:background="@android:color/transparent"
     android:drawableLeft="@drawable/icon_search"
