@@ -1,4 +1,4 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -6,4 +6,4 @@
     android:gravity="center"
     android:divider="@null"
     >
-</ListView>
+</android.support.v7.widget.RecyclerView>

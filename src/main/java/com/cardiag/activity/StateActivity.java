@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,16 +72,16 @@ public class StateActivity extends AppCompatActivity  {
 
         final BluetoothAdapter btAdapter = getBluetoothAdapter();
 
-//        initiateConfiguration();
+        initiateConfiguration();
 
-        if (btAdapter != null && btAdapter.isEnabled()) {
-            bluetoothDefaultIsEnable = btAdapter.isEnabled();
-            initiateConfiguration();
-        } else {
-            String error = getString(R.string.error);
-            String msg = getString(R.string.text_bluetooth_disabled);
-            ConfirmDialog.showCancellingDialog(this, error, msg);
-        }
+//        if (btAdapter != null && btAdapter.isEnabled()) {
+//            bluetoothDefaultIsEnable = btAdapter.isEnabled();
+//            initiateConfiguration();
+//        } else {
+//            String error = getString(R.string.error);
+//            String msg = getString(R.string.text_bluetooth_disabled);
+//            ConfirmDialog.showCancellingDialog(this, error, msg);
+//        }
 
     }
 
@@ -94,11 +96,11 @@ public class StateActivity extends AppCompatActivity  {
             showDialog(NO_ORIENTATION_SENSOR);
         }
 
-        cct = new ConnectionConfigTask(this);
-        cct.execute();
+//        cct = new ConnectionConfigTask(this);
+//        cct.execute();
 
-//        selectedCommands = dbService.getCommands(null, null);
-//        gridView.setAdapter(new ObdCommandAdapter(selectedCommands, this));
+        selectedCommands = dbService.getCommands(null, null);
+        gridView.setAdapter(new ObdCommandAdapter(selectedCommands, this));
     }
 
     private void doBindings() {
@@ -224,13 +226,13 @@ public class StateActivity extends AppCompatActivity  {
         View title = inflater.inflate(R.layout.select_command_title, null);
 
         final ObdCommandCheckAdapter checkAdapter = new ObdCommandCheckAdapter(this);
-        ListView listView = (ListView) inflater.inflate(R.layout.custom_list, null);
-//        listView.setOnItemClickListener(new ObdCommandOnClickListener(checkAdapter));
-        listView.setAdapter(checkAdapter);
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.custom_list, null);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(checkAdapter);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setCustomTitle(title)
-                .setView(listView)
+                .setView(recyclerView)
                 .setPositiveButton(accept, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         onPositiveClick(checkAdapter);
