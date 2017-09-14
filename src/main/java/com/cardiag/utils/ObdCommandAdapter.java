@@ -1,20 +1,17 @@
 package com.cardiag.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cardiag.R;
 import com.cardiag.models.commands.ObdCommand;
+import com.cardiag.velocimetro.Velocimetro;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +22,7 @@ public class ObdCommandAdapter extends BaseAdapter {
 
     private List<ObdCommand> cmds;
     private Context mContext;
-
+    private Velocimetro velocimetro;
     /**
      * Default constructor
      * @param items to fill data to
@@ -60,11 +57,29 @@ public class ObdCommandAdapter extends BaseAdapter {
 
         TextView cmdName = (TextView) convertView.findViewById(R.id.textview_cmd_name);
         TextView cmdValue = (TextView) convertView.findViewById(R.id.textview_cmd_value);
+        velocimetro = (Velocimetro) convertView.findViewById(R.id.velocimetro);
 
         ObdCommand cmd = cmds.get(position);
         cmdName.setText(cmd.getName() + ": ");
         cmdValue.setText(cmd.getFormattedResult());
 
+
+
+        velocimetro.setMaxSpeed(200);
+        velocimetro.setLabelConverter(new Velocimetro.LabelConverter() {
+            @Override
+            public String getLabelFor(double progress, double maxProgress) {
+                return String.valueOf((int) Math.round(progress));
+            }
+        });
+        velocimetro.setMaxSpeed(200);
+        velocimetro.setMajorTickStep(30);
+        velocimetro.setMinorTicks(40);
+        velocimetro.addColoredRange(0, 60, Color.GREEN);
+        velocimetro.addColoredRange(60, 120, Color.YELLOW);
+        velocimetro.addColoredRange(120, 200, Color.RED);
+        velocimetro.setUnitsText(cmd.getResultUnit());
+        velocimetro.setSpeed(Double.parseDouble(cmd.getCalculatedResult()), 1000, 300);
 
         return convertView;
     }

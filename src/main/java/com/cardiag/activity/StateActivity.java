@@ -7,12 +7,9 @@ import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,8 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cardiag.R;
@@ -33,14 +28,13 @@ import com.cardiag.models.commands.ObdCommand;
 import com.cardiag.models.runnable.ConnectionConfigTask;
 import com.cardiag.models.runnable.StateTask;
 import com.cardiag.persistence.DataBaseService;
-import com.cardiag.utils.ConfirmDialog;
 import com.cardiag.utils.ObdCommandAdapter;
 import com.cardiag.utils.ObdCommandCheckAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StateActivity extends AppCompatActivity  {
+public class  StateActivity extends AppCompatActivity  {
 
     private static final String TAG = StateActivity.class.getName();
     private static final int START_LIVE_DATA = 0;

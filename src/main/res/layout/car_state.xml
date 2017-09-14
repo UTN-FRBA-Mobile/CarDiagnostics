@@ -15,14 +15,15 @@
      </TableRow>
 
     <GridView
+
         android:id="@+id/data_grid"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:numColumns="2"
-        android:verticalSpacing="15dp"
-        android:horizontalSpacing="15dp"
         android:fadingEdgeLength="0px"
-        >
+        android:horizontalSpacing="15dp"
+        android:numColumns="2"
+        android:verticalSpacing="15dp">
+
     </GridView>
 
 

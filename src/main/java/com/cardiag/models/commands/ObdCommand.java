@@ -258,7 +258,7 @@ public abstract class ObdCommand {
      *
      * @return the command response in string representation, without formatting.
      */
-    public abstract String getCalculatedResult();
+    public abstract String  getCalculatedResult();
 
     /**
      * <p>Getter for the field <code>buffer</code>.</p>

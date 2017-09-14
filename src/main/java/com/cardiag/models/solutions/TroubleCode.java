@@ -4,7 +4,7 @@ package com.cardiag.models.solutions;
  * Created by leo on 05/09/17.
  */
 
-public class TroubleCode {
+public class  TroubleCode {
     private String name;
     private String description;
 
