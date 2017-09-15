@@ -23,6 +23,7 @@ public class ObdCommandAdapter extends BaseAdapter {
     private List<ObdCommand> cmds;
     private Context mContext;
     private Velocimetro velocimetro;
+    double velocidadMaxima;
     /**
      * Default constructor
      * @param items to fill data to
@@ -79,7 +80,16 @@ public class ObdCommandAdapter extends BaseAdapter {
         velocimetro.addColoredRange(60, 120, Color.YELLOW);
         velocimetro.addColoredRange(120, 200, Color.RED);
         velocimetro.setUnitsText(cmd.getResultUnit());
-        velocimetro.setSpeed(Double.parseDouble(cmd.getCalculatedResult()), 1000, 300);
+
+        velocidadMaxima = (double) velocimetro.getMaxSpeed();
+        if( Double.parseDouble(cmd.getCalculatedResult()) < 0 ){
+            velocimetro.setSpeed(0, 1000, 300);
+        }else {
+            if(Double.parseDouble(cmd.getCalculatedResult()) > velocidadMaxima){
+                velocimetro.setSpeed(velocimetro.getMaxSpeed(), 1000, 300);
+            }else{
+            velocimetro.setSpeed(Double.parseDouble(cmd.getCalculatedResult()), 1000, 300);
+        }}
 
         return convertView;
     }

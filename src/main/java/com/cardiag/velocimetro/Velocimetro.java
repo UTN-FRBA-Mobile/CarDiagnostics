@@ -29,7 +29,7 @@ public class Velocimetro extends View {
     public static final double DEFAULT_MAJOR_TICK_STEP = 20.0;
     public static final int DEFAULT_MINOR_TICKS = 1;
     public static final int DEFAULT_LABEL_TEXT_SIZE_DP = 12;
-    public static final int DEFAULT_UNITS_TEXT_SIZE_DP = 24;
+    public static final int DEFAULT_UNITS_TEXT_SIZE_DP = 18;
 
     private double maxSpeed = DEFAULT_MAX_SPEED;
     private double speed = 0;
