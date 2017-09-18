@@ -65,21 +65,54 @@ public class ObdCommandAdapter extends BaseAdapter {
         cmdValue.setText(cmd.getFormattedResult());
 
 
+        switch(cmd.getName()){
+            case "RPM del motor":
+                velocimetro.setMaxSpeed(11);
+                velocimetro.setMajorTickStep(1);
+                velocimetro.setMinorTicks(1);
+                velocimetro.addColoredRange(0, 4, Color.GREEN);
+                velocimetro.addColoredRange(4, 7, Color.YELLOW);
+                velocimetro.addColoredRange(7, 11, Color.RED);
+                velocimetro.setUnitsTextSize(27);
+                velocimetro.setUnitsText(cmd.getResultUnit() + " x1000");
+                break;
 
-        velocimetro.setMaxSpeed(200);
+            //TODOS LOS COMANDOS CON DE PORCENTAJES 0-100%
+
+            case "Carga calculada del motor":
+            case "Ajuste de combustible a largo plazo—Banco 1":
+            case "Ajuste de combustible a corto plazo—Banco 1":
+            case "Ajuste de combustible a corto plazo—Banco 2":
+            case "Ajuste de combustible a largo plazo—Banco 2":
+            case "Avance del tiempo":
+            case "Posición del acelerador":
+            case "Nivel de combustible":
+            case "Valor absoluto de carga":
+                velocimetro.setMaxSpeed(100);
+                velocimetro.setMajorTickStep(20);
+                velocimetro.setMinorTicks(3);
+                velocimetro.addColoredRange(0, 30, Color.GREEN);
+                velocimetro.addColoredRange(30, 70, Color.YELLOW);
+                velocimetro.addColoredRange(70, 100, Color.RED);
+                velocimetro.setUnitsText(cmd.getResultUnit());
+                break;
+           default:
+                velocimetro.setMaxSpeed(200);
+                velocimetro.setMajorTickStep(30);
+                velocimetro.setMinorTicks(2);
+                velocimetro.addColoredRange(0, 60, Color.GREEN);
+                velocimetro.addColoredRange(60, 120, Color.YELLOW);
+                velocimetro.addColoredRange(120, 200, Color.RED);
+                velocimetro.setUnitsText(cmd.getResultUnit());
+               break;
+        }
+
         velocimetro.setLabelConverter(new Velocimetro.LabelConverter() {
             @Override
             public String getLabelFor(double progress, double maxProgress) {
                 return String.valueOf((int) Math.round(progress));
             }
         });
-        velocimetro.setMaxSpeed(200);
-        velocimetro.setMajorTickStep(30);
-        velocimetro.setMinorTicks(40);
-        velocimetro.addColoredRange(0, 60, Color.GREEN);
-        velocimetro.addColoredRange(60, 120, Color.YELLOW);
-        velocimetro.addColoredRange(120, 200, Color.RED);
-        velocimetro.setUnitsText(cmd.getResultUnit());
 
         velocidadMaxima = (double) velocimetro.getMaxSpeed();
         if( Double.parseDouble(cmd.getCalculatedResult()) < 0 ){
