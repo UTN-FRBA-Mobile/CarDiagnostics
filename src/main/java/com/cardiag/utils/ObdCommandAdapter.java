@@ -65,16 +65,20 @@ public class ObdCommandAdapter extends BaseAdapter {
         cmdValue.setText(cmd.getFormattedResult());
 
 
+        velocimetro.setUnitsTextSize(40);
+
         switch(cmd.getName()){
             case "RPM del motor":
                 velocimetro.setMaxSpeed(11);
                 velocimetro.setMajorTickStep(1);
                 velocimetro.setMinorTicks(1);
+                velocimetro.clearColoredRanges();
                 velocimetro.addColoredRange(0, 4, Color.GREEN);
                 velocimetro.addColoredRange(4, 7, Color.YELLOW);
                 velocimetro.addColoredRange(7, 11, Color.RED);
                 velocimetro.setUnitsTextSize(27);
                 velocimetro.setUnitsText(cmd.getResultUnit() + " x1000");
+
                 break;
 
             //TODOS LOS COMANDOS CON DE PORCENTAJES 0-100%
@@ -91,19 +95,23 @@ public class ObdCommandAdapter extends BaseAdapter {
                 velocimetro.setMaxSpeed(100);
                 velocimetro.setMajorTickStep(20);
                 velocimetro.setMinorTicks(3);
+                velocimetro.clearColoredRanges();
                 velocimetro.addColoredRange(0, 30, Color.GREEN);
                 velocimetro.addColoredRange(30, 70, Color.YELLOW);
                 velocimetro.addColoredRange(70, 100, Color.RED);
                 velocimetro.setUnitsText(cmd.getResultUnit());
+
                 break;
            default:
                 velocimetro.setMaxSpeed(200);
                 velocimetro.setMajorTickStep(30);
                 velocimetro.setMinorTicks(2);
+                velocimetro.clearColoredRanges();
                 velocimetro.addColoredRange(0, 60, Color.GREEN);
                 velocimetro.addColoredRange(60, 120, Color.YELLOW);
                 velocimetro.addColoredRange(120, 200, Color.RED);
                 velocimetro.setUnitsText(cmd.getResultUnit());
+
                break;
         }
 
@@ -117,12 +125,16 @@ public class ObdCommandAdapter extends BaseAdapter {
         velocidadMaxima = (double) velocimetro.getMaxSpeed();
         if( Double.parseDouble(cmd.getCalculatedResult()) < 0 ){
             velocimetro.setSpeed(0, 1000, 300);
-        }else {
-            if(Double.parseDouble(cmd.getCalculatedResult()) > velocidadMaxima){
+        }
+        if(Double.parseDouble(cmd.getCalculatedResult()) > velocidadMaxima){
                 velocimetro.setSpeed(velocimetro.getMaxSpeed(), 1000, 300);
-            }else{
+            }
+        if(( Double.parseDouble(cmd.getCalculatedResult()) >= 0 ) && (Double.parseDouble(cmd.getCalculatedResult()) <= velocidadMaxima) && (!cmd.getName().equals("RPM del motor"))){
             velocimetro.setSpeed(Double.parseDouble(cmd.getCalculatedResult()), 1000, 300);
-        }}
+        }
+        if(( Double.parseDouble(cmd.getCalculatedResult()) >= 0 ) && (Double.parseDouble(cmd.getCalculatedResult()) <= velocidadMaxima) && (cmd.getName().equals("RPM del motor"))){
+            velocimetro.setSpeed(Double.parseDouble(cmd.getCalculatedResult())/1000, 1000, 300);
+        }
 
         return convertView;
     }
