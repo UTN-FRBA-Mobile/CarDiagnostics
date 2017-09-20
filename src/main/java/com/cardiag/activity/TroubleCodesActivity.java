@@ -125,6 +125,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
     private ListView lv;
     private ArrayList<TroubleCode> troubleCodes = new ArrayList<TroubleCode>();
     private ArrayAdapter<Solution> solutionsAdapter;
+    private ArrayAdapter<TroubleCode> troubleCodesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +140,6 @@ public class TroubleCodesActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-//        - Comentado para mover el boton Soluciones de la main a esta activity
        remoteDevice = prefs.getString(ConfigActivity.BLUETOOTH_LIST_KEY, null);
         initialice();
 
@@ -151,7 +151,6 @@ public class TroubleCodesActivity extends AppCompatActivity {
             gtct = new GetTroubleCodesTask();
             gtct.execute(remoteDevice);
         }
-//        - Fin - Comentado para mover el boton Soluciones de la main a esta activity
 
     }
 
@@ -255,11 +254,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
         } else {
             troubleCodes.add(new TroubleCode("There are no errors",""));
         }
-        ArrayAdapter<TroubleCode> myarrayAdapter = new ArrayAdapter<TroubleCode>(this, android.R.layout.simple_list_item_1, troubleCodes);
-//        - Comentado para mover el boton Soluciones de la main a esta activity
-        lv.setAdapter(myarrayAdapter);
-        lv.setTextFilterEnabled(true);
-//        - Fin - Comentado para mover el boton Soluciones de la main a esta activity
+        troubleCodesAdapter.notifyDataSetChanged();
 
     }
 
@@ -420,9 +415,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             progressDialog.dismiss();
 
-
             mHandler.obtainMessage(DATA_OK, result).sendToTarget();
-            setContentView(R.layout.trouble_codes);
 
         }
     }
@@ -456,6 +449,8 @@ public class TroubleCodesActivity extends AppCompatActivity {
                 showSolution(solutions.get(i));
             }
         });
+        troubleCodesAdapter = new ArrayAdapter<TroubleCode>(this, android.R.layout.simple_list_item_1, troubleCodes);
+        lv.setAdapter(troubleCodesAdapter);
     }
 
     private void showSolution(Solution solution) {
