@@ -220,7 +220,8 @@ public class DataBaseService extends SQLiteOpenHelper {
         int index=0;
         if (c.moveToFirst()) {
             do {
-                Step  step = new Step( c.getString(1),c.getString(2));
+                String img= c.getString(1).replace(".jpg","");
+                Step  step = new Step( img,c.getString(2));
                 step.setPosition(index); index++;
                 ls.add(step);
             } while(c.moveToNext());
