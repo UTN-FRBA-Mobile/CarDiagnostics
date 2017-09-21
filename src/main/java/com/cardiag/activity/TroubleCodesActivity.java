@@ -35,10 +35,7 @@ import com.cardiag.models.commands.protocol.SelectProtocolCommand;
 import com.cardiag.models.exceptions.MisunderstoodCommandException;
 import com.cardiag.models.exceptions.NoDataException;
 import com.cardiag.models.exceptions.UnableToConnectException;
-import com.cardiag.models.solutions.NoErrorSolution;
-import com.cardiag.models.solutions.NoSolution;
 import com.cardiag.models.solutions.Solution;
-import com.cardiag.models.solutions.Step;
 import com.cardiag.models.solutions.TroubleCode;
 import com.cardiag.persistence.DataBaseService;
 import com.cardiag.utils.BluetoothManager;
@@ -248,12 +245,12 @@ public class TroubleCodesActivity extends AppCompatActivity {
         //int i =1;
         if (res != null) {
             for (String dtcCode : res.split("\n")) {
-                //troubleCodes.add(new TroubleCode(dtcCode , dtcVals.get(dtcCode)));
+                //troubleCodes.add(new TroubleCode(dtcCode , dtcVals.get(dtcCode)));  //--lo saca de un achivo en ingles
                 troubleCodes.add(db.getTroubleCode(dtcCode));
                 Log.d("TEST", dtcCode + " : " + dtcVals.get(dtcCode));
             }
         } else {
-            troubleCodes.add(new TroubleCode("There are no errors",""));
+            troubleCodes.add(new TroubleCode("There are no errors","", -1));
         }
         troubleCodesAdapter.notifyDataSetChanged();
 

@@ -11,10 +11,12 @@ public class  TroubleCode {
     private String name;
     private String description;
     private ArrayList<Solution> solutions;
+    private int id;
 
-    public TroubleCode(String dtcCode, String desc) {
+    public TroubleCode(String dtcCode, String desc, int id) {
         this.setName(dtcCode);
         this.setDescription(desc);
+        this.setId(id);
     }
     public String getName() {
         return name;
@@ -43,5 +45,13 @@ public class  TroubleCode {
 
     public void setSolutions(ArrayList<Solution> solutions) {
         this.solutions = solutions;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -19,6 +19,12 @@ public class Solution implements Serializable {
         this.setName(name);
     }
 
+    public Solution(String name,int p,int id) {
+        this.setId(id);
+        this.setName(name);
+        this.setPriority(p);
+    }
+
     public ArrayList<Step> getSteps() {
         return steps;
     }

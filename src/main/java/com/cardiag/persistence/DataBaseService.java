@@ -22,10 +22,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.cardiag.persistence.ObdCommandContract.CommandEntry;
 import static com.cardiag.persistence.TroubleCodesContract.*;
+import static com.cardiag.persistence.StepsContract.*;
+
 /**
  * Created by lrocca on 26/07/2017.
  */
@@ -361,7 +362,26 @@ public class DataBaseService extends SQLiteOpenHelper {
 
         ArrayList<Solution> solutions = new ArrayList<>();
 
+        String[] projection = {
+                SolutionEntry._ID,
+                SolutionEntry.NAME, //       SolutionEntry.DESCRIPTION,
+                SolutionEntry.PRIORITY
+        };
+        String ssQuery = " (select "+ SolCodeseEntry.IDSOL+" FROM " + SolCodeseEntry.TABLE_NAME + " WHERE "+SolCodeseEntry.IDCODE+" = "+String.valueOf(troubleCode.getId())+" )";
+        String selection = SolutionEntry._ID + " IN "+ssQuery;
 
+       Cursor c = cardiagDB.query(
+                SolutionEntry.TABLE_NAME, projection, selection,null, null, null, null
+        );
+
+        if (c.moveToFirst()) {
+            do {
+                solutions.add(new Solution(c.getString(1),c.getInt(2),c.getInt(0)));
+            } while(c.moveToNext());
+        }else {
+            solutions.add(new NoSolution());
+        }
+        /* DUMMY
         switch (troubleCode.getName()){
             case "P0001":
                 solutions.add(new NoSolution());
@@ -372,7 +392,7 @@ public class DataBaseService extends SQLiteOpenHelper {
             default : solutions.add(new Solution("Solucion Cambie el aceite",null));
                 solutions.add(new Solution("Chequear motor",null));
                 break;
-        }
+        }*/
         return solutions;
     }
 
@@ -414,10 +434,10 @@ public class DataBaseService extends SQLiteOpenHelper {
                 selection,null, null, null, null
         );
         if (c.moveToFirst()) {
-            tbCode=new TroubleCode(c.getString(1),c.getString(2));
+            tbCode=new TroubleCode(c.getString(1),c.getString(2),c.getInt(0));
             solutions.addAll(this.getSolutions(tbCode,cardiagDB));
         }else{
-            tbCode=new TroubleCode(id,"not found");
+            tbCode=new TroubleCode(id,"not found", -1);
             solutions.add(new NoErrorSolution(id));
         }
         tbCode.setSolutions(solutions);
