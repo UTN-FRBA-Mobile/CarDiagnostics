@@ -239,7 +239,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
         toast.show();
     }
     private void dataOk(String res) {
-
+        DataBaseService db = new DataBaseService(this);
         Map<String, String> dtcVals = getDict(R.array.dtc_keys, R.array.dtc_values);
 
       //TODO replace below codes (res) with aboce dtcVals
@@ -248,7 +248,8 @@ public class TroubleCodesActivity extends AppCompatActivity {
         //int i =1;
         if (res != null) {
             for (String dtcCode : res.split("\n")) {
-                troubleCodes.add(new TroubleCode(dtcCode , dtcVals.get(dtcCode)));
+                //troubleCodes.add(new TroubleCode(dtcCode , dtcVals.get(dtcCode)));
+                troubleCodes.add(db.getTroubleCode(dtcCode));
                 Log.d("TEST", dtcCode + " : " + dtcVals.get(dtcCode));
             }
         } else {
@@ -421,7 +422,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
     }
 
     private void dataOkDummy() {
-        String res= "P0001\nP0008\nP0021";
+        String res= "P0001\nP0008\nP0021\nP057F";
         this.dataOk(res);
         return;
       //  lv.setTextFilterEnabled(true);
@@ -439,7 +440,8 @@ public class TroubleCodesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 solutions.removeAll(solutions);
-                solutions.addAll(new DataBaseService(context).getSolutions(troubleCodes.get(i)));
+             //   solutions.addAll(new DataBaseService(context).getSolutions(troubleCodes.get(i)));
+                solutions.addAll(troubleCodes.get(i).getSolutions());
                 solutionsAdapter.notifyDataSetChanged();
             }
         });

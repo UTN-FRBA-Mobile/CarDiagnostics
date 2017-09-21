@@ -22,8 +22,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.cardiag.persistence.ObdCommandContract.CommandEntry;
+import static com.cardiag.persistence.TroubleCodesContract.*;
 /**
  * Created by lrocca on 26/07/2017.
  */
@@ -194,9 +196,8 @@ public class DataBaseService extends SQLiteOpenHelper {
 
     public ArrayList<Step> getSteps(int id) {
         cardiagDB = this.getReadableDatabase();
-        ArrayList<Step> ls = new ArrayList<Step>();ls.add(new Step("s0101","Descripcion"));
-        // ls = this.getDummySol().getSteps();
-        // Define a projection that specifies which columns from the database you will actually use after this query.
+        ArrayList<Step> ls = new ArrayList<Step>();//ls.add(new Step("s0101","Descripcion"));
+
         String[] projection = {
                 StepEntry._ID,
                 StepEntry.PATH,
@@ -356,9 +357,11 @@ public class DataBaseService extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<Solution> getSolutions(TroubleCode troubleCode) {
+    public ArrayList<Solution> getSolutions(TroubleCode troubleCode, SQLiteDatabase cardiagDB) {
 
         ArrayList<Solution> solutions = new ArrayList<>();
+
+
         switch (troubleCode.getName()){
             case "P0001":
                 solutions.add(new NoSolution());
@@ -391,5 +394,35 @@ public class DataBaseService extends SQLiteOpenHelper {
         steps.add(new Step("s1s13","Lijar los contactos con una lima o lija hasta que queden brillantes."));
         steps.add(new Step("s1s14","Conectar la batería y volver a colocar la protección en la misma."));
         return steps;
+    }
+    public TroubleCode getTroubleCode(String id) {
+        cardiagDB = this.getReadableDatabase();
+        TroubleCode tbCode;
+        ArrayList<Solution> solutions = new ArrayList<>();
+
+        String[] projection = {
+                TroubleEntry._ID,
+                TroubleEntry.NAME,
+                TroubleEntry.DESCRIPTION
+        };
+
+       String selection = TroubleEntry.NAME + " = '"+id+"'";
+       // selection="1!=1";
+        Cursor c = cardiagDB.query(
+                TroubleEntry.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                selection,null, null, null, null
+        );
+        if (c.moveToFirst()) {
+            tbCode=new TroubleCode(c.getString(1),c.getString(2));
+            solutions.addAll(this.getSolutions(tbCode,cardiagDB));
+        }else{
+            tbCode=new TroubleCode(id,"not found");
+            solutions.add(new NoErrorSolution(id));
+        }
+        tbCode.setSolutions(solutions);
+        cardiagDB.close();
+
+        return tbCode;
     }
 }
