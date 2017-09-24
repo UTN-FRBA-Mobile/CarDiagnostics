@@ -1,6 +1,9 @@
 package com.cardiag.models.commands;
 
+import android.graphics.Color;
+
 import com.cardiag.models.exceptions.*;
+import com.cardiag.velocimetro.Velocimetro;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -237,11 +240,24 @@ public abstract class ObdCommand {
         }
     }
 
-    /**
-     * <p>getResult.</p>
-     *
-     * @return the raw command response in string representation.
-     */
+    public void setVelocimetroProperties(Velocimetro velocimetro) {
+
+        velocimetro.setMaxSpeed(200);
+        velocimetro.setMajorTickStep(30);
+        velocimetro.setMinorTicks(2);
+        velocimetro.clearColoredRanges();
+        velocimetro.addColoredRange(0, 60, Color.GREEN);
+        velocimetro.addColoredRange(60, 120, Color.YELLOW);
+        velocimetro.addColoredRange(120, 200, Color.RED);
+        velocimetro.setUnitsText(getResultUnit());
+        velocimetro.setUnitsTextSize(20);
+    }
+
+        /**
+         * <p>getResult.</p>
+         *
+         * @return the raw command response in string representation.
+         */
     public String getResult() {
         return rawData;
     }
