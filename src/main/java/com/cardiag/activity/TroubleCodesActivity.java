@@ -15,6 +15,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -119,10 +121,10 @@ public class TroubleCodesActivity extends AppCompatActivity {
     });
     private ListView lvSolution;
     private ArrayList<Solution> solutions;
-    private ListView lv;
+    private RecyclerView lv;
     private ArrayList<TroubleCode> troubleCodes = new ArrayList<TroubleCode>();
     private ArrayAdapter<Solution> solutionsAdapter;
-    private ArrayAdapter<TroubleCode> troubleCodesAdapter;
+    private RecyclerView.Adapter troubleCodesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,6 +256,15 @@ public class TroubleCodesActivity extends AppCompatActivity {
         }
         troubleCodesAdapter.notifyDataSetChanged();
 
+    }
+
+    public void select(int selectedErrorPosition) {
+        View tvsol = findViewById(R.id.tvSolutions);
+        tvsol.setVisibility(View.VISIBLE);
+        solutions.removeAll(solutions);
+        //   solutions.addAll(new DataBaseService(context).getSolutions(troubleCodes.get(i)));
+        solutions.addAll(troubleCodes.get(selectedErrorPosition).getSolutions());
+        solutionsAdapter.notifyDataSetChanged();
     }
 
 
@@ -419,26 +430,26 @@ public class TroubleCodesActivity extends AppCompatActivity {
     }
 
     private void dataOkDummy() {
-        String res= "P0001\nP0008\nP0021\nP057F";
+        String res= "P0010\nP0008\nP0021\nP057F";
         this.dataOk(res);
         return;
       //  lv.setTextFilterEnabled(true);
     }
 
     private void initialice() {
-        lv = (ListView) findViewById(R.id.lvErrors);
+        lv = (RecyclerView) findViewById(R.id.lvErrors);
 
         lvSolution = (ListView) findViewById(R.id.lvSolutions);
         solutions = new ArrayList<Solution>();
         solutionsAdapter = new ArrayAdapter<Solution>(this, android.R.layout.simple_list_item_1, solutions);
         lvSolution.setAdapter(solutionsAdapter);
         final Context context = this;
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onClick(View view) {
                 solutions.removeAll(solutions);
-             //   solutions.addAll(new DataBaseService(context).getSolutions(troubleCodes.get(i)));
-                solutions.addAll(troubleCodes.get(i).getSolutions());
+                //   solutions.addAll(new DataBaseService(context).getSolutions(troubleCodes.get(i)));
+                //solutions.addAll(troubleCodes.get(i).getSolutions());
                 solutionsAdapter.notifyDataSetChanged();
             }
         });
@@ -448,7 +459,14 @@ public class TroubleCodesActivity extends AppCompatActivity {
                 showSolution(solutions.get(i));
             }
         });
-        troubleCodesAdapter = new ArrayAdapter<TroubleCode>(this, android.R.layout.simple_list_item_1, troubleCodes);
+
+
+        // use a linear layout manager
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        lv.setLayoutManager(mLayoutManager);
+
+//        troubleCodesAdapter = new ArrayAdapter<TroubleCode>(this, android.R.layout.simple_list_item_1, troubleCodes);
+        troubleCodesAdapter = new ErrorAdapter(this,troubleCodes);
         lv.setAdapter(troubleCodesAdapter);
     }
 

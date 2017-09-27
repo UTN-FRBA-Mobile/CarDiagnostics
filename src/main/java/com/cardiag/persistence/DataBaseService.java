@@ -437,7 +437,7 @@ public class DataBaseService extends SQLiteOpenHelper {
             tbCode=new TroubleCode(c.getString(1),c.getString(2),c.getInt(0));
             solutions.addAll(this.getSolutions(tbCode,cardiagDB));
         }else{
-            tbCode=new TroubleCode(id,"not found", -1);
+            tbCode=new TroubleCode(id,"", -1);
             solutions.add(new NoErrorSolution(id));
         }
         tbCode.setSolutions(solutions);

@@ -1,8 +1,11 @@
 package com.cardiag.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.cardiag.R;
 import com.cardiag.fragments.MyFragmentPagerAdapter;
@@ -29,6 +32,15 @@ public class StepsActivity extends AppCompatActivity {
         addFragments();
       //  addFrag2();
         //this.removeFragment();
+        //Floating Action Button
+        FloatingActionButton btnFab = (FloatingActionButton) findViewById(R.id.backButton);
+        btnFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Snackbar.make(view, "Esto es una prueba", Snackbar.LENGTH_LONG).show();
+                onBackPressed();
+            }
+        });
     }
    private void addFragments() {
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(

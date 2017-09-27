@@ -36,7 +36,7 @@ public class  TroubleCode {
 
     @Override
     public String toString() {
-        return this.getName() + "\n - " +getDescription();
+        return this.getName() + "\n " +getDescription();
     }
 
     public ArrayList<Solution> getSolutions() {
