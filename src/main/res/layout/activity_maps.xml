@@ -7,17 +7,72 @@
     android:layout_height="match_parent"
     tools:context="com.cardiag.activity.MapsActivity">
 
-    <Button
-    android:id="@+id/map_serach"
-    android:onClick="searchServices"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="left|top"
-    style="@style/Base.Widget.AppCompat.ImageButton"
-    android:background="@android:color/transparent"
-    android:drawableLeft="@drawable/icon_search"
-    android:padding="5dp"
-    android:layout_marginBottom="25dp"
-    android:paddingLeft="20dp"/>
+    <!--<Button-->
+    <!--android:id="@+id/map_serach"-->
+    <!--android:onClick="searchServices"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="left|top"-->
+    <!--style="@style/Base.Widget.AppCompat.ImageButton"-->
+    <!--android:background="@android:color/transparent"-->
+    <!--android:drawableLeft="@drawable/icon_search"-->
+    <!--android:padding="5dp"-->
+    <!--android:layout_marginBottom="25dp"-->
+    <!--android:paddingLeft="20dp"/>-->
+
+    <GridLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:text="¿Qué desea ver?"
+            android:textSize="20dp"
+            android:background="@color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_column="1"
+            android:layout_row="0" />
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_column="0"
+            android:layout_row="1" />
+
+        <CheckBox
+            android:id="@+id/estaciones"
+            android:layout_width="173dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:checked="false"
+            android:background="@color/white"
+
+            android:text="Estaciones de servicio" />
+
+        <CheckBox
+            android:id="@+id/talleres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:checked="false"
+            android:background="@color/white"
+            android:text="Talleres mecánicos" />
+
+    </GridLayout>
 
 </fragment>
