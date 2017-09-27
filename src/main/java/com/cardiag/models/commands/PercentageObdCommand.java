@@ -1,6 +1,10 @@
 package com.cardiag.models.commands;
 
 
+import android.graphics.Color;
+
+import com.cardiag.velocimetro.Velocimetro;
+
 /**
  * Abstract class for percentage commands.
  *
@@ -56,4 +60,15 @@ public abstract class PercentageObdCommand extends ObdCommand {
         return String.valueOf(percentage);
     }
 
+    public void setVelocimetroProperties (Velocimetro velocimetro) {
+                velocimetro.setMaxSpeed(100);
+                velocimetro.setMajorTickStep(20);
+                velocimetro.setMinorTicks(3);
+                velocimetro.clearColoredRanges();
+                velocimetro.addColoredRange(0, 30, Color.GREEN);
+                velocimetro.addColoredRange(30, 70, Color.YELLOW);
+                velocimetro.addColoredRange(70, 100, Color.RED);
+                velocimetro.setUnitsText(getResultUnit());
+                velocimetro.setUnitsTextSize(20);
+    }
 }

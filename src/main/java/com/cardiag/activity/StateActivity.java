@@ -28,6 +28,7 @@ import com.cardiag.models.commands.ObdCommand;
 import com.cardiag.models.runnable.ConnectionConfigTask;
 import com.cardiag.models.runnable.StateTask;
 import com.cardiag.persistence.DataBaseService;
+import com.cardiag.utils.ConfirmDialog;
 import com.cardiag.utils.ObdCommandAdapter;
 import com.cardiag.utils.ObdCommandCheckAdapter;
 
@@ -66,16 +67,16 @@ public class  StateActivity extends AppCompatActivity  {
 
         final BluetoothAdapter btAdapter = getBluetoothAdapter();
 
-        initiateConfiguration();
+//        initiateConfiguration();
 
-//        if (btAdapter != null && btAdapter.isEnabled()) {
-//            bluetoothDefaultIsEnable = btAdapter.isEnabled();
-//            initiateConfiguration();
-//        } else {
-//            String error = getString(R.string.error);
-//            String msg = getString(R.string.text_bluetooth_disabled);
-//            ConfirmDialog.showCancellingDialog(this, error, msg);
-//        }
+        if (btAdapter != null && btAdapter.isEnabled()) {
+            bluetoothDefaultIsEnable = btAdapter.isEnabled();
+            initiateConfiguration();
+        } else {
+            String error = getString(R.string.error);
+            String msg = getString(R.string.text_bluetooth_disabled);
+            ConfirmDialog.showCancellingDialog(this, error, msg);
+        }
 
     }
 
@@ -90,11 +91,11 @@ public class  StateActivity extends AppCompatActivity  {
             showDialog(NO_ORIENTATION_SENSOR);
         }
 
-//        cct = new ConnectionConfigTask(this);
-//        cct.execute();
+        cct = new ConnectionConfigTask(this);
+        cct.execute();
 
-        selectedCommands = dbService.getCommands(null, null);
-        gridView.setAdapter(new ObdCommandAdapter(selectedCommands, this));
+//        selectedCommands = dbService.getCommands(null, null);
+//        gridView.setAdapter(new ObdCommandAdapter(selectedCommands, this));
     }
 
     private void doBindings() {

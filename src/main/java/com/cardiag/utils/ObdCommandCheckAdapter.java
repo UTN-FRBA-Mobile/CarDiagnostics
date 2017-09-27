@@ -41,8 +41,8 @@ public class ObdCommandCheckAdapter extends RecyclerView.Adapter<ObdCommandCheck
 
         String where = ObdCommandContract.CommandEntry.AVAILABILITY+"=?";
         String[] values = new String[]{"1"};
-    //        this.cmds = db.getCommands(where, values);
-          this.cmds = db.getCommands(null, null);
+            this.cmds = db.getCommands(where, values);
+//          this.cmds = db.getCommands(null, null);
 
           for (ObdCommand cmd: cmds) {
               if (cmd.getSelected()) {
@@ -53,7 +53,7 @@ public class ObdCommandCheckAdapter extends RecyclerView.Adapter<ObdCommandCheck
 
     @Override
     public OBDCommandViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new OBDCommandViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_check_item, null, false));
+        return new OBDCommandViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_check_item, parent, false));
     }
 
     @Override
@@ -61,9 +61,12 @@ public class ObdCommandCheckAdapter extends RecyclerView.Adapter<ObdCommandCheck
         final ObdCommand cmd = cmds.get(position);
         CheckedTextView checkedTextView = holder.checkedTextView;
         checkedTextView.setOnClickListener(null);
+        checkedTextView.setChecked(cmd.getSelected());
+
         if (cmd.getSelected()) {
-            checkedTextView.setChecked(cmd.getSelected());
             checkedTextView.setCheckMarkDrawable(android.R.drawable.checkbox_on_background);
+        } else {
+            checkedTextView.setCheckMarkDrawable(android.R.drawable.checkbox_off_background);
         }
 
         checkedTextView.setOnClickListener(new View.OnClickListener() {

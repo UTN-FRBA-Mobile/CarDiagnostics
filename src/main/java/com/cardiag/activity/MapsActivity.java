@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.cardiag.R;
@@ -61,10 +62,51 @@ public class MapsActivity extends AppCompatActivity
                 .findFragmentById(map);
         mapFragment.getMapAsync(this);
 
-        mapSearchBtn = (Button) findViewById(R.id.map_serach);
+     //   mapSearchBtn = (Button) findViewById(R.id.map_serach);
+        final CheckBox estaciones =(CheckBox)findViewById(R.id.estaciones);
+        final CheckBox talleres =(CheckBox)findViewById(R.id.talleres);
 
-        popUpServices();
+       estaciones.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v)
+           {
+
+
+               if(estaciones.isChecked() || talleres.isChecked()){
+                   mostrarEstaciones(estaciones);
+                   mostrarTalleres(talleres);
+               }else{
+                   createMapPicker(3);
+               }}
+       });
+        talleres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if(estaciones.isChecked() || talleres.isChecked()){
+                    mostrarEstaciones(estaciones);
+                    mostrarTalleres(talleres);
+                }else{
+                    createMapPicker(3);
+                }}
+
+        });
+
+
+      //  popUpServices();
     }
+
+    private void mostrarEstaciones(CheckBox estaciones ){
+        if(estaciones.isChecked()){
+            createMapPicker(0);
+        }
+    }
+    private void mostrarTalleres(CheckBox talleres){
+        if(talleres.isChecked()){
+            createMapPicker(1);
+        }
+    }
+
 
     private void popUpServices(){
         final CharSequence[] items = {MapService.GAS_STATION.getNombre(), MapService.CAR_REPAIR.getNombre() };
