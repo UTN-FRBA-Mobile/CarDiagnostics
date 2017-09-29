@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Códigos de error"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 

@@ -4,11 +4,38 @@
     <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
 
     </style>
-
+    <!-- Celu de leo -->
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:windowBackground"> @drawable/fondo_auto </item>
+        <item name="android:textColor">@color/text_color_black</item>
+        <item name="android:buttonStyle">@style/Buttonspui</item>
+    </style>
+
+    <style name="CustomTitle" parent="android:TextAppearance">
+        <item name="android:textColor">@color/text_color_white</item>
+        <item name="android:background"> @color/black </item>
+        <item name="android:actionBarStyle">@style/CustomActionBar</item>
+    </style>
+
+    <style name="CustomActionBar" parent="android:Widget.ActionBar">
+        <item name="android:background">@color/black</item>
+        <item name="android:titleTextStyle">@style/CustomTitle</item>
 
     </style>
 
+
+    <style name="CustomMenuItem" parent="@android:style/TextAppearance">
+        <item name="android:popupBackground">@color/black</item>
+        <item name="android:textColor">@color/text_color_white</item>
+    </style>
+
+    <style name="Buttonspui" parent="android:Widget.Button">
+        <item name="android:background">@android:drawable/dialog_holo_dark_frame</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">64dip</item>
+        <item name="android:textColor"> @color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 </resources>
