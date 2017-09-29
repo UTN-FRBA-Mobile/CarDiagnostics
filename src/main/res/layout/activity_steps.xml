@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_steps"
@@ -7,10 +7,16 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    android:weightSum="1"
     tools:context="com.cardiag.activity.StepsActivity">
 
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2.70"
+        android:background="@android:drawable/screen_background_dark" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/backButton"
@@ -19,15 +25,8 @@
         android:clickable="true"
         android:src="@drawable/ic_undo_white_24dp"
         app:fabSize="mini"
+        app:layout_anchorGravity="top|right|end"
         app:srcCompat="@android:drawable/btn_dialog" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="466dp"
-        android:layout_weight="2.70"
-        android:background="@android:drawable/screen_background_dark" />
-
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
 

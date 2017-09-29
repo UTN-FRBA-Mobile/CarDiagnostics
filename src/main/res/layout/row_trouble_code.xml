@@ -8,9 +8,11 @@
     <Button
         android:id="@+id/tvError"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:background="@android:drawable/dialog_holo_light_frame"
+        android:fontFamily="sans-serif"
         android:text="Button"
-        android:textColor="@color/text_color_black" />
+        android:textColor="@color/text_color_black"
+        android:textSize="12sp" />
 
 </LinearLayout>

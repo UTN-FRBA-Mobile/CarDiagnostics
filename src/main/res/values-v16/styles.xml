@@ -9,6 +9,8 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowBackground"> @drawable/fondo_auto </item>
         <item name="android:textColor">@color/text_color_black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">sans</item>
         <item name="android:buttonStyle">@style/Buttonspui</item>
     </style>
 
@@ -31,7 +33,7 @@
     </style>
 
     <style name="Buttonspui" parent="android:Widget.Button">
-        <item name="android:background">@android:drawable/dialog_holo_dark_frame</item>
+        <item name="android:background">@android:drawable/dialog_holo_light_frame</item>
         <item name="android:minHeight">48dip</item>
         <item name="android:minWidth">64dip</item>
         <item name="android:textColor"> @color/black</item>

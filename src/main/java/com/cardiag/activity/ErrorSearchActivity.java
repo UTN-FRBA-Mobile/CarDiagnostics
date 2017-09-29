@@ -1,5 +1,6 @@
 package com.cardiag.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -34,6 +35,7 @@ public class ErrorSearchActivity extends Activity {
 
           errorCode= dato.getError();
         progress.setVisibility(View.GONE);
+        web1.setBackgroundColor(Color.TRANSPARENT);
 
         web1.setWebViewClient(new WebViewClient(){
             @Override
@@ -45,7 +47,7 @@ public class ErrorSearchActivity extends Activity {
 
     public void searchError(View v){
         progress.setVisibility(View.VISIBLE);
-          web1.loadUrl("https://www.google.com.ar/search?q=" + errorCode + "+" + edtSearch.getText());
+          web1.loadUrl("http://www.google.com.ar/search?q=" + errorCode + "+" + edtSearch.getText());
         WebSettings webSettings=web1.getSettings();
        // webSettings.setJavaScriptEnabled(true);
     }
