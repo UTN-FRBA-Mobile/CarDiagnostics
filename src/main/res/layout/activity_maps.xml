@@ -29,16 +29,7 @@
 
         >
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="160dp"
-            android:layout_height="40dp"
-            android:layout_column="0"
-            android:layout_row="0"
-            android:text="¿Qué desea ver?"
-            android:textSize="20dp"
-            android:background="@color/white"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
 
         <Space
             android:layout_width="20dp"
@@ -54,10 +45,10 @@
 
         <CheckBox
             android:id="@+id/estaciones"
-            android:layout_width="173dp"
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:layout_column="0"
-            android:layout_row="1"
+            android:layout_row="0"
             android:checked="false"
             android:background="@color/white"
 
@@ -65,9 +56,9 @@
 
         <CheckBox
             android:id="@+id/talleres"
-            android:layout_width="wrap_content"
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
-            android:layout_column="1"
+            android:layout_column="0"
             android:layout_row="1"
             android:checked="false"
             android:background="@color/white"
