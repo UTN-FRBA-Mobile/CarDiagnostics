@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by lrocca on 26/07/2017.
  */
-public class Solution implements Serializable {
+public class Solution  extends TroubleCode implements Serializable{
     private ArrayList<Step> steps;
     private String name;
     private Integer priority = -1;
@@ -56,7 +56,7 @@ public class Solution implements Serializable {
     public long getId() {
         return id;
     }
-
+    @Override
     public String toString(){
         return this.getName();
     }
@@ -64,4 +64,5 @@ public class Solution implements Serializable {
     public Class<?> getActivity() {
         return StepsActivity.class;
     }
+
 }

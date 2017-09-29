@@ -9,61 +9,56 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="45dp" />
+            android:layout_height="45dp"
+            android:layout_weight="0.09" />
 
-        <RelativeLayout
+        <Button
+            android:id="@+id/car_state"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:text="@string/car_state_text_button"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/car_state"
-                android:textAllCaps="false"
-                android:onClick="startStateActivity"/>
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.10"
+            android:drawableLeft="@drawable/ic_list_black_24dp"
+            android:onClick="startStateActivity"
+            android:text="@string/car_state_text_button"
+            android:textAllCaps="false" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            android:layout_height="25dp"
+            android:layout_weight="0.11" />
 
-        <RelativeLayout
+        <Button
+            android:id="@+id/error_codes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                    android:text="@string/error_codes_text_button"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:id="@+id/error_codes"
-                    android:textAllCaps="false"
-                    android:onClick="startErrorCodesActivity"/>
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.09"
+            android:drawableStart="@drawable/ic_directions_car_black_24dp"
+            android:onClick="startErrorCodesActivity"
+            android:text="@string/error_codes_text_button"
+            android:textAllCaps="false" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            android:layout_height="25dp"
+            android:layout_weight="0.13" />
 
-        <RelativeLayout
+        <Button
+            android:id="@+id/service_finder"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:text="@string/service_finder_text_button"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/service_finder"
-                android:textAllCaps="false"
-                android:onClick="startMapsActivity"/>
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.08"
+            android:drawableStart="@drawable/ic_place_black_24dp"
+            android:onClick="startMapsActivity"
+            android:text="@string/service_finder_text_button"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 

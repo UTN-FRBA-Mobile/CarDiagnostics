@@ -119,11 +119,11 @@ public class TroubleCodesActivity extends AppCompatActivity {
             return false;
         }
     });
-    private ListView lvSolution;
+    private RecyclerView lvSolution;
     private ArrayList<Solution> solutions;
     private RecyclerView lv;
     private ArrayList<TroubleCode> troubleCodes = new ArrayList<TroubleCode>();
-    private ArrayAdapter<Solution> solutionsAdapter;
+    private RecyclerView.Adapter solutionsAdapter;
     private RecyclerView.Adapter troubleCodesAdapter;
 
     @Override
@@ -265,6 +265,10 @@ public class TroubleCodesActivity extends AppCompatActivity {
         //   solutions.addAll(new DataBaseService(context).getSolutions(troubleCodes.get(i)));
         solutions.addAll(troubleCodes.get(selectedErrorPosition).getSolutions());
         solutionsAdapter.notifyDataSetChanged();
+    }
+
+    public void selectSolution(int adapterPosition) {
+        showSolution(solutions.get(adapterPosition));
     }
 
 
@@ -439,10 +443,11 @@ public class TroubleCodesActivity extends AppCompatActivity {
     private void initialice() {
         lv = (RecyclerView) findViewById(R.id.lvErrors);
 
-        lvSolution = (ListView) findViewById(R.id.lvSolutions);
+        lvSolution = (RecyclerView)  findViewById(R.id.lvSolutions);
         solutions = new ArrayList<Solution>();
-        solutionsAdapter = new ArrayAdapter<Solution>(this, android.R.layout.simple_list_item_1, solutions);
-        lvSolution.setAdapter(solutionsAdapter);
+        //solutionsAdapter = new ArrayAdapter<Solution>(this, android.R.layout.simple_list_item_1, solutions);
+        solutionsAdapter = new SolutionsAdapter(this,solutions);
+
         final Context context = this;
         lv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -453,17 +458,20 @@ public class TroubleCodesActivity extends AppCompatActivity {
                 solutionsAdapter.notifyDataSetChanged();
             }
         });
-        lvSolution.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+     /*   lvSolution.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 showSolution(solutions.get(i));
             }
         });
-
+*/
 
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         lv.setLayoutManager(mLayoutManager);
+        LinearLayoutManager mLayoutManager2 = new LinearLayoutManager(this);
+        lvSolution.setLayoutManager(mLayoutManager2);
+        lvSolution.setAdapter(solutionsAdapter);
 
 //        troubleCodesAdapter = new ArrayAdapter<TroubleCode>(this, android.R.layout.simple_list_item_1, troubleCodes);
         troubleCodesAdapter = new ErrorAdapter(this,troubleCodes);

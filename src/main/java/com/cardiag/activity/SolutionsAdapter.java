@@ -1,24 +1,22 @@
 package com.cardiag.activity;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import com.cardiag.R;
+import com.cardiag.models.solutions.Solution;
 import com.cardiag.models.solutions.TroubleCode;
 
 import java.util.ArrayList;
-import com.cardiag.models.solutions.*;
+
 /**
  * Created by leo on 22/09/17.
  */
 
-class ErrorAdapter extends RecyclerView.Adapter<ErrorAdapter.ViewHolder> {
+public class SolutionsAdapter extends RecyclerView.Adapter<SolutionsAdapter.ViewHolder> {
 
     private final TroubleCodesActivity context;
 
@@ -33,13 +31,13 @@ class ErrorAdapter extends RecyclerView.Adapter<ErrorAdapter.ViewHolder> {
             mTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context.select(getAdapterPosition());
-                //    mTextView.setText(String.valueOf(getAdapterPosition()));
+                    context.selectSolution(getAdapterPosition());
+                    //    mTextView.setText(String.valueOf(getAdapterPosition()));
                 }
             });
         }
 
-        private void setTrouble(TroubleCode s) {
+        private void setSolution(Solution s) {
             mTextView.setText(s.toString());
         }
 
@@ -49,16 +47,16 @@ class ErrorAdapter extends RecyclerView.Adapter<ErrorAdapter.ViewHolder> {
     }
 
 
-    private ArrayList<TroubleCode> troubles = null;
+    private ArrayList<Solution> troubles = null;
 
-    public ErrorAdapter(TroubleCodesActivity myContext,ArrayList<TroubleCode> troubleCodes) {
+    public SolutionsAdapter(TroubleCodesActivity myContext,ArrayList<Solution> troubleCodes) {
         troubles=troubleCodes;
         context=myContext;
     }
 
     @Override
-    public ErrorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public SolutionsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                      int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_trouble_code, parent, false);
@@ -74,7 +72,7 @@ class ErrorAdapter extends RecyclerView.Adapter<ErrorAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.setTrouble(troubles.get(position));
+        holder.setSolution(troubles.get(position));
         holder.setContext(context);
     }
 

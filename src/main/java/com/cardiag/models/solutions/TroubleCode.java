@@ -11,13 +11,17 @@ public class  TroubleCode {
     private String name;
     private String description;
     private ArrayList<Solution> solutions;
-    private int id;
+    private long id;
 
     public TroubleCode(String dtcCode, String desc, int id) {
         this.setName(dtcCode);
         this.setDescription(desc);
         this.setId(id);
     }
+
+    public TroubleCode() {
+    }
+
     public String getName() {
         return name;
     }
@@ -47,7 +51,7 @@ public class  TroubleCode {
         this.solutions = solutions;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

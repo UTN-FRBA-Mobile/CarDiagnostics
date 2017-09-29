@@ -20,8 +20,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="53dp"
+        android:layout_height="52dp"
         android:clickable="true"
         android:src="@drawable/ic_undo_white_24dp"
         app:fabSize="mini"
