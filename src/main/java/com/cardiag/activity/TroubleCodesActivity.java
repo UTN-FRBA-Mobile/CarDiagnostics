@@ -14,6 +14,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.transition.ChangeBounds;
+import android.support.transition.Fade;
+import android.support.transition.TransitionManager;
+import android.support.transition.TransitionSet;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -262,7 +268,10 @@ public class TroubleCodesActivity extends AppCompatActivity {
         View tvsol = findViewById(R.id.tvSolutions);
         tvsol.setVisibility(View.VISIBLE);
         solutions.removeAll(solutions);
-        //   solutions.addAll(new DataBaseService(context).getSolutions(troubleCodes.get(i)));
+
+        final ViewGroup transitionsContainer = (ViewGroup) findViewById(R.id.activity_troubles);
+        TransitionManager.beginDelayedTransition(transitionsContainer);
+
         solutions.addAll(troubleCodes.get(selectedErrorPosition).getSolutions());
         solutionsAdapter.notifyDataSetChanged();
     }

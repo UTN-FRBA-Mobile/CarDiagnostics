@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         errorCodesBtn = (Button) findViewById(R.id.error_codes);
         serviceFinderBtn = (Button) findViewById(R.id.service_finder);
         aboutStr = getAboutMessage();
+
+        //Typeface type = Typeface.createFromAsset(getAssets(),"robotottf/Roboto-BoldItalic.ttf");
+        //errorCodesBtn.setTypeface(type);
     }
 
     public boolean enableBluetooth(int requestCode) {

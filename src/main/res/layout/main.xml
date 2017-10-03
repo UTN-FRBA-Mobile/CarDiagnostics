@@ -7,9 +7,10 @@
     tools:context="com.cardiag.activity.MainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/fondo_auto_back"
+        android:orientation="vertical"
         android:weightSum="1">
 
         <Space

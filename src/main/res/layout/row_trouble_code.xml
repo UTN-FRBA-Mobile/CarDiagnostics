@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/dialog_holo_light_frame"
+        android:elevation="0dp"
         android:fontFamily="sans-serif"
         android:text="Button"
         android:textColor="@color/text_color_black"

@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ingrese la marca de su automóvil"
+            android:textColor="@color/text_color_white"
             android:textSize="24sp" />
 
         <EditText
