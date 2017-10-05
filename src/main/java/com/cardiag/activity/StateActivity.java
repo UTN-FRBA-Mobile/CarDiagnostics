@@ -42,8 +42,6 @@ import java.util.List;
 public class  StateActivity extends AppCompatActivity  {
 
     private static final String TAG = StateActivity.class.getName();
-    private static final int START_LIVE_DATA = 0;
-    private static final int STOP_LIVE_DATA = 1;
     private static final int SELECT_COMMANDS = 2;
     private static final int CUSTOMIZED = 3;
     private static final int NO_ORIENTATION_SENSOR = 8;
@@ -148,7 +146,7 @@ public class  StateActivity extends AppCompatActivity  {
 
         getMenuInflater().inflate(R.menu.state,menu);
         this.menu = menu;
-        menu.add(0, SELECT_COMMANDS, 0, getString(R.string.select_commands));
+//        menu.add(0, SELECT_COMMANDS, 0, getString(R.string.select_commands));
 
         SubMenu submenu = menu.addSubMenu(Menu.NONE, SELECT_COMMANDS, Menu.NONE, getString(R.string.select_commands));
 
@@ -157,14 +155,13 @@ public class  StateActivity extends AppCompatActivity  {
         }
         submenu.add(Menu.NONE, CUSTOMIZED, Menu.NONE, getString(R.string.menu_customized));
 
-        menu.getItem(STOP_LIVE_DATA).setEnabled(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case SELECT_COMMANDS:
+            case CUSTOMIZED:
                 AlertDialog dialog = getCheckBoxDialog();
                 dialog.show();
                 return true;
