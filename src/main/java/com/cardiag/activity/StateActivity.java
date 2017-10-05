@@ -142,27 +142,14 @@ public class  StateActivity extends AppCompatActivity  {
 
         getMenuInflater().inflate(R.menu.state,menu);
         this.menu = menu;
-        menu.add(0, START_LIVE_DATA, 0, getString(R.string.menu_start_live_data));
-        menu.add(0, STOP_LIVE_DATA, 0, getString(R.string.menu_stop_live_data));
         menu.add(0, SELECT_COMMANDS, 0, getString(R.string.select_commands));
 
-        menu.getItem(STOP_LIVE_DATA).setEnabled(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case START_LIVE_DATA:
-                menu.getItem(STOP_LIVE_DATA).setEnabled(true);
-                menu.getItem(START_LIVE_DATA).setEnabled(false);
-                startLiveData(null);
-                return true;
-            case STOP_LIVE_DATA:
-                menu.getItem(STOP_LIVE_DATA).setEnabled(false);
-                menu.getItem(START_LIVE_DATA).setEnabled(true);
-                stopLiveData(null);
-                return true;
             case SELECT_COMMANDS:
                 AlertDialog dialog = getCheckBoxDialog();
                 dialog.show();
