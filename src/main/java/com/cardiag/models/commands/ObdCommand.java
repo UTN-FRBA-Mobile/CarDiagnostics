@@ -1,6 +1,7 @@
 package com.cardiag.models.commands;
 
 import android.graphics.Color;
+import android.text.TextUtils;
 
 import com.cardiag.models.exceptions.*;
 import com.cardiag.velocimetro.Velocimetro;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
  * Base OBD command.
  *
  */
-public abstract class ObdCommand {
+public abstract class ObdCommand implements Comparable<ObdCommand> {
 
     /**
      * Error classes to be tested in order
@@ -50,6 +51,18 @@ public abstract class ObdCommand {
         this.cmd = command;
         this.buffer = new ArrayList<>();
         this.pos = pos;
+    }
+
+    @Override
+    public int compareTo(ObdCommand cmd){
+
+        if (TextUtils.equals(name, cmd.getName())) {
+            return 0;
+        }
+        if (name.compareTo(cmd.getName()) > 0) {
+            return 1;
+        }
+        return -1;
     }
 
     /**

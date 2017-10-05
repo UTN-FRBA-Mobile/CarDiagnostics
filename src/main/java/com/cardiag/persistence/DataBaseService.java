@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.cardiag.models.commands.ObdCommand;
+import com.cardiag.models.commands.entities.Category;
 import com.cardiag.models.solutions.NoErrorSolution;
 import com.cardiag.models.solutions.NoSolution;
 import com.cardiag.models.solutions.Solution;
@@ -302,7 +303,6 @@ public class DataBaseService extends SQLiteOpenHelper {
                 }
             } while(c.moveToNext());
         }
-//        cardiagDB.close();
         return cmds;
     }
 
@@ -349,14 +349,100 @@ public class DataBaseService extends SQLiteOpenHelper {
     }
 
     public void resetSelection() {
-        SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues cv = new ContentValues();
         cv.put(CommandEntry.SELECTED,0);
 
         cardiagDB.update(CommandEntry.TABLE_NAME, cv, null,null);
     }
 
+    public void setSelection() {
+        ContentValues cv = new ContentValues();
+        cv.put(CommandEntry.SELECTED,1);
+
+        cardiagDB.update(CommandEntry.TABLE_NAME, cv, null,null);
+    }
+
+    public ArrayList<ObdCommand> getCommandsRaWQuery(String query, String[] args) {
+        cardiagDB = this.getReadableDatabase();
+        ArrayList<ObdCommand> cmds = new ArrayList<ObdCommand>();
+
+        Cursor c = cardiagDB.rawQuery(query, args);
+
+        if (c.moveToFirst()) {
+            do {
+                ObdCommand cmd = ObdCommandRowMapper.getCommand(c);
+                if (cmd != null) {
+                    cmds.add(cmd);
+                }
+            } while(c.moveToNext());
+        }
+        return cmds;
+    }
+
+    public ArrayList<ObdCommand> getGroupCommands(String[] groups) {
+        cardiagDB = this.getReadableDatabase();
+        ArrayList<ObdCommand> cmds = new ArrayList<ObdCommand>();
+
+        String[] projection = {
+                "cmd."+ CommandEntry._ID,
+                "cmd."+ CommandEntry.NAME,
+                "cmd."+ CommandEntry.SELECTED
+        };
+
+        String where = "g."+ CategoryContract.CategoryEntry.NAME+" = ? and " + "g."+ CategoryContract.CategoryEntry._ID + " = cxg." + CommandCategoryContract.CommandCategoryEntry.GROUP;
+        where += " and cmd." + CommandEntry._ID + " = cxg." + CommandCategoryContract.CommandCategoryEntry.COMMAND + " and cmd." + CommandEntry.AVAILABILITY + " = 1";
+        String[] whereValues = groups;
+
+        Cursor c = cardiagDB.query(
+                CommandEntry.TABLE_NAME + " as cmd, " + CategoryContract.CategoryEntry.TABLE_NAME + " as g, " + CommandCategoryContract.CommandCategoryEntry.TABLE_NAME + " as cxg",                     // The table to query
+                projection,                               // The columns to return
+                where,                                // The columns for the WHERE clause
+                whereValues,//   selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null//     sortOrder                                 // The sort order
+        );
+
+        if (c.moveToFirst()) {
+            do {
+                ObdCommand cmd = ObdCommandRowMapper.getCommand(c);
+                if (cmd != null) {
+                    cmds.add(cmd);
+                }
+            } while(c.moveToNext());
+        }
+        return cmds;
+    }
+
+    public ArrayList<Category> getGroups(String whereColumns, String[] whereColumnsValues) {
+        cardiagDB = this.getReadableDatabase();
+        ArrayList<Category> groups = new ArrayList<Category>();
+
+        String[] projection = {
+                CategoryContract.CategoryEntry._ID,
+                CategoryContract.CategoryEntry.NAME
+        };
+
+        Cursor c = cardiagDB.query(
+                CategoryContract.CategoryEntry.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                whereColumns,                                // The columns for the WHERE clause
+                whereColumnsValues,//   selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null//     sortOrder                                 // The sort order
+        );
+
+        if (c.moveToFirst()) {
+            do {
+                Category g = new Category(c.getInt(0), c.getString(1));
+                groups.add(g);
+            } while(c.moveToNext());
+        }
+        return groups;
+    }
+
+    //////////////////////End Commands///////////////////////////
 
     public ArrayList<Solution> getSolutions(TroubleCode troubleCode, SQLiteDatabase cardiagDB) {
 

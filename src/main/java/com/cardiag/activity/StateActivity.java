@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.cardiag.R;
 import com.cardiag.models.commands.ObdCommand;
+import com.cardiag.models.commands.entities.Category;
 import com.cardiag.models.runnable.ConnectionConfigTask;
 import com.cardiag.models.runnable.StateTask;
 import com.cardiag.persistence.DataBaseService;
@@ -34,6 +36,7 @@ import com.cardiag.utils.ObdCommandAdapter;
 import com.cardiag.utils.ObdCommandCheckAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class  StateActivity extends AppCompatActivity  {
@@ -42,6 +45,7 @@ public class  StateActivity extends AppCompatActivity  {
     private static final int START_LIVE_DATA = 0;
     private static final int STOP_LIVE_DATA = 1;
     private static final int SELECT_COMMANDS = 2;
+    private static final int CUSTOMIZED = 3;
     private static final int NO_ORIENTATION_SENSOR = 8;
     private static final int REQUEST_ENABLE_BT = 1234;
     private static Boolean bluetoothDefaultIsEnable = false;
@@ -53,6 +57,7 @@ public class  StateActivity extends AppCompatActivity  {
     private BluetoothSocket sock = null;
     private ArrayList<ObdCommand> commands = new ArrayList<ObdCommand>();
     private List<ObdCommand> selectedCommands = new ArrayList<ObdCommand>();
+    private List<Category> categories = new ArrayList<Category>();
     StateTask stateTask;
     ConnectionConfigTask cct;
     private Sensor orientSensor = null;
@@ -91,7 +96,7 @@ public class  StateActivity extends AppCompatActivity  {
         } else {
             showDialog(NO_ORIENTATION_SENSOR);
         }
-
+        categories = dbService.getGroups(null,null);
         cct = new ConnectionConfigTask(this);
         cct.execute();
 
@@ -128,6 +133,7 @@ public class  StateActivity extends AppCompatActivity  {
 //        ObdCommandAdapter adapter = new ObdCommandAdapter(selectedCommands, this);
 //        gridView.setAdapter(adapter);
 //
+        Collections.sort(selectedCommands);
         ObdCommandAdapter adapter = (ObdCommandAdapter) gridView.getAdapter();
         adapter.notifyDataSetChanged();
     }
@@ -144,6 +150,14 @@ public class  StateActivity extends AppCompatActivity  {
         this.menu = menu;
         menu.add(0, SELECT_COMMANDS, 0, getString(R.string.select_commands));
 
+        SubMenu submenu = menu.addSubMenu(Menu.NONE, SELECT_COMMANDS, Menu.NONE, getString(R.string.select_commands));
+
+        for (Category g: categories) {
+            submenu.add(Menu.NONE, g.getId(), Menu.NONE, g.getName());
+        }
+        submenu.add(Menu.NONE, CUSTOMIZED, Menu.NONE, getString(R.string.menu_customized));
+
+        menu.getItem(STOP_LIVE_DATA).setEnabled(false);
         return true;
     }
 
@@ -154,8 +168,26 @@ public class  StateActivity extends AppCompatActivity  {
                 AlertDialog dialog = getCheckBoxDialog();
                 dialog.show();
                 return true;
+         }
+
+        for (Category g: categories) {
+            if (item.getItemId() == g.getId().intValue()) {
+                selectCommands(g.getName());
+                return true;
+            }
         }
+
         return false;
+    }
+    private void selectCommands(String menu_item_description) {
+        dbService.resetSelection();
+
+        String[] args = new String[]{menu_item_description};
+        ArrayList<ObdCommand> nuevaList = dbService.getGroupCommands(args);
+        List<ObdCommand> auxList = mergeCommandLists(nuevaList);
+        selectedCommands.clear();
+        selectedCommands.addAll(auxList);
+        stateUpdate();
     }
 
     public void startLiveData(View view) {

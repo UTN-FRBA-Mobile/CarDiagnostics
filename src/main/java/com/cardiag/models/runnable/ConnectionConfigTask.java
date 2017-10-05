@@ -107,6 +107,7 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
             return result;
         }
 
+        dataBaseService.setSelection();
         String where = ObdCommandContract.CommandEntry.AVAILABILITY+"=? AND "+ObdCommandContract.CommandEntry.SELECTED+"=?";
         String[] values = new String[]{"1","1"};
         ArrayList<ObdCommand> filteredAndSelected = dataBaseService.getCommands(where, values);

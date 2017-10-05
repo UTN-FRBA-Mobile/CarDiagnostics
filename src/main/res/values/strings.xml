@@ -28,6 +28,9 @@
     <string name="state_dialog_error_configuring">Could not configure connection, please try again.</string>
     <string name="menu_start_live_data">Start Live Data</string>
     <string name="menu_stop_live_data">Stop Live Data</string>
+    <string name="menu_dashboard">Dashboard</string>
+    <string name="menu_fuel">Fuel</string>
+    <string name="menu_customized">Customize</string>
     <string name="live_data_stopped">Live Data Stopped</string>
     <string name="starting_live_data">Starting live data..</string>
     <string name="menu_settings">Settings</string>
