@@ -9,11 +9,11 @@
     tools:context="com.cardiag.activity.StateActivity"
     android:weightSum="1">
 
-     <TableRow
+    <TableRow
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-     </TableRow>
+    </TableRow>
 
     <GridView
 
@@ -36,20 +36,24 @@
         <Button
             android:id="@+id/botonPlay"
             android:layout_width="177dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="startLiveData"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            android:textSize="10sp"
+            android:text="Iniciar datos"
+            android:drawableLeft="@mipmap/ic_play"
             android:enabled="true"
-            android:text="PLAY" />
+            android:onClick="startLiveData" />
 
         <Button
             android:id="@+id/botonStop"
-            android:layout_width="176dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="stopLiveData"
+            android:layout_width="177dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            android:textSize="10sp"
+            android:text="Detener datos"
+            android:drawableLeft="@mipmap/ic_stop"
             android:enabled="false"
-            android:text="STOP" />
+            android:onClick="stopLiveData" />
     </LinearLayout>
 
 
