@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -141,27 +142,14 @@ public class  StateActivity extends AppCompatActivity  {
 
         getMenuInflater().inflate(R.menu.state,menu);
         this.menu = menu;
-        menu.add(0, START_LIVE_DATA, 0, getString(R.string.menu_start_live_data));
-        menu.add(0, STOP_LIVE_DATA, 0, getString(R.string.menu_stop_live_data));
         menu.add(0, SELECT_COMMANDS, 0, getString(R.string.select_commands));
 
-        menu.getItem(STOP_LIVE_DATA).setEnabled(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case START_LIVE_DATA:
-                menu.getItem(STOP_LIVE_DATA).setEnabled(true);
-                menu.getItem(START_LIVE_DATA).setEnabled(false);
-                startLiveData();
-                return true;
-            case STOP_LIVE_DATA:
-                menu.getItem(STOP_LIVE_DATA).setEnabled(false);
-                menu.getItem(START_LIVE_DATA).setEnabled(true);
-                stopLiveData();
-                return true;
             case SELECT_COMMANDS:
                 AlertDialog dialog = getCheckBoxDialog();
                 dialog.show();
@@ -170,7 +158,11 @@ public class  StateActivity extends AppCompatActivity  {
         return false;
     }
 
-    private void startLiveData() {
+    public void startLiveData(View view) {
+        Button botonPlay = (Button) findViewById(R.id.botonPlay);
+        Button botonStop = (Button) findViewById(R.id.botonStop);
+        botonPlay.setEnabled(false);
+        botonStop.setEnabled(true);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         showToast(getString(R.string.starting_live_data));
 
@@ -183,7 +175,11 @@ public class  StateActivity extends AppCompatActivity  {
         stateTask.execute();
     }
 
-    private void stopLiveData() {
+    public void stopLiveData(View view) {
+        Button botonPlay = (Button) findViewById(R.id.botonPlay);
+        Button botonStop = (Button) findViewById(R.id.botonStop);
+        botonPlay.setEnabled(true);
+        botonStop.setEnabled(false);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (stateTask != null) {
             stateTask.cancel(true);
