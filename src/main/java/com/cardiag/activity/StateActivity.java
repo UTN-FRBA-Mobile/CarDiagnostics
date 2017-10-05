@@ -274,23 +274,7 @@ public class  StateActivity extends AppCompatActivity  {
     private void onPositiveClick(ObdCommandCheckAdapter checkAdapter) {
         dbService.resetSelection();
         ArrayList<ObdCommand> adapterSelected = checkAdapter.getSelectedCmds();
-        ArrayList<ObdCommand> auxSelected = new ArrayList<ObdCommand>();
-
-        for (ObdCommand cmd : adapterSelected) {
-            dbService.updateCommand(cmd, null);
-        }
-
-        for (ObdCommand cmd : selectedCommands) {
-            if (contains(cmd, adapterSelected)) {
-                auxSelected.add(cmd);
-            }
-        }
-
-        for (ObdCommand cmd : adapterSelected) {
-            if (!contains(cmd, selectedCommands)) {
-                auxSelected.add(cmd);
-            }
-        }
+        ArrayList<ObdCommand> auxSelected = mergeCommandLists(adapterSelected);
 
         if (stateTask != null && stateTask.getStatus() == AsyncTask.Status.RUNNING) {
             stateTask.cancel(true);
@@ -304,6 +288,28 @@ public class  StateActivity extends AppCompatActivity  {
             selectedCommands.addAll(auxSelected);
             stateUpdate();
         }
+    }
+
+    private ArrayList<ObdCommand> mergeCommandLists(ArrayList<ObdCommand> newList) {
+        ArrayList<ObdCommand> auxSelected = new ArrayList<ObdCommand>();
+
+        for (ObdCommand cmd : newList) {
+            cmd.setSelected(true);
+            dbService.updateCommand(cmd, null);
+        }
+
+        for (ObdCommand cmd : selectedCommands) {
+            if (contains(cmd, newList)) {
+                auxSelected.add(cmd);
+            }
+        }
+
+        for (ObdCommand cmd : newList) {
+            if (!contains(cmd, selectedCommands)) {
+                auxSelected.add(cmd);
+            }
+        }
+        return auxSelected;
     }
 
     public BluetoothSocket getSock() {
