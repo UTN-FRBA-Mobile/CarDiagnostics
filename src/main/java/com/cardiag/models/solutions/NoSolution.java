@@ -9,7 +9,7 @@ import com.cardiag.activity.MapsActivity;
 public class NoSolution extends com.cardiag.models.solutions.Solution {
 
     public NoSolution() {
-        super("No se encuentran soluciones disponibles. Por favor dirigirse a los servicios más cercanos", null);
+        super("Dirigirse al taller o estación de servicio más cercano", null);
     }
 
     public Class<?> getActivity() {

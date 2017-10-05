@@ -6,7 +6,7 @@ public class NoErrorSolution extends Solution {
     private String error;
 
     public NoErrorSolution(String error) {
-        super("Buscar código", null);
+        super("Buscar el código de error en internet", null);
         this.setError(error);
     }
     public Class<?> getActivity() {

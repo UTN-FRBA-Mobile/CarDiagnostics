@@ -12,7 +12,7 @@
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
+        android:layout_below="@+id/tvCodes" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lvSolutions"
@@ -20,8 +20,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvSolutions"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/tvSolutions" />
 
     <TextView
         android:id="@+id/tvCodes"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Códigos de error"
-        android:textColor="@color/white"
+        android:textColor="@color/primary"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
         android:layout_marginStart="13dp"
         android:text="Soluciones"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/primary"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="invisible" />
