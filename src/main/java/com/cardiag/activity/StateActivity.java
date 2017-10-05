@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -171,6 +172,10 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     public void startLiveData(View view) {
+        Button botonPlay = (Button) findViewById(R.id.botonPlay);
+        Button botonStop = (Button) findViewById(R.id.botonStop);
+        botonPlay.setEnabled(false);
+        botonStop.setEnabled(true);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         showToast(getString(R.string.starting_live_data));
 
@@ -184,6 +189,10 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     public void stopLiveData(View view) {
+        Button botonPlay = (Button) findViewById(R.id.botonPlay);
+        Button botonStop = (Button) findViewById(R.id.botonStop);
+        botonPlay.setEnabled(true);
+        botonStop.setEnabled(false);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (stateTask != null) {
             stateTask.cancel(true);

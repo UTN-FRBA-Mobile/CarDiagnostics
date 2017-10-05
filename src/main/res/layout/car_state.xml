@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="startLiveData"
+            android:enabled="true"
             android:text="PLAY" />
 
         <Button
@@ -47,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="stopLiveData"
+            android:enabled="false"
             android:text="STOP" />
     </LinearLayout>
 
