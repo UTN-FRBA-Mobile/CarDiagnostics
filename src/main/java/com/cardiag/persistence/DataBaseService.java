@@ -466,6 +466,7 @@ public class DataBaseService extends SQLiteOpenHelper {
             } while(c.moveToNext());
         }else {
             solutions.add(new NoSolution());
+            solutions.add(new NoErrorSolution(troubleCode.getName()));
         }
         /* DUMMY
         switch (troubleCode.getName()){
@@ -525,6 +526,7 @@ public class DataBaseService extends SQLiteOpenHelper {
         }else{
             tbCode=new TroubleCode(id,"", -1);
             solutions.add(new NoErrorSolution(id));
+            solutions.add(new NoSolution());
         }
         tbCode.setSolutions(solutions);
         cardiagDB.close();
