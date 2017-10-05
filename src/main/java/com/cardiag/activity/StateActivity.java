@@ -155,12 +155,12 @@ public class  StateActivity extends AppCompatActivity  {
             case START_LIVE_DATA:
                 menu.getItem(STOP_LIVE_DATA).setEnabled(true);
                 menu.getItem(START_LIVE_DATA).setEnabled(false);
-                startLiveData();
+                startLiveData(null);
                 return true;
             case STOP_LIVE_DATA:
                 menu.getItem(STOP_LIVE_DATA).setEnabled(false);
                 menu.getItem(START_LIVE_DATA).setEnabled(true);
-                stopLiveData();
+                stopLiveData(null);
                 return true;
             case SELECT_COMMANDS:
                 AlertDialog dialog = getCheckBoxDialog();
@@ -170,7 +170,7 @@ public class  StateActivity extends AppCompatActivity  {
         return false;
     }
 
-    private void startLiveData() {
+    public void startLiveData(View view) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         showToast(getString(R.string.starting_live_data));
 
@@ -183,7 +183,7 @@ public class  StateActivity extends AppCompatActivity  {
         stateTask.execute();
     }
 
-    private void stopLiveData() {
+    public void stopLiveData(View view) {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (stateTask != null) {
             stateTask.cancel(true);
