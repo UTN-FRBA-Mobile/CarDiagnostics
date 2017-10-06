@@ -38,7 +38,7 @@ public class ConfigActivityMain extends PreferenceActivity  {
 
         ArrayList<CharSequence> pairedDeviceStrings = new ArrayList<>();
         ArrayList<CharSequence> vals = new ArrayList<>();
-        ListPreference listBtDevices = (ListPreference) getPreferenceScreen()
+        final ListPreference listBtDevices = (ListPreference) getPreferenceScreen()
                 .findPreference(BLUETOOTH_LIST_KEY);
 
     /*
@@ -63,6 +63,7 @@ public class ConfigActivityMain extends PreferenceActivity  {
         listBtDevices.setEntryValues(new CharSequence[1]);
         listBtDevices.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
+                listBtDevices.setSummary(listBtDevices.getValue());
                 // see what I mean in the previous comment?
                 if (mBtAdapter == null || !mBtAdapter.isEnabled()) {
                     Toast.makeText(thisActivity,
