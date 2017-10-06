@@ -45,9 +45,11 @@ public class  StateActivity extends AppCompatActivity  {
     private static final int SELECT_COMMANDS = 2;
     private static final int CUSTOMIZED = 3;
     private static final int NO_ORIENTATION_SENSOR = 8;
+    private static final int RECONNECT = 0;
     private static final int REQUEST_ENABLE_BT = 1234;
     private static Boolean bluetoothDefaultIsEnable = false;
     private GridView gridView;
+    private MenuItem reconnect;
     private SensorManager sensorManager;
     private PowerManager.WakeLock wakeLock;
 //    private SharedPreferences prefs;
@@ -79,7 +81,7 @@ public class  StateActivity extends AppCompatActivity  {
         } else {
             String error = getString(R.string.error);
             String msg = getString(R.string.text_bluetooth_disabled);
-            ConfirmDialog.showCancellingDialog(this, error, msg);
+            ConfirmDialog.showCancellingDialog(this, error, msg, true);
         }
 
     }
@@ -146,15 +148,15 @@ public class  StateActivity extends AppCompatActivity  {
 
         getMenuInflater().inflate(R.menu.state,menu);
         this.menu = menu;
-//        menu.add(0, SELECT_COMMANDS, 0, getString(R.string.select_commands));
-
         SubMenu submenu = menu.addSubMenu(Menu.NONE, SELECT_COMMANDS, Menu.NONE, getString(R.string.select_commands));
 
+//        menu.add(Menu.NONE, RECONNECT, Menu.NONE, getString(R.string.menu_reconnect)).setIcon(android.R.drawable.stat_notify_sync_noanim)
+//                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         for (Category g: categories) {
             submenu.add(Menu.NONE, g.getId(), Menu.NONE, g.getName());
         }
         submenu.add(Menu.NONE, CUSTOMIZED, Menu.NONE, getString(R.string.menu_customized));
-
+        reconnect = menu.getItem(RECONNECT);
         return true;
     }
 
@@ -164,6 +166,9 @@ public class  StateActivity extends AppCompatActivity  {
             case CUSTOMIZED:
                 AlertDialog dialog = getCheckBoxDialog();
                 dialog.show();
+                return true;
+            case RECONNECT:
+                showToast("Hola!");
                 return true;
          }
 
@@ -358,6 +363,10 @@ public class  StateActivity extends AppCompatActivity  {
             stateTask.cancel(true);
             stateTask = null;
         }
+    }
+
+    public MenuItem getReconnect() {
+        return reconnect;
     }
 
     @Override

@@ -265,10 +265,12 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
             filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
             BluetoothConnectionListener btListener = new BluetoothConnectionListener();
             stateActivity.registerReceiver(btListener, filter);
+//            stateActivity.getReconnect().setEnabled(false);
 
         } else {
             String title = stateActivity.getString(R.string.error);
-            ConfirmDialog.showCancellingDialog(stateActivity, title, progress.getProgressMessage());
+            ConfirmDialog.showCancellingDialog(stateActivity, title, progress.getProgressMessage(), false);
+//            stateActivity.getReconnect().setEnabled(true);
 
         }
     }

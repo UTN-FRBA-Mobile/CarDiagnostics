@@ -28,14 +28,14 @@
 
     </GridView>
 
-    <LinearLayout
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/botonPlay"
-            android:layout_width="177dp"
+            android:layout_weight="1"
             android:layout_height="56dp"
             android:padding="16dp"
             android:textSize="10sp"
@@ -46,7 +46,7 @@
 
         <Button
             android:id="@+id/botonStop"
-            android:layout_width="177dp"
+            android:layout_weight="1"
             android:layout_height="56dp"
             android:padding="16dp"
             android:textSize="10sp"
@@ -54,7 +54,7 @@
             android:drawableLeft="@mipmap/ic_stop"
             android:enabled="false"
             android:onClick="stopLiveData" />
-    </LinearLayout>
+    </TableRow>
 
 
 </LinearLayout>

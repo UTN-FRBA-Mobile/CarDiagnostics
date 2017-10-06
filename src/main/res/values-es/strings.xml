@@ -27,6 +27,7 @@
     <string name="menu_dashboard">Tablero</string>
     <string name="menu_fuel">Combustible</string>
     <string name="menu_customized">Personalizado</string>
+    <string name="menu_reconnect">Reconectar</string>
     <string name="live_data_stopped">Datos en vivo detenido.</string>
     <string name="starting_live_data">Iniciando datos en vivo..</string>
     <string name="title_pref_commands">Comandos OBD</string>

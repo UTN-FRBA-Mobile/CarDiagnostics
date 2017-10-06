@@ -65,7 +65,7 @@ public class ConfirmDialog {
         alertDialog.show();
     }
 
-    public static void showCancellingDialog(final Context context, String title, String msg) {
+    public static void showCancellingDialog(final Context context, String title, String msg, final Boolean finish) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);
@@ -79,7 +79,9 @@ public class ConfirmDialog {
                 .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         dialog.cancel();
-                        sta.finish();
+                        if (finish) {
+                            sta.finish();
+                        }
                     }
                 });
 
