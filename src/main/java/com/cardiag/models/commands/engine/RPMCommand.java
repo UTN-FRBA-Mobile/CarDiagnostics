@@ -3,7 +3,6 @@ package com.cardiag.models.commands.engine;
 import android.graphics.Color;
 
 import com.cardiag.models.commands.ObdCommand;
-import com.cardiag.utils.enums.AvailableCommandNames;
 import com.cardiag.velocimetro.Velocimetro;
 
 /**
@@ -64,10 +63,10 @@ public class RPMCommand extends ObdCommand {
         velocimetro.setMajorTickStep(1);
         velocimetro.setMinorTicks(1);
         velocimetro.clearColoredRanges();
-        velocimetro.addColoredRange(0, 4, Color.GREEN);
-        velocimetro.addColoredRange(4, 7, Color.YELLOW);
-        velocimetro.addColoredRange(7, 11, Color.RED);
-        velocimetro.setUnitsTextSize(20);
+        velocimetro.addColoredRange(0, 4, Color.rgb(255,255,255));
+        velocimetro.addColoredRange(4, 7, Color.rgb(59,131,189));
+        velocimetro.addColoredRange(7, 11, Color.rgb(52,62,64));
+        velocimetro.setUnitsTextSize(30);
         velocimetro.setUnitsText(getResultUnit() + " x1000");
     }
 

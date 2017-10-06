@@ -66,7 +66,7 @@ public class ObdCommandAdapter extends BaseAdapter {
         cmdValue.setText(cmd.getFormattedResult());
 
 
-        velocimetro.setUnitsTextSize(40);
+
 
         cmd.setVelocimetroProperties(velocimetro);
 

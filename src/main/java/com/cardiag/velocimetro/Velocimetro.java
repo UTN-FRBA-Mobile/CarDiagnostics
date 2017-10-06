@@ -392,11 +392,11 @@ public class Velocimetro extends View {
 
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         backgroundPaint.setStyle(Paint.Style.FILL);
-        backgroundPaint.setColor(Color.rgb(127, 127, 127));
+        backgroundPaint.setColor(Color.rgb(37, 41, 74));
 
         backgroundInnerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         backgroundInnerPaint.setStyle(Paint.Style.FILL);
-        backgroundInnerPaint.setColor(Color.rgb(150, 150, 150));
+        backgroundInnerPaint.setColor(Color.rgb(37, 41, 74));
 
         txtPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         txtPaint.setColor(Color.WHITE);
@@ -419,17 +419,17 @@ public class Velocimetro extends View {
         ticksPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         ticksPaint.setStrokeWidth(3.0f);
         ticksPaint.setStyle(Paint.Style.STROKE);
-        ticksPaint.setColor(defaultColor);
+        ticksPaint.setColor(Color.rgb( 0, 191, 255));
 
         colorLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         colorLinePaint.setStyle(Paint.Style.STROKE);
         colorLinePaint.setStrokeWidth(5);
-        colorLinePaint.setColor(defaultColor);
+        colorLinePaint.setColor(Color.rgb( 0, 191, 255));
 
         needlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         needlePaint.setStrokeWidth(5);
         needlePaint.setStyle(Paint.Style.STROKE);
-        needlePaint.setColor(Color.argb(200, 255, 0, 0));
+        needlePaint.setColor(Color.rgb( 0, 191, 255));
     }
 
 

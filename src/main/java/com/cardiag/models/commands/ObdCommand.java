@@ -259,11 +259,11 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
         velocimetro.setMajorTickStep(30);
         velocimetro.setMinorTicks(2);
         velocimetro.clearColoredRanges();
-        velocimetro.addColoredRange(0, 60, Color.GREEN);
-        velocimetro.addColoredRange(60, 120, Color.YELLOW);
-        velocimetro.addColoredRange(120, 200, Color.RED);
+        velocimetro.addColoredRange(0, 60, Color.rgb(255,255,255));
+        velocimetro.addColoredRange(60, 120, Color.rgb(59,131,189));
+        velocimetro.addColoredRange(120, 200, Color.rgb(52,62,64));
         velocimetro.setUnitsText(getResultUnit());
-        velocimetro.setUnitsTextSize(20);
+        velocimetro.setUnitsTextSize(40);
     }
 
         /**
