@@ -1,7 +1,6 @@
 package com.cardiag.utils;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,8 @@ public class ObdCommandAdapter extends BaseAdapter {
     private Context mContext;
     private Velocimetro velocimetro;
     double velocidadMaxima;
+    double velocidadActual;
+    boolean esRPM;
     /**
      * Default constructor
      * @param items to fill data to
@@ -77,17 +78,25 @@ public class ObdCommandAdapter extends BaseAdapter {
         });
 
         velocidadMaxima = (double) velocimetro.getMaxSpeed();
-        if( Double.parseDouble(cmd.getCalculatedResult()) < 0 ){
+        velocidadActual =  Double.parseDouble(cmd.getCalculatedResult());
+        esRPM = cmd.getName().equals("RPM del motor");
+
+        if( velocidadActual < 0 ){
             velocimetro.setSpeed(0, 100, 300);
         }
-        if(Double.parseDouble(cmd.getCalculatedResult()) > velocidadMaxima){
-                velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
-            }
-        if(( Double.parseDouble(cmd.getCalculatedResult()) >= 0 ) && (Double.parseDouble(cmd.getCalculatedResult()) <= velocidadMaxima) && (!cmd.getName().equals("RPM del motor"))){
-            velocimetro.setSpeed(Double.parseDouble(cmd.getCalculatedResult()), 100, 300);
+        if(velocidadActual > velocidadMaxima && !esRPM){
+            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
         }
-        if(( Double.parseDouble(cmd.getCalculatedResult()) >= 0 ) && (Double.parseDouble(cmd.getCalculatedResult()) <= velocidadMaxima) && (cmd.getName().equals("RPM del motor"))){
-            velocimetro.setSpeed(Double.parseDouble(cmd.getCalculatedResult())/1000, 100, 300);
+        if(velocidadActual > (velocidadMaxima*1000) && esRPM){
+            velocimetro.setSpeed((velocimetro.getMaxSpeed()*1000), 100, 300);
+        }
+        if((velocidadActual >= 0 ) && (velocidadActual <= velocidadMaxima) && (!esRPM)){
+            velocimetro.setSpeed(velocidadActual, 100, 300);
+        }
+        if(( velocidadActual >= 0 ) && (velocidadActual <= (velocidadMaxima*1000)) && (esRPM)){
+
+            velocidadActual = velocidadActual/1000.0;
+            velocimetro.setSpeed(velocidadActual, 100, 300);
         }
 
         return convertView;
