@@ -42,15 +42,18 @@ import java.util.List;
 public class  StateActivity extends AppCompatActivity  {
 
     private static final String TAG = StateActivity.class.getName();
-    private static final int SELECT_COMMANDS = 2;
+    private static final int SELECT_COMMANDS = 0;
     private static final int CUSTOMIZED = 3;
     private static final int NO_ORIENTATION_SENSOR = 8;
-    private static final int RECONNECT = 0;
+    private static final int RECONNECT = 1;
     private static final int REQUEST_ENABLE_BT = 1234;
     private static Boolean bluetoothDefaultIsEnable = false;
     private GridView gridView;
     private MenuItem reconnect;
-    private SensorManager sensorManager;
+    private MenuItem selectCommands;
+    private Button botonPlay;
+    private Button botonStop;
+        private SensorManager sensorManager;
     private PowerManager.WakeLock wakeLock;
 //    private SharedPreferences prefs;
     private ArrayList<Boolean> availablePidsFlags = new ArrayList<Boolean>();
@@ -107,6 +110,8 @@ public class  StateActivity extends AppCompatActivity  {
     private void doBindings() {
     //TODO Para cuando agreguemos la vista en serio.
         gridView = (GridView) findViewById(R.id.data_grid);
+        botonPlay = (Button) findViewById(R.id.botonPlay);
+        botonStop = (Button) findViewById(R.id.botonStop);
 
     }
 
@@ -150,25 +155,30 @@ public class  StateActivity extends AppCompatActivity  {
         this.menu = menu;
         SubMenu submenu = menu.addSubMenu(Menu.NONE, SELECT_COMMANDS, Menu.NONE, getString(R.string.select_commands));
 
-//        menu.add(Menu.NONE, RECONNECT, Menu.NONE, getString(R.string.menu_reconnect)).setIcon(android.R.drawable.stat_notify_sync_noanim)
-//                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(Menu.NONE, RECONNECT, Menu.NONE, getString(R.string.menu_reconnect)).setIcon(android.R.drawable.stat_notify_sync_noanim).setEnabled(false)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        reconnect = menu.getItem(RECONNECT);
+        selectCommands = menu.getItem(SELECT_COMMANDS);
+
         for (Category g: categories) {
             submenu.add(Menu.NONE, g.getId(), Menu.NONE, g.getName());
         }
         submenu.add(Menu.NONE, CUSTOMIZED, Menu.NONE, getString(R.string.menu_customized));
-        reconnect = menu.getItem(RECONNECT);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case CUSTOMIZED:
                 AlertDialog dialog = getCheckBoxDialog();
                 dialog.show();
                 return true;
             case RECONNECT:
-                showToast("Hola!");
+                cct = new ConnectionConfigTask(this);
+                cct.execute();
                 return true;
          }
 
@@ -193,10 +203,9 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     public void startLiveData(View view) {
-        Button botonPlay = (Button) findViewById(R.id.botonPlay);
-        Button botonStop = (Button) findViewById(R.id.botonStop);
         botonPlay.setEnabled(false);
         botonStop.setEnabled(true);
+        selectCommands.setEnabled(false);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         showToast(getString(R.string.starting_live_data));
 
@@ -210,10 +219,9 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     public void stopLiveData(View view) {
-        Button botonPlay = (Button) findViewById(R.id.botonPlay);
-        Button botonStop = (Button) findViewById(R.id.botonStop);
         botonPlay.setEnabled(true);
         botonStop.setEnabled(false);
+        selectCommands.setEnabled(true);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (stateTask != null) {
             stateTask.cancel(true);
@@ -367,6 +375,13 @@ public class  StateActivity extends AppCompatActivity  {
 
     public MenuItem getReconnect() {
         return reconnect;
+    }
+
+    public void prepareButtons(Boolean prepare){
+        botonPlay.setEnabled(prepare);
+        botonStop.setEnabled(prepare);
+        selectCommands.setEnabled(prepare);
+        reconnect.setEnabled(!prepare);
     }
 
     @Override

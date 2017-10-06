@@ -3,7 +3,6 @@
     <string name="action_settings">Configuración</string>
     <string name="command_list">Elegir comando</string>
     <string name="menu_item_trip_delete">Borrar</string>
-    <string name="notification_label">Presionar para abrir OBD-Reader</string>
     <string name="service_started">La conexión OBD ha comenzado.</string>
     <string name="service_stopped">La conexión OBD se ha detenido.</string>
     <string name="title_activity_trips_list">Lista de Viajes</string>
@@ -28,11 +27,10 @@
     <string name="menu_fuel">Combustible</string>
     <string name="menu_customized">Personalizado</string>
     <string name="menu_reconnect">Reconectar</string>
-    <string name="live_data_stopped">Datos en vivo detenido.</string>
-    <string name="starting_live_data">Iniciando datos en vivo..</string>
+    <string name="live_data_stopped">Datos en tiempo real: Detenido.</string>
+    <string name="starting_live_data">Datos en tiempo real: Iniciado.</string>
     <string name="title_pref_commands">Comandos OBD</string>
     <string name="title_pref_obd">Preferencias OBD</string>
-    <string name="notification_action">Presionar para abrir OBD-Reader</string>
     <string name="service_starting">Iniciando conexión OBD...</string>
     <string name="pref_bluetooth_list_devices_summary">Lista de los dispositivos Bluetooth vinculados.</string>
     <string name="pref_bluetooth_list_devices_title">Dispositivos Bluetooth</string>
