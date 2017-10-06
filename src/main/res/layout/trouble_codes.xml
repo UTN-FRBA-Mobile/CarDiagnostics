@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Códigos de error"
-        android:textColor="@color/primary"
+        android:textColor="@color/text_color_white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
         android:layout_marginStart="13dp"
         android:text="Soluciones"
         android:textAlignment="center"
-        android:textColor="@color/primary"
+        android:textColor="@color/text_color_white"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="invisible" />

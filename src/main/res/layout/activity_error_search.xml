@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ingrese la marca de su automóvil"
-            android:textColor="@color/primary"
+            android:textColor="@color/text_color_white"
             android:textSize="24sp" />
 
         <EditText
@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
+            android:textColor="@color/text_color_white"
             tools:text="Ingrese la marca de su automóvil.." />
 
         <Button
