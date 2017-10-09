@@ -20,7 +20,8 @@ public class BluetoothConnectionListener extends BroadcastReceiver{
         public void onReceive(Context context, Intent intent) {
             StateActivity sta = (StateActivity) context;
             String action = intent.getAction();
-
+            sta.setObdStatusText(sta.getString(R.string.status_obd_disconnected));
+            sta.setObdDataStatusText(sta.getString(R.string.status_obd_data_stopped));
             if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action) || BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
                 sta.cancelTasks();
                 ConnectionConfigTask cct = new ConnectionConfigTask(sta);

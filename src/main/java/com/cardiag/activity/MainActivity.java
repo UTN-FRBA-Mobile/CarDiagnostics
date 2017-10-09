@@ -142,38 +142,6 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public Button getCarStateBtn() {
-        return carStateBtn;
-    }
-
-    public void setCarStateBtn(Button carStateBtn) {
-        this.carStateBtn = carStateBtn;
-    }
-
-    public Button getErrorCodesBtn() {
-        return errorCodesBtn;
-    }
-
-    public void setErrorCodesBtn(Button errorCodesBtn) {
-        this.errorCodesBtn = errorCodesBtn;
-    }
-
-    public Button getServiceFinderBtn() {
-        return serviceFinderBtn;
-    }
-
-    public void setServiceFinderBtn(Button serviceFinderBtn) {
-        this.serviceFinderBtn = serviceFinderBtn;
-    }
-
-    public String getAboutStr() {
-        return aboutStr;
-    }
-
-    public void setAboutStr(String aboutStr) {
-        this.aboutStr = aboutStr;
-    }
-
     @Override
     protected void onDestroy() {
         BluetoothAdapter ba = getBluetoothAdapter();

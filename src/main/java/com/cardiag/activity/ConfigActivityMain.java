@@ -9,6 +9,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cardiag.R;
@@ -20,9 +21,11 @@ public class ConfigActivityMain extends PreferenceActivity  {
 
     public static final String BLUETOOTH_LIST_KEY = "bluetooth_list_preference";
     private static final int BLUETOOTH_REQUEST = 1;
+    private TextView selectedDevice;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        selectedDevice = (TextView) findViewById(R.id.selected_device);
 
         if (!enableBluetooth(BLUETOOTH_REQUEST)) {
             initiateConfiguration();
@@ -38,8 +41,7 @@ public class ConfigActivityMain extends PreferenceActivity  {
 
         ArrayList<CharSequence> pairedDeviceStrings = new ArrayList<>();
         ArrayList<CharSequence> vals = new ArrayList<>();
-        final ListPreference listBtDevices = (ListPreference) getPreferenceScreen()
-                .findPreference(BLUETOOTH_LIST_KEY);
+        final ListPreference listBtDevices = (ListPreference) findPreference(BLUETOOTH_LIST_KEY);
 
     /*
      * Let's use this device Bluetooth adapter to select which paired OBD-II
@@ -63,8 +65,7 @@ public class ConfigActivityMain extends PreferenceActivity  {
         listBtDevices.setEntryValues(new CharSequence[1]);
         listBtDevices.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                listBtDevices.setSummary(listBtDevices.getValue());
-                // see what I mean in the previous comment?
+//                selectedDevice.setText(listBtDevices.getValue());
                 if (mBtAdapter == null || !mBtAdapter.isEnabled()) {
                     Toast.makeText(thisActivity,
                             "This device does not support Bluetooth or it is disabled.",
@@ -85,8 +86,10 @@ public class ConfigActivityMain extends PreferenceActivity  {
                 vals.add(device.getAddress());
             }
         }
+//        listBtDevices.setSummary();
         listBtDevices.setEntries(pairedDeviceStrings.toArray(new CharSequence[0]));
         listBtDevices.setEntryValues(vals.toArray(new CharSequence[0]));
+
     }
 
     @Override

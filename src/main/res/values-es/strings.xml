@@ -27,8 +27,6 @@
     <string name="menu_fuel">Combustible</string>
     <string name="menu_customized">Personalizado</string>
     <string name="menu_reconnect">Reconectar</string>
-    <string name="live_data_stopped">Datos en tiempo real: Detenido.</string>
-    <string name="starting_live_data">Datos en tiempo real: Iniciado.</string>
     <string name="title_pref_commands">Comandos OBD</string>
     <string name="title_pref_obd">Preferencias OBD</string>
     <string name="service_starting">Iniciando conexión OBD...</string>
@@ -46,7 +44,10 @@
     <string name="status_no_device_selected">No se ha seleccionado dispositivo Bluetooth.</string>
     <string name="status_gps_stopped">detenido</string>
     <string name="status_no_bluetooth_id">no disponible</string>
-    <string name="status_obd_disconnected">desconectado</string>
+    <string name="status_obd_connected">OBD Connectado</string>
+    <string name="status_obd_disconnected">OBD Desconectado</string>
+    <string name="status_obd_data">Recibiendo Datos...</string>
+    <string name="status_obd_data_stopped">Datos detenidos</string>
     <string name="text_no_bluetooth_id">Lo sentimos, su dispositivo no soporta Bluetooth</string>
     <string name="text_no_gps_support">GPS no activado.</string>
     <string name="text_bluetooth_nodevice">Dispositivo Bluetooth no seleccionado</string>
@@ -60,7 +61,6 @@
     <string name="status_gps_no_fix">fix no adquirida</string>
     <string name="status_gps_not_used">no utilizado</string>
     <string name="status_gps_started">iniciado</string>
-    <string name="status_obd_data">recibiendo información...</string>
     <string name="text_no_orientation_sensor">Sensor de orientación no encontrado</string>
     <string name="select_device">Elegir Dispositivo OBD2</string>
     <string name="about">Acerca De</string>
@@ -79,5 +79,7 @@
     <string name="finish_map">Finalizar búsqueda </string>
     <string name="gas_station">Búsqueda de estaciones de servicio </string>
     <string name="car_repair">Búsqueda de talleres mecánicos </string>
+    <string name="selected_device">Seleccionado: \n</string>
+
 
 </resources>

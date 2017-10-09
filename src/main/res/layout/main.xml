@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_weight="0.09"
-            android:drawableStart="@drawable/ic_directions_car_black_24dp"
+            android:drawableLeft="@drawable/ic_directions_car_black_24dp"
             android:onClick="startErrorCodesActivity"
             android:text="@string/error_codes_text_button"
             android:textAllCaps="false" />
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_weight="0.08"
-            android:drawableStart="@drawable/ic_place_black_24dp"
+            android:drawableLeft="@drawable/ic_place_black_24dp"
             android:onClick="startMapsActivity"
             android:text="@string/service_finder_text_button"
             android:textAllCaps="false" />

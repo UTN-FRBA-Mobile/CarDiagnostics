@@ -4,23 +4,46 @@
     android:id="@+id/vehicle_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
     tools:context="com.cardiag.activity.StateActivity"
     android:weightSum="1">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/obd_status"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginRight="7.5dp"
+            android:textColor="@android:color/white"
+            android:background="#EB4E7A7E"/>
+
+        <TextView
+            android:id="@+id/obd_data_status"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginLeft="7.5dp"
+            android:background="#EB4E7A7E"/>
     </TableRow>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
     <GridView
 
         android:id="@+id/data_grid"
         android:layout_width="fill_parent"
         android:layout_height="373dp"
-        android:layout_weight="0.81"
+        android:layout_weight="1"
         android:fadingEdgeLength="0px"
         android:horizontalSpacing="15dp"
         android:numColumns="2"

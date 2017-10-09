@@ -30,8 +30,6 @@
     <string name="menu_fuel">Fuel</string>
     <string name="menu_customized">Customize</string>
     <string name="menu_reconnect">Customize</string>
-    <string name="live_data_stopped">Live Data Stopped</string>
-    <string name="starting_live_data">Starting live data..</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_get_dtc">Get DTC</string>
     <string name="text_gps" translatable="false">GPS</string>
@@ -71,9 +69,12 @@
     <string name="status_obd_ready">OK</string>
     <string name="status_obd_configured">Connection configured</string>
     <string name="status_obd_configuring">configuring</string>
-    <string name="status_obd_data">receiving data&#8230;</string>
-    <string name="status_obd_disconnected">disconnected</string>
     <string name="status_obd_no_support">NA</string>
+    <string name="status_obd_connected">OBD Connected</string>
+    <string name="status_obd_disconnected">OBD Disconnected</string>
+    <string name="status_obd_data">Receiving data...</string>
+    <string name="status_obd_data_stopped">Live Data Stopped</string>
+    <string name="starting_live_data">Starting live data..</string>
     <string name="pref_upload_title">Enable Data Upload</string>
     <string name="pref_upload_summaryOff">Enable http data upload</string>
     <string name="pref_upload_summaryOn">Disable http data upload</string>
@@ -134,6 +135,7 @@
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="about_message">Car-Diagnostic was developed by: </string>
+    <string name="selected_device">Selected: \n</string>
 
     <string-array name="developers">
         <item> Coello, Leandro</item>

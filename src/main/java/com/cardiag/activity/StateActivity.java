@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cardiag.R;
@@ -35,6 +36,7 @@ import com.cardiag.utils.ConfirmDialog;
 import com.cardiag.utils.ObdCommandAdapter;
 import com.cardiag.utils.ObdCommandCheckAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +55,9 @@ public class  StateActivity extends AppCompatActivity  {
     private MenuItem selectCommands;
     private Button botonPlay;
     private Button botonStop;
-        private SensorManager sensorManager;
+    private TextView obdStatus;
+    private TextView obdDataStatus;
+    private SensorManager sensorManager;
     private PowerManager.WakeLock wakeLock;
 //    private SharedPreferences prefs;
     private ArrayList<Boolean> availablePidsFlags = new ArrayList<Boolean>();
@@ -108,11 +112,11 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     private void doBindings() {
-    //TODO Para cuando agreguemos la vista en serio.
         gridView = (GridView) findViewById(R.id.data_grid);
         botonPlay = (Button) findViewById(R.id.botonPlay);
         botonStop = (Button) findViewById(R.id.botonStop);
-
+        obdStatus = (TextView) findViewById(R.id.obd_status);
+        obdDataStatus = (TextView) findViewById(R.id.obd_data_status);
     }
 
     @Override
@@ -195,7 +199,7 @@ public class  StateActivity extends AppCompatActivity  {
         dbService.resetSelection();
 
         String[] args = new String[]{menu_item_description};
-        ArrayList<ObdCommand> nuevaList = dbService.getGroupCommands(args);
+        ArrayList<ObdCommand> nuevaList = dbService.getCategoryCommands(args);
         List<ObdCommand> auxList = mergeCommandLists(nuevaList);
         selectedCommands.clear();
         selectedCommands.addAll(auxList);
@@ -206,8 +210,8 @@ public class  StateActivity extends AppCompatActivity  {
         botonPlay.setEnabled(false);
         botonStop.setEnabled(true);
         selectCommands.setEnabled(false);
+        obdDataStatus.setText(getString(R.string.status_obd_data));
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        showToast(getString(R.string.starting_live_data));
 
         if (stateTask != null && !stateTask.isCancelled()) {
             stateTask.cancel(true);
@@ -222,12 +226,12 @@ public class  StateActivity extends AppCompatActivity  {
         botonPlay.setEnabled(true);
         botonStop.setEnabled(false);
         selectCommands.setEnabled(true);
+        obdDataStatus.setText(getString(R.string.status_obd_data_stopped));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (stateTask != null) {
             stateTask.cancel(true);
             stateTask = null;
         }
-        showToast(getString(R.string.live_data_stopped));
     }
 
     public void showToast(String msg) {
@@ -363,13 +367,21 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     public void cancelTasks() {
-        if (cct != null && !cct.isCancelled()) {
+        if (cct != null && (!cct.isCancelled() || cct.getStatus() == AsyncTask.Status.RUNNING)) {
             cct.cancel(true);
             cct = null;
         }
-        if(stateTask !=null && !stateTask.isCancelled()) {
+        if(stateTask !=null && (!stateTask.isCancelled()|| stateTask.getStatus() == AsyncTask.Status.RUNNING)) {
             stateTask.cancel(true);
             stateTask = null;
+        }
+
+        if (sock != null) {
+            try {
+                sock.close();
+            } catch (IOException e) {
+                showToast(e.getMessage());
+            }
         }
     }
 
@@ -382,6 +394,13 @@ public class  StateActivity extends AppCompatActivity  {
         botonStop.setEnabled(prepare);
         selectCommands.setEnabled(prepare);
         reconnect.setEnabled(!prepare);
+    }
+
+    public void setObdStatusText(String text) {
+        obdStatus.setText(text);
+    }
+    public void setObdDataStatusText(String text) {
+        obdDataStatus.setText(text);
     }
 
     @Override

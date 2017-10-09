@@ -104,7 +104,7 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
         String ok = stateActivity.getString(R.string.status_obd_ready);
 
         if (TextUtils.equals(result, ok)) {
-            stateActivity.showToast(stateActivity.getString(R.string.live_data_stopped));
+            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
         } else {
             String title = stateActivity.getString(R.string.error);
             sock = null;

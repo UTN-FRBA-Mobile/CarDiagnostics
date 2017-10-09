@@ -1,14 +1,10 @@
 package com.cardiag.models.runnable;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -32,7 +28,6 @@ import com.cardiag.models.commands.protocol.SelectProtocolCommand;
 import com.cardiag.models.commands.protocol.SpacesOffCommand;
 import com.cardiag.models.commands.protocol.TimeoutCommand;
 import com.cardiag.persistence.DataBaseService;
-import com.cardiag.persistence.ObdCommandContract;
 import com.cardiag.utils.BluetoothConnectionListener;
 import com.cardiag.utils.BluetoothManager;
 import com.cardiag.utils.ConfirmDialog;
@@ -42,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Leo on 29/7/2017.
@@ -57,6 +53,8 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
     private ArrayList<Boolean> flags = new ArrayList<Boolean>();
     private ProgressDialog progressDialog;
     private DataBaseService dataBaseService;
+    private ConnectionConfigTask cct = this;
+    private BluetoothSocket sock;
 
 
     public ConnectionConfigTask(StateActivity stateActivity) {
@@ -69,6 +67,7 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
 
         this.configured = stateActivity.getString(R.string.status_obd_configured);
         this.configuring = stateActivity.getString(R.string.status_obd_configuring);
+
     }
 
     @Override
@@ -86,6 +85,21 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
         //Set the current progress to zero
         progressDialog.setProgress(0);
         //Display the progress dialog
+        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                try {
+                    cct.closeSocket();
+                } catch (IOException e) {
+                    stateActivity.showToast(e.getMessage());
+                }
+                stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
+                stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
+                stateActivity.prepareButtons(false);
+                stateActivity.showToast(stateActivity.getString(R.string.state_dialog_error_initiating));
+                cct.cancel(true);
+            }
+        });
         progressDialog.show();
     }
 
@@ -108,9 +122,9 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
         }
 
         dataBaseService.setSelection();
-        String where = ObdCommandContract.CommandEntry.AVAILABILITY+"=? AND "+ObdCommandContract.CommandEntry.SELECTED+"=?";
-        String[] values = new String[]{"1","1"};
-        ArrayList<ObdCommand> filteredAndSelected = dataBaseService.getCommands(where, values);
+        String[] values = new String[]{"Tablero"};
+        ArrayList<ObdCommand> filteredAndSelected = dataBaseService.getCategoryCommands(values);
+        Collections.sort(filteredAndSelected);
         result.setCommands(filteredAndSelected);
         result.setError(false);
 
@@ -132,7 +146,6 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
 
     private BluetoothSocket initiateConnection() throws IOException {
         prefs = PreferenceManager.getDefaultSharedPreferences(stateActivity);
-        BluetoothSocket sock;
 
         // get the remote Bluetooth device
         final String remoteDevice = prefs.getString(ConfigActivityMain.BLUETOOTH_LIST_KEY, null);
@@ -266,20 +279,32 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
             BluetoothConnectionListener btListener = new BluetoothConnectionListener();
             stateActivity.registerReceiver(btListener, filter);
             stateActivity.prepareButtons(true);
+            stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_connected));
 
         } else {
             String title = stateActivity.getString(R.string.error);
             stateActivity.prepareButtons(false);
+            stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
             ConfirmDialog.showCancellingDialog(stateActivity, title, progress.getProgressMessage(), false);
         }
+        stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
     }
 
     @Override
     protected void onCancelled() {
+        try {
+            closeSocket();
+        } catch (IOException e) {
+            stateActivity.showToast(e.getMessage());
+        }
         progressDialog.dismiss();
-//        super.onCancelled();
+        super.onCancelled();
     }
-
+    private void closeSocket() throws IOException {
+        if (sock != null) {
+            sock.close();
+        }
+    }
     public ProgressDialog getProgressDialog() {
         return progressDialog;
     }

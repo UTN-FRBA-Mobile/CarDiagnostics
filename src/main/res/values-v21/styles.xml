@@ -25,6 +25,12 @@
         <item name="android:typeface">sans</item>
     </style>
 
+    <style name="MainPreferenceTheme" parent="AppTheme">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+
     <style name="CustomActionBar" parent="android:Widget.ActionBar">
         <item name="android:background">#006064</item>
         <item name="android:titleTextStyle">@style/CustomTitle</item>

@@ -379,7 +379,7 @@ public class DataBaseService extends SQLiteOpenHelper {
         return cmds;
     }
 
-    public ArrayList<ObdCommand> getGroupCommands(String[] groups) {
+    public ArrayList<ObdCommand> getCategoryCommands(String[] groups) {
         cardiagDB = this.getReadableDatabase();
         ArrayList<ObdCommand> cmds = new ArrayList<ObdCommand>();
 
