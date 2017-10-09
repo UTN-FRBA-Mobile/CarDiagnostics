@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
@@ -85,7 +86,7 @@ public class  StateActivity extends AppCompatActivity  {
         if (btAdapter != null && btAdapter.isEnabled()) {
             bluetoothDefaultIsEnable = btAdapter.isEnabled();
             initiateConfiguration();
-        } else {
+       } else {
             String error = getString(R.string.error);
             String msg = getString(R.string.text_bluetooth_disabled);
             ConfirmDialog.showCancellingDialog(this, error, msg, true);
@@ -392,8 +393,10 @@ public class  StateActivity extends AppCompatActivity  {
     public void prepareButtons(Boolean prepare){
         botonPlay.setEnabled(prepare);
         botonStop.setEnabled(prepare);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         selectCommands.setEnabled(prepare);
         reconnect.setEnabled(!prepare);
+        }
     }
 
     public void setObdStatusText(String text) {
