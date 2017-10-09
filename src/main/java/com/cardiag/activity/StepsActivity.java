@@ -5,11 +5,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 
 import com.cardiag.R;
 import com.cardiag.fragments.MyFragmentPagerAdapter;
 import com.cardiag.fragments.StepFragment;
+import com.cardiag.models.commands.entities.Category;
 import com.cardiag.models.solutions.Step;
 import com.cardiag.persistence.DataBaseService;
 
@@ -30,8 +34,7 @@ public class StepsActivity extends AppCompatActivity {
 
         // Create an adapter with the fragments we show on the ViewPager
         addFragments();
-      //  addFrag2();
-        //this.removeFragment();
+
         //Floating Action Button
         FloatingActionButton btnFab = (FloatingActionButton) findViewById(R.id.backButton);
         btnFab.setOnClickListener(new View.OnClickListener() {
@@ -41,6 +44,13 @@ public class StepsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        btnFab.setVisibility(View.GONE);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
    private void addFragments() {
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(

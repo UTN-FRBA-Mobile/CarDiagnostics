@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-
+      <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+          <item name="colorPrimary">#4D7C8A</item>
+          <item name="colorPrimaryDark">#006064</item>
     </style>
     <!-- Celu de leo -->
     <!-- Application theme. -->

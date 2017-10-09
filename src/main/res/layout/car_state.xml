@@ -4,9 +4,10 @@
     android:id="@+id/vehicle_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondo_auto_back"
     android:orientation="vertical"
-    tools:context="com.cardiag.activity.StateActivity"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:context="com.cardiag.activity.StateActivity">
 
     <Space
         android:layout_width="match_parent"
@@ -19,25 +20,26 @@
         <TextView
             android:id="@+id/obd_status"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
             android:layout_marginRight="7.5dp"
-            android:textColor="@android:color/white"
-            android:background="#EB4E7A7E"/>
+            android:layout_weight="1"
+            android:background="#EB4E7A7E"
+            android:gravity="center"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/obd_data_status"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/white"
-            android:gravity="center"
             android:layout_marginLeft="7.5dp"
-            android:background="#EB4E7A7E"/>
+            android:layout_weight="1"
+            android:background="#EB4E7A7E"
+            android:gravity="center"
+            android:textColor="@color/white" />
     </TableRow>
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="10dp" />
+
     <GridView
 
         android:id="@+id/data_grid"
@@ -58,25 +60,25 @@
 
         <Button
             android:id="@+id/botonPlay"
-            android:layout_weight="1"
             android:layout_height="56dp"
-            android:padding="16dp"
-            android:textSize="10sp"
-            android:text="Iniciar datos"
+            android:layout_weight="1"
             android:drawableLeft="@mipmap/ic_play"
             android:enabled="true"
-            android:onClick="startLiveData" />
+            android:onClick="startLiveData"
+            android:padding="16dp"
+            android:text="Iniciar datos"
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/botonStop"
-            android:layout_weight="1"
             android:layout_height="56dp"
-            android:padding="16dp"
-            android:textSize="10sp"
-            android:text="Detener datos"
+            android:layout_weight="1"
             android:drawableLeft="@mipmap/ic_stop"
             android:enabled="false"
-            android:onClick="stopLiveData" />
+            android:onClick="stopLiveData"
+            android:padding="16dp"
+            android:text="Detener datos"
+            android:textSize="10sp" />
     </TableRow>
 
 
