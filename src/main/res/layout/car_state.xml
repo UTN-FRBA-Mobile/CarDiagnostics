@@ -62,6 +62,7 @@
             android:id="@+id/botonPlay"
             android:layout_height="56dp"
             android:layout_weight="1"
+            android:contentDescription="Iniciar datos"
             android:drawableLeft="@mipmap/ic_play"
             android:enabled="true"
             android:onClick="startLiveData"
