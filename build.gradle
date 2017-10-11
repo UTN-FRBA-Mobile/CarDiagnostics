@@ -11,6 +11,7 @@ buildscript {
 repositories {
     mavenLocal()
     mavenCentral()
+
 }
 
 apply plugin: 'com.android.application'
@@ -18,6 +19,7 @@ apply plugin: 'com.android.application'
 repositories {
     mavenLocal()
     mavenCentral()
+    jcenter()
 }
 
 android {
@@ -58,5 +60,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:+'
+    compile 'com.ogaclejapan.smarttablayout:library:1.2.1@aar'
     testCompile 'junit:junit:4.12'
 }

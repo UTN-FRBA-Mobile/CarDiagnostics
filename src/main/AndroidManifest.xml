@@ -63,6 +63,9 @@
         <activity
             android:name=".activity.ErrorSearchActivity"
             android:label="@string/title_activity_error_search"></activity>
+
+        <activity android:name=".onboarding.onBoardingActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

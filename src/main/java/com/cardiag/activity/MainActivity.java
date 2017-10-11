@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.cardiag.R;
 import com.cardiag.utils.ConfirmDialog;
+import com.cardiag.onboarding.onBoardingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +36,19 @@ public class MainActivity extends AppCompatActivity {
         errorCodesBtn = (Button) findViewById(R.id.error_codes);
         serviceFinderBtn = (Button) findViewById(R.id.service_finder);
         aboutStr = getAboutMessage();
+// Get the shared preferences
+        SharedPreferences preferences =  getSharedPreferences("my_preferences", MODE_PRIVATE);
 
+// Check if onboarding_complete is false
+        if(!preferences.getBoolean("onboarding_complete",false)) {
+            // Start the onboarding Activity
+            Intent onboarding = new Intent(this, onBoardingActivity.class);
+            startActivity(onboarding);
+
+            // Close the main Activity
+            finish();
+            return;
+        }
         //Typeface type = Typeface.createFromAsset(getAssets(),"robotottf/Roboto-BoldItalic.ttf");
         //errorCodesBtn.setTypeface(type);
     }
