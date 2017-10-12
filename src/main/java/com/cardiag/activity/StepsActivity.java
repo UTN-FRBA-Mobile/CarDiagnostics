@@ -16,6 +16,7 @@ import com.cardiag.fragments.StepFragment;
 import com.cardiag.models.commands.entities.Category;
 import com.cardiag.models.solutions.Step;
 import com.cardiag.persistence.DataBaseService;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 public class StepsActivity extends AppCompatActivity {
     MyFragmentPagerAdapter pagerAdapter;
     ViewPager pager = null;
+    private SmartTabLayout indicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,9 @@ public class StepsActivity extends AppCompatActivity {
         });
         btnFab.setVisibility(View.GONE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        indicator = (SmartTabLayout)findViewById(R.id.indicator);
+        indicator.setViewPager(pager);
     }
     @Override
     public boolean onSupportNavigateUp(){

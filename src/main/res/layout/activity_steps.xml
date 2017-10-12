@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,13 +11,14 @@
     tools:context="com.cardiag.activity.StepsActivity">
 
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2.70"
-        android:background="@android:drawable/screen_background_dark" />
+        android:background="@android:drawable/screen_background_dark" >
+
+    </android.support.v4.view.ViewPager>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/backButton"
@@ -27,6 +29,17 @@
         app:fabSize="mini"
         app:layout_anchorGravity="top|right|end"
         app:srcCompat="@android:drawable/btn_dialog" />
+
+    <com.ogaclejapan.smarttablayout.SmartTabLayout
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:stl_dividerThickness="0dp"
+        app:layout_anchorGravity="bottom|right|end"
+        app:stl_indicatorColor="#015987" />
+
+
 
 </android.support.design.widget.CoordinatorLayout>
 

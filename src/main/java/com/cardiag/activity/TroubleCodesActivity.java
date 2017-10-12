@@ -485,6 +485,9 @@ public class TroubleCodesActivity extends AppCompatActivity {
 //        troubleCodesAdapter = new ArrayAdapter<TroubleCode>(this, android.R.layout.simple_list_item_1, troubleCodes);
         troubleCodesAdapter = new ErrorAdapter(this,troubleCodes);
         lv.setAdapter(troubleCodesAdapter);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     private void showSolution(Solution solution) {
