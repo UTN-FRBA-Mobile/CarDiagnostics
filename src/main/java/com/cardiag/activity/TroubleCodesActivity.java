@@ -145,7 +145,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-       remoteDevice = prefs.getString(ConfigActivity.BLUETOOTH_LIST_KEY, null);
+        remoteDevice = prefs.getString(ConfigActivity.BLUETOOTH_LIST_KEY, null);
         initialice();
 
         if (remoteDevice == null || "".equals(remoteDevice) || remoteDevice.equals("1C:5A:3E:12:AB:5A") ) {
@@ -487,7 +487,6 @@ public class TroubleCodesActivity extends AppCompatActivity {
         lv.setAdapter(troubleCodesAdapter);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void showSolution(Solution solution) {
@@ -496,4 +495,9 @@ public class TroubleCodesActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
 }

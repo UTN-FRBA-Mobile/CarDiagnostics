@@ -1,14 +1,19 @@
 package com.cardiag.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.cardiag.R;
 import com.cardiag.fragments.MyFragmentPagerAdapter;
@@ -51,7 +56,25 @@ public class StepsActivity extends AppCompatActivity {
 
         indicator = (SmartTabLayout)findViewById(R.id.indicator);
         indicator.setViewPager(pager);
+     //   this.addButtons();
     }
+
+    private void addButtons() {
+        CoordinatorLayout ll = (CoordinatorLayout)findViewById(R.id.activity_steps);
+        Button b = new Button(this);
+        b.setText("Omitir");
+
+        RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+      //  lp2.addRule(RelativeLayout.CENTER_VERTICAL);
+      //  lp2.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//        b.setId(900000);
+        lp2.addRule(RelativeLayout.ALIGN_PARENT_END);
+        lp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        b.setLayoutParams(lp2);
+        ll.addView(b);
+
+    }
+
     @Override
     public boolean onSupportNavigateUp(){
         finish();

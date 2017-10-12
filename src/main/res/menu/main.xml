@@ -5,4 +5,6 @@ xmlns:android="http://schemas.android.com/apk/res/android">
     android:title="@string/select_device" />
 <item android:id="@+id/about"
     android:title="@string/about" />
+    <item android:id="@+id/tutorial"
+        android:title="@string/show_tutorial" />
 </menu>

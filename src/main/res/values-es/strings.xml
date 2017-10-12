@@ -80,6 +80,6 @@
     <string name="gas_station">Búsqueda de estaciones de servicio </string>
     <string name="car_repair">Búsqueda de talleres mecánicos </string>
     <string name="selected_device">Seleccionado: \n</string>
-
+    <string name="show_tutorial">Ver tutorial</string>
 
 </resources>

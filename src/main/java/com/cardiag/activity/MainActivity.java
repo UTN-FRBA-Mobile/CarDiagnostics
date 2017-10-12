@@ -41,16 +41,21 @@ public class MainActivity extends AppCompatActivity {
 
 // Check if onboarding_complete is false
         if(!preferences.getBoolean("onboarding_complete",false)) {
-            // Start the onboarding Activity
-            Intent onboarding = new Intent(this, onBoardingActivity.class);
-            startActivity(onboarding);
 
-            // Close the main Activity
-            finish();
+            showTutorial();
             return;
         }
         //Typeface type = Typeface.createFromAsset(getAssets(),"robotottf/Roboto-BoldItalic.ttf");
         //errorCodesBtn.setTypeface(type);
+    }
+
+    private void showTutorial() {
+        Intent onboarding = new Intent(this, onBoardingActivity.class);
+        startActivity(onboarding);
+
+        // Close the main Activity
+        finish();
+        return;
     }
 
     public boolean enableBluetooth(int requestCode) {
@@ -78,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.about:
                 ConfirmDialog.showDialog(this, getString(R.string.about), aboutStr,getLayoutInflater());
+                return true;
+            case R.id.tutorial:
+                showTutorial();
                 return true;
 
             default:
