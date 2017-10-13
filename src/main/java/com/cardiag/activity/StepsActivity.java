@@ -25,11 +25,15 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.ArrayList;
 
+import static com.cardiag.R.id.saltar;
+import static com.cardiag.R.id.siguiente;
+
 
 public class StepsActivity extends AppCompatActivity {
     MyFragmentPagerAdapter pagerAdapter;
     ViewPager pager = null;
     private SmartTabLayout indicator;
+    private int size =-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,51 @@ public class StepsActivity extends AppCompatActivity {
 
         indicator = (SmartTabLayout)findViewById(R.id.indicator);
         indicator.setViewPager(pager);
+
+        initaliceNavigation();
      //   this.addButtons();
+    }
+
+    private void initaliceNavigation() {
+        final FloatingActionButton btnFabLeft = (FloatingActionButton) findViewById(R.id.swipe_left);
+        final FloatingActionButton btnFabRight = (FloatingActionButton) findViewById(R.id.swipe_right);
+
+        btnFabLeft.setVisibility(View.INVISIBLE);
+        btnFabRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pager.setCurrentItem(
+                        pager.getCurrentItem() + 1,
+                        true
+                );
+            }
+        });
+        btnFabLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pager.setCurrentItem(
+                        pager.getCurrentItem() - 1,
+                        true
+                );
+            }
+        });
+
+        indicator.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0){
+                    btnFabLeft.setVisibility(View.INVISIBLE);
+                    return;
+                }
+                if(position == size-1){
+                    btnFabRight.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    btnFabLeft.setVisibility(View.VISIBLE);
+                    btnFabRight.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void addButtons() {
@@ -80,13 +128,14 @@ public class StepsActivity extends AppCompatActivity {
         finish();
         return true;
     }
+
    private void addFragments() {
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(
                getSupportFragmentManager());
        int id = 1;
 
        ArrayList<Step> steps = new DataBaseService(this).getSteps(id);
-       int size = steps.size();
+       size = steps.size();
        for(int index = 0; index< size; index++){
            adapter.addFragment(StepFragment.newInstance(steps.get(index), index+1,size,this));
        }
@@ -95,16 +144,6 @@ public class StepsActivity extends AppCompatActivity {
       //  this.pager.setPageTransformer(true, new ZoomOutPageTransformer());
     }
 
-/*    private void addFragments() {
-        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(
-                getSupportFragmentManager());
-        Step step = new Step();
-        adapter.addFragment(StepFragment.newInstance(step, 0,this));
-        adapter.addFragment(StepFragment.newInstance(step, 1,this));
-        this.pager.setAdapter(adapter);
-
-        this.pager.setPageTransformer(true, new ZoomOutPageTransformer());
-    }*/
     private void removeFragment() {
 
     }

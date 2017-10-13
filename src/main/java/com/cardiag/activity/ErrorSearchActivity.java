@@ -1,7 +1,9 @@
 package com.cardiag.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
@@ -49,18 +51,10 @@ public class ErrorSearchActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getString(R.string.app_name));
     }
 
-    public void searchError(View v){
-        progress.setVisibility(View.VISIBLE);
-          web1.loadUrl("http://www.google.com.ar/search?q=" + errorCode + "+" + edtSearch.getText());
-        web1.setBackgroundColor(Color.TRANSPARENT);
-        WebSettings webSettings=web1.getSettings();
-       // webSettings.setJavaScriptEnabled(true);
-
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+    public void searchError(View v) {
+    Uri uri = Uri.parse("http://www.google.com.ar/search?q=" + errorCode + "+" + edtSearch.getText());
+    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+    startActivity(intent);
     }
 
 }
