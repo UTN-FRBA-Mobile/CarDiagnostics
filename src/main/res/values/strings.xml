@@ -158,8 +158,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_error_search">ErrorSearchActivity</string>
     <string name="title_activity_tutorial">TutorialActivity</string>
-    <string name="tutorial_3">Ingrese al menú y seleccione el dispositivo vinculado previamente</string>
-    <string name="tutorial_2">Vincule su bluetooth con el ODB</string>
-    <string name="tutorial_1">Conecte el OBD al vehículo</string>
-    <string name="tutorial_welcome">Bienvenido!</string>
+    <string name="tutorial_3">Enter the menu and select the previously linked device</string>
+    <string name="tutorial_2">Link your bluetooth with OBD</string>
+    <string name="tutorial_1">Connect the OBD to the vehicle</string>
+    <string name="tutorial_welcome">Welcome!</string>
 </resources>

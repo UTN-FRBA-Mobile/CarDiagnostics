@@ -70,7 +70,6 @@ public class ConfigActivityMain extends PreferenceActivity  {
         listBtDevices.setEntryValues(new CharSequence[1]);
         listBtDevices.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-//                selectedDevice.setText(listBtDevices.getValue());
                 if (mBtAdapter == null || !mBtAdapter.isEnabled()) {
                     Toast.makeText(thisActivity,
                             "This device does not support Bluetooth or it is disabled.",
@@ -91,7 +90,6 @@ public class ConfigActivityMain extends PreferenceActivity  {
                 vals.add(device.getAddress());
             }
         }
-//        listBtDevices.setSummary();
         listBtDevices.setEntries(pairedDeviceStrings.toArray(new CharSequence[0]));
         listBtDevices.setEntryValues(vals.toArray(new CharSequence[0]));
 
@@ -99,7 +97,12 @@ public class ConfigActivityMain extends PreferenceActivity  {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 editTextPref.setTitle("Dispositivo seleccionado:");
-                editTextPref.setSummary(listBtDevices.getEntry());
+                for(int i = 0; i < listBtDevices.getEntries().length; i++){
+                    String entry = (String) listBtDevices.getEntries()[i];
+                    if(entry.contains(newValue.toString())){
+                        editTextPref.setSummary(entry);
+                    }
+                }
                 return true;
             }
         });

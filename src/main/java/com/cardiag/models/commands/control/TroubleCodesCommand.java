@@ -1,6 +1,9 @@
 package com.cardiag.models.commands.control;
 
+import android.text.TextUtils;
+
 import com.cardiag.models.commands.ObdCommand;
+import com.cardiag.models.exceptions.BadResponseException;
 import com.cardiag.utils.enums.AvailableCommandNames;
 
 import java.io.IOException;
@@ -29,6 +32,19 @@ public class TroubleCodesCommand extends ObdCommand {
     public TroubleCodesCommand() {
         super("03", 1000);
         codes = new StringBuilder();
+    }
+
+    protected void validateData() throws BadResponseException {
+    }
+
+    protected void validateResponse() throws RuntimeException{
+
+        //Checking for the response to match with the command's
+        String responseHeader = "4"+cmd.substring(1,2);
+        String responseHeaderReceived = rawData.substring(0,2);
+        if (!TextUtils.equals(responseHeader, responseHeaderReceived)) {
+            throw new BadResponseException();
+        }
     }
 
     public TroubleCodesCommand(TroubleCodesCommand other) {
