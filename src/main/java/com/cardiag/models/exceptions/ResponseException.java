@@ -19,8 +19,11 @@ public class ResponseException extends RuntimeException {
      *
      * @param message a {@link String} object.
      */
-    protected ResponseException(String message) {
+    public ResponseException(String message) {
         this.message = message;
+    }
+
+    public ResponseException() {
     }
 
     /**

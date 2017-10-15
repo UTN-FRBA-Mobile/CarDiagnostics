@@ -36,17 +36,15 @@ public class MainActivity extends AppCompatActivity {
         errorCodesBtn = (Button) findViewById(R.id.error_codes);
         serviceFinderBtn = (Button) findViewById(R.id.service_finder);
         aboutStr = getAboutMessage();
-// Get the shared preferences
+        // Get the shared preferences
         SharedPreferences preferences =  getSharedPreferences("my_preferences", MODE_PRIVATE);
 
-// Check if onboarding_complete is false
+        // Check if onboarding_complete is false
         if(!preferences.getBoolean("onboarding_complete",false)) {
 
             showTutorial();
             return;
         }
-        //Typeface type = Typeface.createFromAsset(getAssets(),"robotottf/Roboto-BoldItalic.ttf");
-        //errorCodesBtn.setTypeface(type);
     }
 
     private void showTutorial() {

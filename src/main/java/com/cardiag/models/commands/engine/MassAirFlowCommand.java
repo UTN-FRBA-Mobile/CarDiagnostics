@@ -16,6 +16,7 @@ public class MassAirFlowCommand extends ObdCommand {
      */
     public MassAirFlowCommand() {
         super("0110", 15);
+        digitCount = 8;
     }
 
     @Override

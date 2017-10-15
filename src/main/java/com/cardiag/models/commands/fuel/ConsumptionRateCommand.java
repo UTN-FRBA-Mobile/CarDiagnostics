@@ -16,6 +16,7 @@ public class ConsumptionRateCommand extends ObdCommand {
      */
     public ConsumptionRateCommand() {
         super("015E", 93);
+        digitCount = 8;
     }
 
     public ConsumptionRateCommand(ConsumptionRateCommand other) {

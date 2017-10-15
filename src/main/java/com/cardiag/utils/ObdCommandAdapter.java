@@ -1,6 +1,7 @@
 package com.cardiag.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,9 +65,10 @@ public class ObdCommandAdapter extends BaseAdapter {
         ObdCommand cmd = cmds.get(position);
         cmdName.setText(cmd.getName() + ": ");
         cmdValue.setText(cmd.getFormattedResult());
-
-
-
+        cmdValue.setTextColor(Color.BLACK);
+        if (cmd.getError()) {
+            cmdValue.setTextColor(Color.RED);
+        }
 
         cmd.setVelocimetroProperties(velocimetro);
 

@@ -27,6 +27,7 @@ import com.cardiag.models.commands.protocol.ObdResetCommand;
 import com.cardiag.models.commands.protocol.SelectProtocolCommand;
 import com.cardiag.models.commands.protocol.SpacesOffCommand;
 import com.cardiag.models.commands.protocol.TimeoutCommand;
+import com.cardiag.models.config.ObdCommandSingleton;
 import com.cardiag.persistence.DataBaseService;
 import com.cardiag.utils.BluetoothConnectionListener;
 import com.cardiag.utils.BluetoothManager;
@@ -55,6 +56,7 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
     private DataBaseService dataBaseService;
     private ConnectionConfigTask cct = this;
     private BluetoothSocket sock;
+    private Integer waitTime = ObdCommandSingleton.waitTime;
 
 
     public ConnectionConfigTask(StateActivity stateActivity) {
@@ -239,7 +241,7 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
             if (! cmd.isAvailable(flags)) {
                 break;
             }
-            Thread.sleep(400);
+            Thread.sleep(waitTime);
             cmd.run(inputStream, outputStream);
             flags.addAll(cmd.getFlags());
         }
@@ -249,7 +251,7 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
     public void runCommands(ArrayList<ObdCommand> cmds, InputStream is, OutputStream os) throws IOException, InterruptedException {
 
         for (ObdCommand cmd : cmds) {
-            Thread.sleep(400);
+            Thread.sleep(waitTime);
             cmd.run(is, os);
         }
     }

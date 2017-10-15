@@ -57,6 +57,8 @@
     <string name="text_dtc_no_data">No hay DTC guardado</string>
     <string name="text_save_trip_not_available">Disculpas, el viaje no será guardado.</string>
     <string name="text_obd_command_failure">Error en comando OBD</string>
+    <string name="text_obd_command_exception">Error al recibir datos.</string>
+    <string name="text_obd_command_exception2">Error al recibir datos. Por favor intente de nuevo.</string>
     <string name="status_gps_fix">fix adquirida</string>
     <string name="status_gps_no_fix">fix no adquirida</string>
     <string name="status_gps_not_used">no utilizado</string>
@@ -81,5 +83,9 @@
     <string name="car_repair">Búsqueda de talleres mecánicos </string>
     <string name="selected_device">Seleccionado: \n</string>
     <string name="show_tutorial">Ver tutorial</string>
+    <string name="tutorial_3">Ingrese al menú y seleccione el dispositivo vinculado previamente</string>
+    <string name="tutorial_2">Vincule su bluetooth con el ODB</string>
+    <string name="tutorial_1">Conecte el OBD al vehículo</string>
+    <string name="tutorial_welcome">Bienvenido!</string>
 
 </resources>

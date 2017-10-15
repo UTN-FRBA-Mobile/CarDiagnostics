@@ -1,8 +1,11 @@
 package com.cardiag.models.commands;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.text.TextUtils;
 
+import com.cardiag.R;
 import com.cardiag.models.exceptions.*;
 import com.cardiag.velocimetro.Velocimetro;
 
@@ -41,6 +44,9 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
     private Integer pos;
     private Boolean selected = true;
     private String name;
+    protected Integer digitCount = 6;
+    private Boolean error = false;
+
     /**
      * Default ctor to use
      *
@@ -146,9 +152,13 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
      */
     protected void readResult(InputStream in) throws IOException {
         readRawData(in);
-        checkForErrors();
-        fillBuffer();
-        performCalculations();
+        try {
+            checkForErrors();
+            fillBuffer();
+            performCalculations();
+        } catch (BadResponseException e)  {
+            //do stuff
+        }
     }
 
     /**
@@ -234,7 +244,9 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
         rawData = removeAll(WHITESPACE_PATTERN, rawData);//removes all [ \t\n\x0B\f\r]
     }
 
-    void checkForErrors() {
+    protected void checkForErrors() {
+        validateResponse();
+        validateData();
         for (Class<? extends ResponseException> errorClass : ERROR_CLASSES) {
             ResponseException messageError;
 
@@ -250,6 +262,28 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
             if (messageError.isError(rawData)) {
                 throw messageError;
             }
+        }
+    }
+
+    protected void validateData() throws BadResponseException{
+        if (TextUtils.equals(cmd.substring(0,1), "A")) {
+            return;
+        }
+        if (rawData.length() < digitCount) {
+            error = true;
+            throw new BadResponseException();
+        }
+    }
+
+    protected void validateResponse() throws RuntimeException{
+        if (TextUtils.equals(cmd.substring(0,1), "A")) {
+            return;
+        }
+        //Checking for the response to match with the command's
+        String responseHeader = "4"+cmd.substring(1,4);
+        String responseHeaderReceived = rawData.substring(0,4);
+        if (!TextUtils.equals(responseHeader, responseHeaderReceived)) {
+            throw new BadResponseException();
         }
     }
 
@@ -444,6 +478,14 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
         }
 
         return res;
+    }
+
+    public Boolean getError() {
+        return error;
+    }
+
+    public void setError(Boolean error) {
+        this.error = error;
     }
 
     public Integer getPos() {

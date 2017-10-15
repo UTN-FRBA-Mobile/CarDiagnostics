@@ -18,6 +18,7 @@ public class DistanceMILOnCommand extends ObdCommand
      */
     public DistanceMILOnCommand() {
         super("0121", 32);
+        digitCount = 8;
     }
 
     public DistanceMILOnCommand(

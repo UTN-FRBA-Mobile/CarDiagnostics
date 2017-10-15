@@ -14,6 +14,7 @@ public class AbsoluteLoadCommand extends PercentageObdCommand {
      */
     public AbsoluteLoadCommand() {
         super("0143", 66);
+        digitCount = 8;
     }
 
     public AbsoluteLoadCommand(AbsoluteLoadCommand other) {

@@ -16,6 +16,7 @@ public class AirFuelRatioCommand extends ObdCommand {
      */
     public AirFuelRatioCommand() {
         super("0144", 67);
+        digitCount = 8;
     }
 
 
