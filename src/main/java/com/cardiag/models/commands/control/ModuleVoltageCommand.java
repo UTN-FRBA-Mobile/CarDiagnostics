@@ -17,6 +17,7 @@ public class ModuleVoltageCommand extends ObdCommand {
      */
     public ModuleVoltageCommand() {
         super("0142", 65);
+        digitCount = 8;
     }
 
     public ModuleVoltageCommand(ModuleVoltageCommand other) {

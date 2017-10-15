@@ -51,6 +51,8 @@
     <string name="text_no_gps_support">Sorry, your device doesn\'t support or has disabled GPS.</string>
     <string name="text_save_trip_not_available">Sorry, trip will not be saved.</string>
     <string name="text_obd_command_failure">OBD command failure!</string>
+    <string name="text_obd_command_exception">Error receiving data.</string>
+    <string name="text_obd_command_exception2">Error receiving data. Please try again.</string>
     <string name="text_dtc_no_data">No DTC stored</string>
     <string name="status_no_bluetooth_id">unavailable</string>
     <string name="status_bluetooth_disabled">disabled</string>
@@ -156,4 +158,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_error_search">ErrorSearchActivity</string>
     <string name="title_activity_tutorial">TutorialActivity</string>
+    <string name="tutorial_3">Ingrese al menú y seleccione el dispositivo vinculado previamente</string>
+    <string name="tutorial_2">Vincule su bluetooth con el ODB</string>
+    <string name="tutorial_1">Conecte el OBD al vehículo</string>
+    <string name="tutorial_welcome">Bienvenido!</string>
 </resources>

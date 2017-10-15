@@ -16,6 +16,7 @@ public class WidebandAirFuelRatioCommand extends ObdCommand {
      */
     public WidebandAirFuelRatioCommand() {
         super("0134", 51);
+        digitCount = 8;
     }
 
 

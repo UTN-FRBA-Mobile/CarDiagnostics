@@ -1,8 +1,11 @@
 package com.cardiag.models.commands.engine;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 
+import com.cardiag.R;
 import com.cardiag.models.commands.ObdCommand;
+import com.cardiag.models.exceptions.BadResponseException;
 import com.cardiag.velocimetro.Velocimetro;
 
 /**
@@ -18,6 +21,7 @@ public class RPMCommand extends ObdCommand {
      */
     public RPMCommand() {
         super("010C", 11);
+        digitCount = 8;
     }
 
     public RPMCommand(RPMCommand other) {
@@ -31,7 +35,6 @@ public class RPMCommand extends ObdCommand {
         rpm = (buffer.get(2) * 256 + buffer.get(3)) / 4;
     }
 
-     
     @Override
     public String getFormattedResult() {
         return String.format("%d%s", rpm, getResultUnit());

@@ -189,6 +189,7 @@ public class  StateActivity extends AppCompatActivity  {
 
         for (Category g: categories) {
             if (item.getItemId() == g.getId().intValue()) {
+                showToast(g.getName()+"!");
                 selectCommands(g.getName());
                 return true;
             }
@@ -208,6 +209,7 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     public void startLiveData(View view) {
+        showToast(getString(R.string.status_obd_data));
         botonPlay.setEnabled(false);
         botonStop.setEnabled(true);
         selectCommands.setEnabled(false);
@@ -224,6 +226,7 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     public void stopLiveData(View view) {
+        showToast(getString(R.string.status_obd_data_stopped));
         botonPlay.setEnabled(true);
         botonStop.setEnabled(false);
         selectCommands.setEnabled(true);

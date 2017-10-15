@@ -13,6 +13,7 @@ public class FuelRailPressureCommand extends PressureCommand {
      */
     public FuelRailPressureCommand() {
         super("0123", 34);
+        digitCount = 8;
     }
 
     public FuelRailPressureCommand(FuelRailPressureCommand other) {

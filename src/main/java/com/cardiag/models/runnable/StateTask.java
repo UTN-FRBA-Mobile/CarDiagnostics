@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import com.cardiag.R;
 import com.cardiag.activity.StateActivity;
 import com.cardiag.models.commands.ObdCommand;
+import com.cardiag.models.config.ObdCommandSingleton;
+import com.cardiag.models.exceptions.BadResponseException;
 import com.cardiag.utils.BluetoothManager;
 import com.cardiag.utils.ConfirmDialog;
 
@@ -29,6 +31,7 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
 
     private StateActivity stateActivity;
     private BluetoothSocket sock = null;
+    private Integer waitTime = ObdCommandSingleton.waitTime;
 
     public StateTask(StateActivity stateActivity) {
         this.stateActivity = stateActivity;
@@ -61,6 +64,9 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
                     commands = stateActivity.getSelectedCommands();
 
                     runCommands(commands, inputStream, outputStream);
+                    if (allError(commands)) {
+                        throw new BadResponseException(stateActivity.getString(R.string.text_obd_command_exception));
+                    }
                 }
             }
         } catch(SocketException e){
@@ -69,9 +75,28 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
             return stateActivity.getString(R.string.text_obd_command_failure);
         } catch (InterruptedException e) {
             return stateActivity.getString(R.string.text_obd_command_failure);
-        }
+        } catch (BadResponseException e) {
+            try {
+                sock.close();
+            } catch (IOException e1) {
+                e.printStackTrace();
+            }
+            return  stateActivity.getString(R.string.status_obd_ready);
+    }
 
         return stateActivity.getString(R.string.status_obd_ready);
+    }
+
+    private boolean allError(List<ObdCommand> commands) {
+        Integer count = 0;
+        for (ObdCommand cmd: commands) {
+            count += (cmd.getError()) ? 1 : 0;
+        }
+        if (count.intValue() == commands.size()) {
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -92,7 +117,7 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
                     throw new IOException(stateActivity.getString(R.string.status_bluetooth_error_connecting));
                 }
 
-                Thread.sleep(400);
+                Thread.sleep(waitTime);
                 cmd.run(is, os);
                 publishProgress(cmd);
             }
@@ -107,17 +132,11 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
             stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
         } else {
             String title = stateActivity.getString(R.string.error);
-            sock = null;
+            stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
+            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
+            stateActivity.prepareButtons(false);
+            ConfirmDialog.showCancellingDialog(stateActivity, title, result, false);
 
-            AlertDialog.Builder builder = ConfirmDialog.getDialog(stateActivity, title, result);
-
-            builder.setPositiveButton(ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                    ConnectionConfigTask cct = new ConnectionConfigTask(stateActivity);
-                    cct.execute();
-                }
-            });
         }
     }
 

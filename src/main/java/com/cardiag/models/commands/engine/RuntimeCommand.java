@@ -16,6 +16,7 @@ public class RuntimeCommand extends ObdCommand {
      */
     public RuntimeCommand() {
         super("011F", 30);
+        digitCount = 8;
     }
 
     public RuntimeCommand(RuntimeCommand other) {
