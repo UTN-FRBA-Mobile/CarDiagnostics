@@ -29,6 +29,7 @@ import com.cardiag.models.commands.protocol.SpacesOffCommand;
 import com.cardiag.models.commands.protocol.TimeoutCommand;
 import com.cardiag.models.config.ObdCommandSingleton;
 import com.cardiag.persistence.DataBaseService;
+import com.cardiag.persistence.ObdCommandContract;
 import com.cardiag.utils.BluetoothConnectionListener;
 import com.cardiag.utils.BluetoothManager;
 import com.cardiag.utils.ConfirmDialog;
@@ -123,14 +124,27 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
             return result;
         }
 
-        dataBaseService.setSelection();
-        String[] values = new String[]{"Tablero"};
-        ArrayList<ObdCommand> filteredAndSelected = dataBaseService.getCategoryCommands(values);
+        String where = ObdCommandContract.CommandEntry.SELECTED + "= ? AND " + ObdCommandContract.CommandEntry.AVAILABILITY + "= ?";
+        String[] whereValues = new String[] {"1", "1"};
+        ArrayList<ObdCommand> filteredAndSelected = dataBaseService.getCommands(where, whereValues);
+
+        if (filteredAndSelected.size() == 0) {
+            String[] values = new String[]{"Tablero"};
+            filteredAndSelected = dataBaseService.getCategoryCommands(values);
+            setSelected(filteredAndSelected);
+        }
         Collections.sort(filteredAndSelected);
         result.setCommands(filteredAndSelected);
         result.setError(false);
 
         return result;
+    }
+
+    private void setSelected(ArrayList<ObdCommand> filteredAndSelected) {
+        for (ObdCommand cmd: filteredAndSelected) {
+            cmd.setSelected(true);
+            dataBaseService.updateCommand(cmd,null);
+        }
     }
 
     private void filterAvailableCommands() {

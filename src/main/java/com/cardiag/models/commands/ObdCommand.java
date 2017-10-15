@@ -156,8 +156,9 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
             checkForErrors();
             fillBuffer();
             performCalculations();
+            error = false;
         } catch (BadResponseException e)  {
-            //do stuff
+            error = true;
         }
     }
 
@@ -270,7 +271,6 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
             return;
         }
         if (rawData.length() < digitCount) {
-            error = true;
             throw new BadResponseException();
         }
     }
