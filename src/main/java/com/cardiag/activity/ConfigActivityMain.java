@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -21,11 +22,11 @@ public class ConfigActivityMain extends PreferenceActivity  {
 
     public static final String BLUETOOTH_LIST_KEY = "bluetooth_list_preference";
     private static final int BLUETOOTH_REQUEST = 1;
-    private TextView selectedDevice;
+//    private TextView selectedDevice;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        selectedDevice = (TextView) findViewById(R.id.selected_device);
+//        selectedDevice = (TextView) findViewById(R.id.selected_device);
 
         if (!enableBluetooth(BLUETOOTH_REQUEST)) {
             initiateConfiguration();
@@ -42,7 +43,11 @@ public class ConfigActivityMain extends PreferenceActivity  {
         ArrayList<CharSequence> pairedDeviceStrings = new ArrayList<>();
         ArrayList<CharSequence> vals = new ArrayList<>();
         final ListPreference listBtDevices = (ListPreference) findPreference(BLUETOOTH_LIST_KEY);
-
+        final EditTextPreference editTextPref = (EditTextPreference)findPreference("edit_text_preference_1");
+        if(listBtDevices.getEntry() != null){
+            editTextPref.setTitle("Dispositivo seleccionado:");
+            editTextPref.setSummary(listBtDevices.getEntry());
+        }
     /*
      * Let's use this device Bluetooth adapter to select which paired OBD-II
      * compliant device we'll use.
@@ -89,6 +94,15 @@ public class ConfigActivityMain extends PreferenceActivity  {
 //        listBtDevices.setSummary();
         listBtDevices.setEntries(pairedDeviceStrings.toArray(new CharSequence[0]));
         listBtDevices.setEntryValues(vals.toArray(new CharSequence[0]));
+
+        listBtDevices.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                editTextPref.setTitle("Dispositivo seleccionado:");
+                editTextPref.setSummary(listBtDevices.getEntry());
+                return true;
+            }
+        });
 
     }
 
