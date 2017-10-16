@@ -22,6 +22,7 @@ import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,12 +35,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cardiag.R;
+import com.cardiag.models.commands.ObdCommand;
 import com.cardiag.models.commands.control.TroubleCodesCommand;
 import com.cardiag.models.commands.protocol.EchoOffCommand;
 import com.cardiag.models.commands.protocol.LineFeedOffCommand;
 import com.cardiag.models.commands.protocol.ObdResetCommand;
 import com.cardiag.models.commands.protocol.ResetTroubleCodesCommand;
 import com.cardiag.models.commands.protocol.SelectProtocolCommand;
+import com.cardiag.models.exceptions.BadResponseException;
 import com.cardiag.models.exceptions.MisunderstoodCommandException;
 import com.cardiag.models.exceptions.NoDataException;
 import com.cardiag.models.exceptions.UnableToConnectException;
@@ -47,6 +50,7 @@ import com.cardiag.models.solutions.Solution;
 import com.cardiag.models.solutions.TroubleCode;
 import com.cardiag.persistence.DataBaseService;
 import com.cardiag.utils.BluetoothManager;
+import com.cardiag.utils.ConfirmDialog;
 import com.cardiag.utils.enums.ObdProtocols;
 
 import java.io.IOException;
@@ -153,7 +157,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
 //            Log.e(TAG, "No Bluetooth device has been selected.");
 //            mHandler.obtainMessage(NO_BLUETOOTH_DEVICE_SELECTED).sendToTarget();
         } else {
-            gtct = new GetTroubleCodesTask();
+            gtct = new GetTroubleCodesTask(this);
             gtct.execute(remoteDevice);
         }
 
@@ -183,44 +187,15 @@ public class TroubleCodesActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-//        switch (item.getItemId()) {
-//            case R.id.action_clear_codes:
-//                try {
-//                    sock = BluetoothManager.connect(dev);
-//                } catch (Exception e) {
-//                    Log.e(
-//                            TAG,
-//                            "There was an error while establishing connection. -> "
-//                                    + e.getMessage()
-//                    );
-//                    Log.d(TAG, "Message received on handler here");
-//                    mHandler.obtainMessage(CANNOT_CONNECT_TO_DEVICE).sendToTarget();
-//                    return true;
-//                }
-//                try {
-//
-//                    Log.d("TESTRESET", "Trying reset");
-//                    //new ObdResetCommand().run(sock.getInputStream(), sock.getOutputStream());
-//                    ResetTroubleCodesCommand clear = new ResetTroubleCodesCommand();
-//                    clear.run(sock.getInputStream(), sock.getOutputStream());
-//                    String result = clear.getFormattedResult();
-//                    Log.d("TESTRESET", "Trying reset result: " + result);
-//                } catch (Exception e) {
-//                    Log.e(
-//                            TAG,
-//                            "There was an error while establishing connection. -> "
-//                                    + e.getMessage()
-//                    );
-//                }
-//                gtct.closeSocket(sock);
-//                // Refresh car_state activity upon close of dialog box
-//                Intent refresh = new Intent(this, TroubleCodesActivity.class);
-//                startActivity(refresh);
-//                this.finish(); //
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
+
+        //TODO Limpiar la lista antes de correr esto o borrar el item del menu.
+        switch (item.getItemId()) {
+            case R.id.action_clear_codes:
+                gtct = new GetTroubleCodesTask(this);
+                gtct.execute(remoteDevice);
+                break;
+        }
+
         return true;
     }
 
@@ -299,6 +274,11 @@ public class TroubleCodesActivity extends AppCompatActivity {
 
     private class GetTroubleCodesTask extends AsyncTask<String, Integer, String> {
 
+        private TroubleCodesActivity troubleCodesActivity;
+        public GetTroubleCodesTask(TroubleCodesActivity troubleCodesActivity) {
+            this.troubleCodesActivity = troubleCodesActivity;
+        }
+
         @Override
         protected void onPreExecute() {
             //Create a new progress dialog
@@ -355,27 +335,39 @@ public class TroubleCodesActivity extends AppCompatActivity {
                 try {
                     // Let's configure the connection.
                     Log.d(TAG, "Queueing jobs for connection configuration..");
-
+                    ArrayList<ObdCommand> cmds = new ArrayList<>();
                     publishProgress(1);
 
-                    new ObdResetCommand().run(sock.getInputStream(), sock.getOutputStream());
+                    ObdResetCommand obdResetCommand = new ObdResetCommand();
+                    cmds.add(obdResetCommand);
+                    obdResetCommand.run(sock.getInputStream(), sock.getOutputStream());
 
                     publishProgress(2);
 
-                    new EchoOffCommand().run(sock.getInputStream(), sock.getOutputStream());
+                    EchoOffCommand echoOffCommand = new EchoOffCommand();
+                    cmds.add(echoOffCommand);
+                    echoOffCommand.run(sock.getInputStream(), sock.getOutputStream());
 
                     publishProgress(3);
 
-                    new LineFeedOffCommand().run(sock.getInputStream(), sock.getOutputStream());
+                    LineFeedOffCommand lineFeedOffCommand = new LineFeedOffCommand();
+                    cmds.add(lineFeedOffCommand);
+                    lineFeedOffCommand.run(sock.getInputStream(), sock.getOutputStream());
 
                     publishProgress(4);
 
-                    new SelectProtocolCommand(ObdProtocols.AUTO).run(sock.getInputStream(), sock.getOutputStream());
+                    SelectProtocolCommand selectProtocolCommand = new SelectProtocolCommand(ObdProtocols.AUTO);
+                    cmds.add(selectProtocolCommand);
+                    selectProtocolCommand.run(sock.getInputStream(), sock.getOutputStream());
 
                     publishProgress(5);
 
                     ModifiedTroubleCodesObdCommand tcoc = new ModifiedTroubleCodesObdCommand();
+                    cmds.add(tcoc);
                     tcoc.run(sock.getInputStream(), sock.getOutputStream());
+                    //Each command has an error flag that will be true because of timeout o bad response.
+                    validateErrors(cmds);
+
                     result = tcoc.getFormattedResult();
 
                     publishProgress(6);
@@ -404,9 +396,11 @@ public class TroubleCodesActivity extends AppCompatActivity {
                     Log.e("DTCERR", e.getMessage());
                     mHandler.obtainMessage(OBD_COMMAND_FAILURE_NODATA).sendToTarget();
                     return null;
-                } catch (Exception e) {
-                    Log.e("DTCERR", e.getMessage());
-                    mHandler.obtainMessage(OBD_COMMAND_FAILURE).sendToTarget();
+//                } catch (Exception e) {
+//                    Log.e("DTCERR", e.getMessage());
+//                    mHandler.obtainMessage(OBD_COMMAND_FAILURE).sendToTarget();
+                }catch (BadResponseException e){
+                    return getString(R.string.error);
                 } finally {
 
                     // close socket
@@ -416,6 +410,19 @@ public class TroubleCodesActivity extends AppCompatActivity {
             }
 
             return result;
+        }
+
+        private void validateErrors(ArrayList<ObdCommand> cmds) {
+            int count = 0;
+            for (ObdCommand cmd: cmds) {
+                if ( cmd.getError()) {
+                    count ++;
+                }
+            }
+
+            if (count == cmds.size()) {
+                throw new BadResponseException();
+            }
         }
 
         public void closeSocket(BluetoothSocket sock) {
@@ -437,6 +444,11 @@ public class TroubleCodesActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             progressDialog.dismiss();
+
+            if (TextUtils.equals(result, getString(R.string.error))) {
+                ConfirmDialog.getDialog(troubleCodesActivity, getString(R.string.error), getString(R.string.text_obd_command_exception2)).show();
+                return;
+            }
 
             mHandler.obtainMessage(DATA_OK, result).sendToTarget();
 

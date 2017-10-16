@@ -95,12 +95,17 @@ public class ConfirmDialog {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);
 
-        final StateActivity sta = (StateActivity) context;
         // set dialog message
         alertDialogBuilder
                 .setTitle(title)
                 .setMessage(msg)
-                .setCancelable(false);
+                .setCancelable(false)
+                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        dialog.cancel();
+                    }
+                });
+
 
         return alertDialogBuilder;
     }

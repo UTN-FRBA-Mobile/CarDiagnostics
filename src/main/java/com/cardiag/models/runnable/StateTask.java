@@ -72,13 +72,6 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
                     }
                 }
             }
-//        } catch(SocketException e){
-//            return stateActivity.getString(R.string.status_bluetooth_error_connecting);
-//        } catch (IOException e) {
-//            return stateActivity.getString(R.string.text_obd_command_failure);
-//        } catch (InterruptedException e) {
-//            return stateActivity.getString(R.string.text_obd_command_failure);
-//        } catch (BadResponseException e) {
         }catch (Exception e) {
             return  stateActivity.getString(R.string.error);
     }
@@ -147,7 +140,6 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
             throw new IOException(stateActivity.getString(R.string.state_dialog_error_initiating));
         }
 
-//        stateActivity.setSock(sock);
         return sock;
     }
 
