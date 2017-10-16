@@ -44,10 +44,6 @@ public class ConfigActivityMain extends PreferenceActivity  {
         ArrayList<CharSequence> vals = new ArrayList<>();
         final ListPreference listBtDevices = (ListPreference) findPreference(BLUETOOTH_LIST_KEY);
         final EditTextPreference editTextPref = (EditTextPreference)findPreference("edit_text_preference_1");
-        if(listBtDevices.getEntry() != null){
-            editTextPref.setTitle("Dispositivo seleccionado:");
-            editTextPref.setSummary(listBtDevices.getEntry());
-        }
     /*
      * Let's use this device Bluetooth adapter to select which paired OBD-II
      * compliant device we'll use.
@@ -88,6 +84,10 @@ public class ConfigActivityMain extends PreferenceActivity  {
             for (BluetoothDevice device : pairedDevices) {
                 pairedDeviceStrings.add(device.getName() + "\n" + device.getAddress());
                 vals.add(device.getAddress());
+                if(listBtDevices.getValue() != null && device.getAddress().contains(listBtDevices.getValue().toString())){
+                    editTextPref.setTitle("Dispositivo seleccionado:");
+                    editTextPref.setSummary(device.getName() + "\n" + device.getAddress());
+                }
             }
         }
         listBtDevices.setEntries(pairedDeviceStrings.toArray(new CharSequence[0]));
