@@ -50,7 +50,8 @@
             android:launchMode="singleInstance" />
         <activity
             android:name=".activity.StateActivity"
-            android:label="@string/car_state_text_button" />
+            android:label="@string/car_state_text_button"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

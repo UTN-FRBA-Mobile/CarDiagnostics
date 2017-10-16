@@ -1,11 +1,10 @@
 package com.cardiag.models.commands;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.text.TextUtils;
 
-import com.cardiag.R;
+import com.cardiag.models.commands.protocol.TimeoutCommand;
+import com.cardiag.models.config.ObdCommandSingleton;
 import com.cardiag.models.exceptions.*;
 import com.cardiag.velocimetro.Velocimetro;
 
@@ -13,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
 /**
@@ -37,15 +37,14 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
     protected String cmd = null;
     protected boolean useImperialUnits = false;
     protected String rawData = null;
-    protected Long responseDelayInMs = null;
-    private long start;
-    private long end;
+    protected Long responseDelayInMs = ObdCommandSingleton.RESPONSE_DELAY;
     private byte[] receivedData = new byte[50];
     private Integer pos;
     private Boolean selected = true;
     private String name;
     protected Integer digitCount = 6;
     private Boolean error = false;
+    private Integer timeOut = ObdCommandSingleton.TIME_OUT;
 
     /**
      * Default ctor to use
@@ -99,10 +98,12 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
     public void run(InputStream in, OutputStream out) throws IOException,
             InterruptedException {
         synchronized (ObdCommand.class) {//Only one command can write and read a data in one time.
-            start = System.currentTimeMillis();
-            sendCommand(out);
-            readResult(in);
-            end = System.currentTimeMillis();
+            try {
+                sendCommand(in, out);
+                readResult(in);
+            } catch (TimeoutException e) {
+                error = true;
+            }
         }
     }
 
@@ -116,14 +117,31 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
      * @throws IOException            if any.
      * @throws InterruptedException if any.
      */
-    protected void sendCommand(OutputStream out) throws IOException,
-            InterruptedException {
+    protected void sendCommand(InputStream in, OutputStream out) throws IOException,
+            InterruptedException, TimeoutException {
         // write to OutputStream (i.e.: a BluetoothSocket) with an added
         // Carriage return
         out.write((cmd + "\r").getBytes());
         out.flush();
         if (responseDelayInMs != null && responseDelayInMs > 0) {
             Thread.sleep(responseDelayInMs);
+        }
+        timeOut(in, out, true);
+    }
+
+    private void timeOut(InputStream in, OutputStream out, Boolean resend) throws IOException, InterruptedException, TimeoutException {
+        Integer count = 0;
+        Integer timeOutHalfTime = timeOut * 10;
+        while (in.available() == 0) {
+            if (count > timeOutHalfTime ) {
+                if (resend) {
+                    resendCommand(in, out);
+                    return;
+                }
+                throw new TimeoutException();
+            }
+            count ++;
+            Thread.sleep(100);
         }
     }
 
@@ -134,14 +152,17 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
      * @throws IOException            if any.
      * @throws InterruptedException if any.
      */
-    protected void resendCommand(OutputStream out) throws IOException,
-            InterruptedException {
+    protected void resendCommand(InputStream in, OutputStream out) throws IOException,
+            InterruptedException, TimeoutException {
         out.write("\r".getBytes());
         out.flush();
         if (responseDelayInMs != null && responseDelayInMs > 0) {
             Thread.sleep(responseDelayInMs);
         }
+        timeOut(in, out, false);
     }
+
+
 
     /**
      * Reads the OBD-II response.
@@ -156,7 +177,6 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
             checkForErrors();
             fillBuffer();
             performCalculations();
-            error = false;
         } catch (BadResponseException e)  {
             error = true;
         }
@@ -273,18 +293,25 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
         if (rawData.length() < digitCount) {
             throw new BadResponseException();
         }
+        error = false;
     }
 
     protected void validateResponse() throws RuntimeException{
+        String responseHeader = "";
+        String responseHeaderReceived = "";
+
         if (TextUtils.equals(cmd.substring(0,1), "A")) {
-            return;
+            responseHeader = "OK";
+            responseHeaderReceived = rawData.substring(0,2);
+        } else {
+            responseHeader = "4"+cmd.substring(1,4);
+            responseHeaderReceived = rawData.substring(0,4);
         }
         //Checking for the response to match with the command's
-        String responseHeader = "4"+cmd.substring(1,4);
-        String responseHeaderReceived = rawData.substring(0,4);
-        if (!TextUtils.equals(responseHeader, responseHeaderReceived)) {
+        if (!TextUtils.equals(responseHeader, responseHeaderReceived) ) {
             throw new BadResponseException();
         }
+        error = false;
     }
 
     public void setVelocimetroProperties(Velocimetro velocimetro) {
@@ -385,43 +412,6 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
      */
     public void setResponseTimeDelay(Long responseDelayInMs) {
         this.responseDelayInMs = responseDelayInMs;
-    }
-
-    //fixme resultunit
-    /**
-     * <p>Getter for the field <code>start</code>.</p>
-     *
-     * @return a long.
-     */
-    public long getStart() {
-        return start;
-    }
-
-    /**
-     * <p>Setter for the field <code>start</code>.</p>
-     *
-     * @param start a long.
-     */
-    public void setStart(long start) {
-        this.start = start;
-    }
-
-    /**
-     * <p>Getter for the field <code>end</code>.</p>
-     *
-     * @return a long.
-     */
-    public long getEnd() {
-        return end;
-    }
-
-    /**
-     * <p>Setter for the field <code>end</code>.</p>
-     *
-     * @param end a long.
-     */
-    public void setEnd(long end) {
-        this.end = end;
     }
 
     /**

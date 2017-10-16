@@ -1,14 +1,16 @@
 package com.cardiag.models.runnable;
 
-import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 
 import com.cardiag.R;
+import com.cardiag.activity.ConfigActivityMain;
 import com.cardiag.activity.StateActivity;
 import com.cardiag.models.commands.ObdCommand;
 import com.cardiag.models.config.ObdCommandSingleton;
@@ -20,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +32,8 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
 
     private StateActivity stateActivity;
     private BluetoothSocket sock = null;
-    private Integer waitTime = ObdCommandSingleton.waitTime;
+    private Integer waitTime = ObdCommandSingleton.WAIT_TIME;
+    private SharedPreferences prefs;
 
     public StateTask(StateActivity stateActivity) {
         this.stateActivity = stateActivity;
@@ -48,6 +50,7 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
 
         try {
             synchronized (this) {
+                initiateConnection();
                 List<ObdCommand> commands;
 
                 while (!isCancelled()) {
@@ -69,19 +72,15 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
                     }
                 }
             }
-        } catch(SocketException e){
-            return stateActivity.getString(R.string.status_bluetooth_error_connecting);
-        } catch (IOException e) {
-            return stateActivity.getString(R.string.text_obd_command_failure);
-        } catch (InterruptedException e) {
-            return stateActivity.getString(R.string.text_obd_command_failure);
-        } catch (BadResponseException e) {
-            try {
-                sock.close();
-            } catch (IOException e1) {
-                e.printStackTrace();
-            }
-            return  stateActivity.getString(R.string.status_obd_ready);
+//        } catch(SocketException e){
+//            return stateActivity.getString(R.string.status_bluetooth_error_connecting);
+//        } catch (IOException e) {
+//            return stateActivity.getString(R.string.text_obd_command_failure);
+//        } catch (InterruptedException e) {
+//            return stateActivity.getString(R.string.text_obd_command_failure);
+//        } catch (BadResponseException e) {
+        }catch (Exception e) {
+            return  stateActivity.getString(R.string.error);
     }
 
         return stateActivity.getString(R.string.status_obd_ready);
@@ -123,21 +122,86 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
             }
     }
 
+    private BluetoothSocket initiateConnection() throws IOException {
+        prefs = PreferenceManager.getDefaultSharedPreferences(stateActivity);
+
+        // get the remote Bluetooth device
+        final String remoteDevice = prefs.getString(ConfigActivityMain.BLUETOOTH_LIST_KEY, null);
+        final BluetoothAdapter btAdapter = stateActivity.getBluetoothAdapter();
+
+        if ( btAdapter == null || !btAdapter.isEnabled() ) {
+            throw new IOException(stateActivity.getString(R.string.status_bluetooth_error_connecting));
+        }
+
+        if ( remoteDevice == null || "".equals(remoteDevice) ) {
+            throw new IOException(stateActivity.getString(R.string.status_no_device_selected));
+        }
+
+        BluetoothDevice dev = btAdapter.getRemoteDevice(remoteDevice);
+
+        btAdapter.cancelDiscovery();
+
+        try {
+            sock = BluetoothManager.connect(dev);
+        } catch (IOException e) {
+            throw new IOException(stateActivity.getString(R.string.state_dialog_error_initiating));
+        }
+
+//        stateActivity.setSock(sock);
+        return sock;
+    }
+
     @Override
     protected void onPostExecute(String result) {
-
         String ok = stateActivity.getString(R.string.status_obd_ready);
+        String error = stateActivity.getString(R.string.error);
+        closeSocket();
 
         if (TextUtils.equals(result, ok)) {
             stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
-        } else {
-            String title = stateActivity.getString(R.string.error);
-            stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
-            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
-            stateActivity.prepareButtons(false);
-            ConfirmDialog.showCancellingDialog(stateActivity, title, result, false);
+            return;
+        }
 
+        if (TextUtils.equals(result, error)) {
+            ConnectionConfigTask cct = new ConnectionConfigTask(stateActivity);
+            ProgressDialog pDialog = cct.getProgressDialog();
+            pDialog.setTitle(stateActivity.getString(R.string.dialog_reconnecting_title));
+            cct.execute();
+            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
+            return;
+        }
+
+        String title = stateActivity.getString(R.string.error);
+        stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
+        stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
+        stateActivity.prepareButtons(false);
+        ConfirmDialog.showCancellingDialog(stateActivity, title, result, false);
+
+    }
+
+    protected void closeSocket() {
+        try {
+            sock.getInputStream().close();
+            sock.getOutputStream().close();
+            sock.close();
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
     }
 
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+
+        try {
+            sock.getInputStream().close();
+            sock.getOutputStream().close();
+            sock.close();
+            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+    }
 }

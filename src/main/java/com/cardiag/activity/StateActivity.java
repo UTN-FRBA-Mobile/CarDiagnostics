@@ -395,6 +395,7 @@ public class  StateActivity extends AppCompatActivity  {
 
     public void prepareButtons(Boolean prepare){
         botonPlay.setEnabled(prepare);
+
         botonStop.setEnabled(prepare);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         selectCommands.setEnabled(prepare);
@@ -407,6 +408,14 @@ public class  StateActivity extends AppCompatActivity  {
     }
     public void setObdDataStatusText(String text) {
         obdDataStatus.setText(text);
+    }
+
+    public StateTask getStateTask() {
+        return stateTask;
+    }
+
+    public ConnectionConfigTask getCct() {
+        return cct;
     }
 
     @Override

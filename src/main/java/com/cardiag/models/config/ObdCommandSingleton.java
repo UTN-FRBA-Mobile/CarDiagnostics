@@ -43,7 +43,9 @@ public final class ObdCommandSingleton {
     private ArrayList<ObdCommand> cmds = new ArrayList<>();
     private LinkedHashMap<String, Class<? extends ObdCommand>> map = new LinkedHashMap<String, Class<? extends ObdCommand>>();
     private static ObdCommandSingleton instance;
-    public static final Integer waitTime = 100;
+    public static final Integer WAIT_TIME = 100;
+    public static final Long RESPONSE_DELAY = 0L;
+    public static final Integer TIME_OUT = 2; // In secs
 
     private ObdCommandSingleton() {
         setCommands();

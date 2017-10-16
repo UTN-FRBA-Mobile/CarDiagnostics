@@ -40,6 +40,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Leo on 29/7/2017.
@@ -57,7 +58,7 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
     private DataBaseService dataBaseService;
     private ConnectionConfigTask cct = this;
     private BluetoothSocket sock;
-    private Integer waitTime = ObdCommandSingleton.waitTime;
+    private Integer waitTime = ObdCommandSingleton.WAIT_TIME;
 
 
     public ConnectionConfigTask(StateActivity stateActivity) {
@@ -91,14 +92,10 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
         progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
-                try {
-                    cct.closeSocket();
-                } catch (IOException e) {
-                    stateActivity.showToast(e.getMessage());
-                }
                 stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
                 stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
                 stateActivity.prepareButtons(false);
+                cct.closeSocket();
                 stateActivity.showToast(stateActivity.getString(R.string.state_dialog_error_initiating));
                 cct.cancel(true);
             }
@@ -127,7 +124,7 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
         String where = ObdCommandContract.CommandEntry.SELECTED + "= ? AND " + ObdCommandContract.CommandEntry.AVAILABILITY + "= ?";
         String[] whereValues = new String[] {"1", "1"};
         ArrayList<ObdCommand> filteredAndSelected = dataBaseService.getCommands(where, whereValues);
-
+        //Get "Tablero" sensors if none selected
         if (filteredAndSelected.size() == 0) {
             String[] values = new String[]{"Tablero"};
             filteredAndSelected = dataBaseService.getCategoryCommands(values);
@@ -180,6 +177,9 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
         btAdapter.cancelDiscovery();
 
         try {
+            if (sock != null) {
+                closeSocket();
+            }
             sock = BluetoothManager.connect(dev);
         } catch (IOException e) {
             throw new IOException(stateActivity.getString(R.string.state_dialog_error_initiating));
@@ -250,7 +250,7 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
 
         av1.run(inputStream, outputStream);
         flags.addAll(av1.getFlags());
-
+        //Run availability commands, checking for the next to be available
         for (AvailablePidsCommand cmd: availablePIDsCommand) {
             if (! cmd.isAvailable(flags)) {
                 break;
@@ -264,9 +264,17 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
 
     public void runCommands(ArrayList<ObdCommand> cmds, InputStream is, OutputStream os) throws IOException, InterruptedException {
 
+        int count = 0;
         for (ObdCommand cmd : cmds) {
             Thread.sleep(waitTime);
             cmd.run(is, os);
+            if (cmd.getError()) {
+                count ++;
+            }
+        }
+        //If all commands run with errors, then throw exception to stop connection
+        if (count == cmds.size()) {
+            throw new IOException();
         }
     }
 
@@ -285,15 +293,11 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
         ArrayList<ObdCommand> commands = progress.getCommands();
 
         progressDialog.dismiss();
+        closeSocket();
 
         if(!error) {
             stateActivity.setSelectedCommands(commands);
             stateActivity.multiStateUpdate();
-
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-            BluetoothConnectionListener btListener = new BluetoothConnectionListener();
-            stateActivity.registerReceiver(btListener, filter);
             stateActivity.prepareButtons(true);
             stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_connected));
 
@@ -308,17 +312,19 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
 
     @Override
     protected void onCancelled() {
-        try {
-            closeSocket();
-        } catch (IOException e) {
-            stateActivity.showToast(e.getMessage());
-        }
+        closeSocket();
         progressDialog.dismiss();
         super.onCancelled();
     }
-    private void closeSocket() throws IOException {
+    private void closeSocket()  {
         if (sock != null) {
-            sock.close();
+            try {
+                sock.getInputStream().close();
+                sock.getOutputStream().close();
+                sock.close();
+            } catch (IOException e) {
+                stateActivity.showToast(e.getMessage());
+            }
         }
     }
     public ProgressDialog getProgressDialog() {

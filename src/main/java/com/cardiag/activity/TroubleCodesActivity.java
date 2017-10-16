@@ -183,44 +183,45 @@ public class TroubleCodesActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_clear_codes:
-                try {
-                    sock = BluetoothManager.connect(dev);
-                } catch (Exception e) {
-                    Log.e(
-                            TAG,
-                            "There was an error while establishing connection. -> "
-                                    + e.getMessage()
-                    );
-                    Log.d(TAG, "Message received on handler here");
-                    mHandler.obtainMessage(CANNOT_CONNECT_TO_DEVICE).sendToTarget();
-                    return true;
-                }
-                try {
-
-                    Log.d("TESTRESET", "Trying reset");
-                    //new ObdResetCommand().run(sock.getInputStream(), sock.getOutputStream());
-                    ResetTroubleCodesCommand clear = new ResetTroubleCodesCommand();
-                    clear.run(sock.getInputStream(), sock.getOutputStream());
-                    String result = clear.getFormattedResult();
-                    Log.d("TESTRESET", "Trying reset result: " + result);
-                } catch (Exception e) {
-                    Log.e(
-                            TAG,
-                            "There was an error while establishing connection. -> "
-                                    + e.getMessage()
-                    );
-                }
-                gtct.closeSocket(sock);
-                // Refresh car_state activity upon close of dialog box
-                Intent refresh = new Intent(this, TroubleCodesActivity.class);
-                startActivity(refresh);
-                this.finish(); //
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+//        switch (item.getItemId()) {
+//            case R.id.action_clear_codes:
+//                try {
+//                    sock = BluetoothManager.connect(dev);
+//                } catch (Exception e) {
+//                    Log.e(
+//                            TAG,
+//                            "There was an error while establishing connection. -> "
+//                                    + e.getMessage()
+//                    );
+//                    Log.d(TAG, "Message received on handler here");
+//                    mHandler.obtainMessage(CANNOT_CONNECT_TO_DEVICE).sendToTarget();
+//                    return true;
+//                }
+//                try {
+//
+//                    Log.d("TESTRESET", "Trying reset");
+//                    //new ObdResetCommand().run(sock.getInputStream(), sock.getOutputStream());
+//                    ResetTroubleCodesCommand clear = new ResetTroubleCodesCommand();
+//                    clear.run(sock.getInputStream(), sock.getOutputStream());
+//                    String result = clear.getFormattedResult();
+//                    Log.d("TESTRESET", "Trying reset result: " + result);
+//                } catch (Exception e) {
+//                    Log.e(
+//                            TAG,
+//                            "There was an error while establishing connection. -> "
+//                                    + e.getMessage()
+//                    );
+//                }
+//                gtct.closeSocket(sock);
+//                // Refresh car_state activity upon close of dialog box
+//                Intent refresh = new Intent(this, TroubleCodesActivity.class);
+//                startActivity(refresh);
+//                this.finish(); //
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+        return true;
     }
 
     Map<String, String> getDict(int keyId, int valId) {
