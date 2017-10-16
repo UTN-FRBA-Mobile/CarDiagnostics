@@ -81,7 +81,8 @@
     <string name="finish_map">Finalizar búsqueda </string>
     <string name="gas_station">Búsqueda de estaciones de servicio </string>
     <string name="car_repair">Búsqueda de talleres mecánicos </string>
-    <string name="selected_device">Seleccionado: \n</string>
+    <string name="no_device_selected">Ningún dispositivo seleccionado.</string>
+    <string name="selected_device">Dispositivo seleccionado:</string>
     <string name="show_tutorial">Ver tutorial</string>
     <string name="tutorial_3">Ingrese al menú y seleccione el dispositivo vinculado previamente</string>
     <string name="tutorial_2">Vincule su bluetooth con el OBD</string>

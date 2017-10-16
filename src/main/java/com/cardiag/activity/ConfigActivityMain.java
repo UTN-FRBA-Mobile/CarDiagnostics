@@ -84,8 +84,8 @@ public class ConfigActivityMain extends PreferenceActivity  {
             for (BluetoothDevice device : pairedDevices) {
                 pairedDeviceStrings.add(device.getName() + "\n" + device.getAddress());
                 vals.add(device.getAddress());
-                if(listBtDevices.getValue() != null && device.getAddress().contains(listBtDevices.getValue().toString())){
-                    editTextPref.setTitle("Dispositivo seleccionado:");
+                if(listBtDevices.getValue() != null && device.getAddress().contains(listBtDevices.getValue())){
+                    editTextPref.setTitle(getString(R.string.selected_device));
                     editTextPref.setSummary(device.getName() + "\n" + device.getAddress());
                 }
             }
@@ -96,7 +96,7 @@ public class ConfigActivityMain extends PreferenceActivity  {
         listBtDevices.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                editTextPref.setTitle("Dispositivo seleccionado:");
+                editTextPref.setTitle(getString(R.string.selected_device));
                 for(int i = 0; i < listBtDevices.getEntries().length; i++){
                     String entry = (String) listBtDevices.getEntries()[i];
                     if(entry.contains(newValue.toString())){

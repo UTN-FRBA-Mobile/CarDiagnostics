@@ -14,5 +14,5 @@
     <EditTextPreference
         android:key="edit_text_preference_1"
         android:selectable="false"
-        android:title="Ningún dispositivo seleccionado." />
+        android:title="@string/no_device_selected" />
 </PreferenceScreen>
