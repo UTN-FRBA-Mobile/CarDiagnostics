@@ -197,6 +197,7 @@ public class DataBaseService extends SQLiteOpenHelper {
 
 
     public ArrayList<Step> getSteps(int id) {
+        if(id ==10) return this.getStepsDummy(id);
         cardiagDB = this.getReadableDatabase();
         ArrayList<Step> ls = new ArrayList<Step>();//ls.add(new Step("s0101","Descripcion"));
 
@@ -485,21 +486,19 @@ public class DataBaseService extends SQLiteOpenHelper {
 
     public ArrayList<Step> getStepsDummy(int id) {
         ArrayList<Step> steps = new ArrayList<Step>();
-     //   steps.add(new Step("ic_btcar","Cardiag"));
-        steps.add(new Step("s1s1","Abrir el capot del auto."));
-        steps.add(new Step("s1s2","Identifique la bateria dentro del capot. Generalmente su ubicacion esta normalizada y es la que se muestra en la imagen. Puede manipularla sin problemas ya que es seguro."));
-        steps.add(new Step("s1s3","Quitamos la protección para dejar la batería al descubierto e identificamos los dos bornes. Tanto el positivo como el negativo deben estar identificados con un signo según su polaridad."));
-        steps.add(new Step("s1s4","Quitamos cada uno de los bornes usando una llave inglesa (normalmente del número 10) para aflojar las tuercas que los sostienen."));
-        steps.add(new Step("s1s5","Una vez hecho esto, la batería quedará suelta eléctricamente. El siguiente paso es soltarla mecánicamente."));
-        steps.add(new Step("s1s6","Para esto hay que desligarla del coche aflojando un tornillo ubicado donde se señala en la imagen."));
-        steps.add(new Step("s1s7","Retirar el tornillo señalado usando una llave (generalmente del número 13). Así se desvinculará la chapa que sostiene la batería."));
-        steps.add(new Step("s1s8","Retirar la placa que sujeta la batería."));
-        steps.add(new Step("s1s9","La batería ya se encuentra suelta, procedemos a retirarla."));
-        steps.add(new Step("s1s10","Comprar una batería de iguales características (Igual medida, voltios y amperios/hora)."));
-        steps.add(new Step("s1s11","Colocar la nueva batería donde se encontraba la anterior."));
-        steps.add(new Step("s1s12","Volver a colocar la placa que sujeta la batería y el tornillo correspondiente."));
-        steps.add(new Step("s1s13","Lijar los contactos con una lima o lija hasta que queden brillantes."));
-        steps.add(new Step("s1s14","Conectar la batería y volver a colocar la protección en la misma."));
+        steps.add(new Step("logo","Cardiag \nTutorial"));
+        steps.add(new Step("s10s54","Tome su dispositivo OBD para conectarlo."));
+        steps.add(new Step("s10s55","Proceda a conectarlo en la placa ECU de su vehículo. La entrada OBD2 suele encontrarse debajo del volante como se muestra en la imagen."));
+        steps.add(new Step("s10s56","Verifique la correcta conexión. En caso de que vea la luz roja parpadeando, eso indica que el mismo ya está funcionando."));
+    //    steps.add(new Step("s10s57","Tome su dispositivo celular y diríjase a AJUSTES para configurar el dispositivo."));
+        steps.add(new Step("s10s58","Ingrese al menú BLUETOOTH de su dispositivo movil (por fuera de la aplicación)."));
+        steps.add(new Step("s10s59","Busque los dispositivos disponibles, seleccione el OBD2 que acaba de conectar. Si no aparece revise la conexión."));
+        steps.add(new Step("s10s60","Ingrese el PIN para la vinculación si es que la configuro, caso contrario elija una en ese momento."));
+       // steps.add(new Step("s10s61","El dispositivo OBD2 ya debe estar vinculado a su teléfono móvil y debe verse reflejado."));
+      //  steps.add(new Step("s10s62","Ingrese a la aplicación CARDIAG. En el menú superior se van a desplegar algunas opciones que debe configurar como primer paso."));
+        steps.add(new Step("s10s63","Seleccione 'Elegir Dispositivo OBD2' del menu para vincular el aparato a la aplicación."));
+     //   steps.add(new Step("s10s64","Allí se van a listar los dispositivos que están vinculados al teléfono. Tildamos el correspondiente al OBD2 para vincularlo con la aplicación CARDIAG."));
+     //   steps.add(new Step("s10s65","Una vez hecho esto, ya está operativa la aplicación. Puede navegar entre los distintos menues y conocer el estado de su vehículo."));
         return steps;
     }
     public TroubleCode getTroubleCode(String id) {

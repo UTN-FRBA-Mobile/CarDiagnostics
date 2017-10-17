@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by lrocca on 26/07/2017.
  */
-public class Solution  extends TroubleCode implements Serializable{
+public class Solution implements Serializable{
     private ArrayList<Step> steps;
     private String name;
     private Integer priority = -1;

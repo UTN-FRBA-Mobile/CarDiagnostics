@@ -456,7 +456,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
     }
 
     private void dataOkDummy() {
-        String res= "P0010\nP0008\nP0021\nP057F";
+        String res= "P0010\nP0008\nP0021\nP057F\nP0212\nP0500\nP0453";
         this.dataOk(res);
         return;
       //  lv.setTextFilterEnabled(true);

@@ -19,6 +19,7 @@ import com.cardiag.R;
 import com.cardiag.fragments.MyFragmentPagerAdapter;
 import com.cardiag.fragments.StepFragment;
 import com.cardiag.models.commands.entities.Category;
+import com.cardiag.models.solutions.Solution;
 import com.cardiag.models.solutions.Step;
 import com.cardiag.persistence.DataBaseService;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -34,11 +35,18 @@ public class StepsActivity extends AppCompatActivity {
     ViewPager pager = null;
     private SmartTabLayout indicator;
     private int size =-1;
+    private int idSolution;
+    private Button btnEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps);
+
+
+        Bundle bundle = getIntent().getExtras();
+        Solution dato= (Solution) bundle.get("solution");
+        idSolution = (int) dato.getId();
 
         // Instantiate a ViewPager
         this.pager = (ViewPager) this.findViewById(R.id.pager);
@@ -62,7 +70,10 @@ public class StepsActivity extends AppCompatActivity {
         indicator.setViewPager(pager);
 
         initaliceNavigation();
-     //   this.addButtons();
+
+        if(idSolution==10) addSkipButton();
+        addEndButton();
+    //    this.addButtons();
     }
 
     private void initaliceNavigation() {
@@ -98,29 +109,52 @@ public class StepsActivity extends AppCompatActivity {
                 }
                 if(position == size-1){
                     btnFabRight.setVisibility(View.INVISIBLE);
+                    btnEnd.setVisibility(View.VISIBLE);
                 }
                 else {
                     btnFabLeft.setVisibility(View.VISIBLE);
                     btnFabRight.setVisibility(View.VISIBLE);
+                    btnEnd.setVisibility(View.INVISIBLE);
                 }
             }
         });
     }
 
-    private void addButtons() {
+    private void addSkipButton() {
         CoordinatorLayout ll = (CoordinatorLayout)findViewById(R.id.activity_steps);
         Button b = new Button(this);
         b.setText("Omitir");
 
-        RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-      //  lp2.addRule(RelativeLayout.CENTER_VERTICAL);
-      //  lp2.addRule(RelativeLayout.CENTER_HORIZONTAL);
-//        b.setId(900000);
-        lp2.addRule(RelativeLayout.ALIGN_PARENT_END);
-        lp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        CoordinatorLayout.LayoutParams lp2 = new CoordinatorLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        lp2.gravity = Gravity.END;
         b.setLayoutParams(lp2);
         ll.addView(b);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+    }
+
+    private void addEndButton() {
+        CoordinatorLayout ll = (CoordinatorLayout)findViewById(R.id.activity_steps);
+        btnEnd = new Button(this);
+        btnEnd.setText(R.string.end);
+
+        CoordinatorLayout.LayoutParams lp2 = new CoordinatorLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        lp2.gravity = Gravity.BOTTOM;
+        btnEnd.setLayoutParams(lp2);
+        ll.addView(btnEnd);
+        btnEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        btnEnd.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -132,9 +166,8 @@ public class StepsActivity extends AppCompatActivity {
    private void addFragments() {
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(
                getSupportFragmentManager());
-       int id = 1;
 
-       ArrayList<Step> steps = new DataBaseService(this).getSteps(id);
+       ArrayList<Step> steps = new DataBaseService(this).getSteps(idSolution);
        size = steps.size();
        for(int index = 0; index< size; index++){
            adapter.addFragment(StepFragment.newInstance(steps.get(index), index+1,size,this));

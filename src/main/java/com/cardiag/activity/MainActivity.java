@@ -15,8 +15,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cardiag.R;
+import com.cardiag.models.solutions.Solution;
 import com.cardiag.utils.ConfirmDialog;
-import com.cardiag.onboarding.onBoardingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,19 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Check if onboarding_complete is false
         if(!preferences.getBoolean("onboarding_complete",false)) {
-
             showTutorial();
             return;
         }
-    }
-
-    private void showTutorial() {
-        Intent onboarding = new Intent(this, onBoardingActivity.class);
-        startActivity(onboarding);
-
-        // Close the main Activity
-        finish();
-        return;
     }
 
     public boolean enableBluetooth(int requestCode) {
@@ -188,5 +178,17 @@ public class MainActivity extends AppCompatActivity {
         return false;
 
     }
+
+    private void showTutorial() {
+        Intent onboarding = new Intent(this, StepsActivity.class);
+        onboarding.putExtra("solution",new Solution("tutorial",0,10));
+        startActivity(onboarding);
+
+        SharedPreferences preferences = getSharedPreferences("my_preferences", MODE_PRIVATE);
+        preferences.edit().putBoolean("onboarding_complete",true).apply();
+    //    finish();
+        return;
+    }
+
 
 }

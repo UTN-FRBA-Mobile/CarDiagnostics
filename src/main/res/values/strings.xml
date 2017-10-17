@@ -165,4 +165,5 @@
     <string name="tutorial_welcome">Welcome!</string>
     <string name="start_live_data">Start live data</string>
     <string name="stop_live_data">Stop live data</string>
+    <string name="end">Finalizar</string>
 </resources>
