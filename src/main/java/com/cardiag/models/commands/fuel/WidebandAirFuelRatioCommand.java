@@ -36,6 +36,10 @@ public class WidebandAirFuelRatioCommand extends ObdCommand {
         return String.format("%.2f", getWidebandAirFuelRatio()) + ":1 AFR";
     }
 
+    @Override
+    public String getResultUnit() {
+        return "AFR";
+    }
 
     @Override
     public String getCalculatedResult() {

@@ -36,6 +36,10 @@ public class AirFuelRatioCommand extends ObdCommand {
         return String.format("%.2f", getAirFuelRatio()) + ":1 AFR";
     }
 
+    @Override
+    public String getResultUnit() {
+        return "AFR";
+    }
 
     @Override
     public String getCalculatedResult() {
