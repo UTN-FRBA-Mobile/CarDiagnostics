@@ -1,11 +1,8 @@
 package com.cardiag.models.commands.engine;
 
-import android.content.res.Resources;
 import android.graphics.Color;
 
-import com.cardiag.R;
 import com.cardiag.models.commands.ObdCommand;
-import com.cardiag.models.exceptions.BadResponseException;
 import com.cardiag.velocimetro.Velocimetro;
 
 /**
@@ -61,7 +58,7 @@ public class RPMCommand extends ObdCommand {
         return rpm;
     }
 
-    public void setVelocimetroProperties(Velocimetro velocimetro) {
+    public void setVelocimetroProperties(Velocimetro velocimetro, double velocidadActual) {
         velocimetro.setMaxSpeed(11);
         velocimetro.setMajorTickStep(1);
         velocimetro.setMinorTicks(1);
@@ -71,6 +68,19 @@ public class RPMCommand extends ObdCommand {
         velocimetro.addColoredRange(7, 11, Color.rgb(52,62,64));
         velocimetro.setUnitsTextSize(30);
         velocimetro.setUnitsText(getResultUnit() + " x1000");
+        velocidadActual = velocidadActual/1000.0;
+
+        if(velocidadActual < 0) {
+            velocimetro.setSpeed(0, 100, 300);
+        }
+        if(velocidadActual > velocimetro.getMaxSpeed()){
+            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
+        }
+        if(velocidadActual >=  0 && velocidadActual < velocimetro.getMaxSpeed()){
+            velocimetro.setSpeed(velocidadActual, 100, 300);
+        }
+
+
     }
 
 }

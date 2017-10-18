@@ -1,8 +1,10 @@
 package com.cardiag.models.commands.control;
 
+import android.graphics.Color;
+
 import com.cardiag.models.commands.ObdCommand;
 import com.cardiag.models.commands.SystemOfUnits;
-import com.cardiag.utils.enums.AvailableCommandNames;
+import com.cardiag.velocimetro.Velocimetro;
 
 /**
  * <p>DistanceMILOnCommand class.</p>
@@ -70,4 +72,29 @@ public class DistanceMILOnCommand extends ObdCommand
         return km;
     }
 
+
+    public void setVelocimetroProperties(Velocimetro velocimetro, double velocidadActual) {
+        velocimetro.setMaxSpeed(10);
+        velocimetro.setMajorTickStep(1);
+        velocimetro.setMinorTicks(1);
+        velocimetro.clearColoredRanges();
+        velocimetro.addColoredRange(0, 4, Color.rgb(255,255,255));
+        velocimetro.addColoredRange(4, 7, Color.rgb(59,131,189));
+        velocimetro.addColoredRange(7, 10, Color.rgb(52,62,64));
+        velocimetro.setUnitsTextSize(30);
+        velocimetro.setUnitsText(getResultUnit() + " x10000");
+
+        velocidadActual = velocidadActual/10000.0;
+
+
+        if(velocidadActual < 0) {
+            velocimetro.setSpeed(0, 100, 300);
+        }
+        if(velocidadActual > velocimetro.getMaxSpeed()){
+            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
+        }
+        if(velocidadActual >=  0 && velocidadActual < velocimetro.getMaxSpeed()){
+            velocimetro.setSpeed(velocidadActual, 100, 300);
+        }
+    }
 }

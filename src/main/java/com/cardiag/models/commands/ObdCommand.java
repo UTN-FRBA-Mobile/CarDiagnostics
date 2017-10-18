@@ -3,9 +3,17 @@ package com.cardiag.models.commands;
 import android.graphics.Color;
 import android.text.TextUtils;
 
-import com.cardiag.models.commands.protocol.TimeoutCommand;
 import com.cardiag.models.config.ObdCommandSingleton;
-import com.cardiag.models.exceptions.*;
+import com.cardiag.models.exceptions.BadResponseException;
+import com.cardiag.models.exceptions.BusInitException;
+import com.cardiag.models.exceptions.MisunderstoodCommandException;
+import com.cardiag.models.exceptions.NoDataException;
+import com.cardiag.models.exceptions.NonNumericResponseException;
+import com.cardiag.models.exceptions.ResponseException;
+import com.cardiag.models.exceptions.StoppedException;
+import com.cardiag.models.exceptions.UnableToConnectException;
+import com.cardiag.models.exceptions.UnknownErrorException;
+import com.cardiag.models.exceptions.UnsupportedCommandException;
 import com.cardiag.velocimetro.Velocimetro;
 
 import java.io.IOException;
@@ -314,7 +322,7 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
         error = false;
     }
 
-    public void setVelocimetroProperties(Velocimetro velocimetro) {
+    public void setVelocimetroProperties(Velocimetro velocimetro, double velocidadActual) {
 
         velocimetro.setMaxSpeed(200);
         velocimetro.setMajorTickStep(30);
@@ -325,6 +333,16 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
         velocimetro.addColoredRange(120, 200, Color.rgb(52,62,64));
         velocimetro.setUnitsText(getResultUnit());
         velocimetro.setUnitsTextSize(40);
+
+        if(velocidadActual < 0) {
+            velocimetro.setSpeed(0, 100, 300);
+        }
+        if(velocidadActual > velocimetro.getMaxSpeed()){
+            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
+        }
+        if(velocidadActual >=  0 && velocidadActual < velocimetro.getMaxSpeed()){
+            velocimetro.setSpeed(velocidadActual, 100, 300);
+        }
     }
 
         /**

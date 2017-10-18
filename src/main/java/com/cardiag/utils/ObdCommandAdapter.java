@@ -70,7 +70,11 @@ public class ObdCommandAdapter extends BaseAdapter {
             cmdValue.setTextColor(Color.RED);
         }
 
-        cmd.setVelocimetroProperties(velocimetro);
+        velocidadMaxima = (double) velocimetro.getMaxSpeed();
+        velocidadActual =  Double.parseDouble(cmd.getCalculatedResult());
+
+
+        cmd.setVelocimetroProperties(velocimetro, velocidadActual);
 
         velocimetro.setLabelConverter(new Velocimetro.LabelConverter() {
             @Override
@@ -79,27 +83,7 @@ public class ObdCommandAdapter extends BaseAdapter {
             }
         });
 
-        velocidadMaxima = (double) velocimetro.getMaxSpeed();
-        velocidadActual =  Double.parseDouble(cmd.getCalculatedResult());
-        esRPM = cmd.getName().equals("RPM del motor");
 
-        if( velocidadActual < 0 ){
-            velocimetro.setSpeed(0, 100, 300);
-        }
-        if(velocidadActual > velocidadMaxima && !esRPM){
-            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
-        }
-        if(velocidadActual > (velocidadMaxima*1000) && esRPM){
-            velocimetro.setSpeed((velocimetro.getMaxSpeed()*1000), 100, 300);
-        }
-        if((velocidadActual >= 0 ) && (velocidadActual <= velocidadMaxima) && (!esRPM)){
-            velocimetro.setSpeed(velocidadActual, 100, 300);
-        }
-        if(( velocidadActual >= 0 ) && (velocidadActual <= (velocidadMaxima*1000)) && (esRPM)){
-
-            velocidadActual = velocidadActual/1000.0;
-            velocimetro.setSpeed(velocidadActual, 100, 300);
-        }
 
         return convertView;
     }

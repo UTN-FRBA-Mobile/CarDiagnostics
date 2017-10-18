@@ -60,7 +60,7 @@ public abstract class PercentageObdCommand extends ObdCommand {
         return String.valueOf(percentage);
     }
 
-    public void setVelocimetroProperties (Velocimetro velocimetro) {
+    public void setVelocimetroProperties(Velocimetro velocimetro, double velocidadActual) {
                 velocimetro.setMaxSpeed(100);
                 velocimetro.setMajorTickStep(20);
                 velocimetro.setMinorTicks(3);
@@ -70,5 +70,15 @@ public abstract class PercentageObdCommand extends ObdCommand {
                 velocimetro.addColoredRange(70, 100, Color.rgb(52,62,64));
                 velocimetro.setUnitsText(getResultUnit());
                 velocimetro.setUnitsTextSize(50);
+
+        if(velocidadActual < 0) {
+            velocimetro.setSpeed(0, 100, 300);
+        }
+        if(velocidadActual > velocimetro.getMaxSpeed()){
+            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
+        }
+        if(velocidadActual >=  0 && velocidadActual < velocimetro.getMaxSpeed()){
+            velocimetro.setSpeed(velocidadActual, 100, 300);
+        }
     }
 }

@@ -83,6 +83,8 @@ public class Velocimetro extends View {
         invalidate();
     }
 
+
+
     public double getSpeed() {
         return speed;
     }

@@ -1,7 +1,9 @@
 package com.cardiag.models.commands.fuel;
 
+import android.graphics.Color;
+
 import com.cardiag.models.commands.ObdCommand;
-import com.cardiag.utils.enums.AvailableCommandNames;
+import com.cardiag.velocimetro.Velocimetro;
 
 /**
  * Wideband AFR
@@ -47,6 +49,28 @@ public class WidebandAirFuelRatioCommand extends ObdCommand {
      */
     public double getWidebandAirFuelRatio() {
         return wafr;
+    }
+
+    public void setVelocimetroProperties(Velocimetro velocimetro, double velocidadActual) {
+        velocimetro.setMaxSpeed(50);
+        velocimetro.setMajorTickStep(5);
+        velocimetro.setMinorTicks(1);
+        velocimetro.clearColoredRanges();
+        velocimetro.addColoredRange(0, 15, Color.rgb(255,255,255));
+        velocimetro.addColoredRange(15, 30, Color.rgb(59,131,189));
+        velocimetro.addColoredRange(30, 50, Color.rgb(52,62,64));
+        velocimetro.setUnitsTextSize(30);
+        velocimetro.setUnitsText(getResultUnit());
+        velocimetro.setMaxSpeedPermitted(50);
+        if(velocidadActual < 0) {
+            velocimetro.setSpeed(0, 100, 300);
+        }
+        if(velocidadActual > velocimetro.getMaxSpeed()){
+            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
+        }
+        if(velocidadActual >=  0 && velocidadActual < velocimetro.getMaxSpeed()){
+            velocimetro.setSpeed(velocidadActual, 100, 300);
+        }
     }
 
 }
