@@ -2,6 +2,7 @@
 <resources>
     <string name="action_settings">Configuración</string>
     <string name="command_list">Elegir comando</string>
+    <string name="action_get_codes">Consultar Códigos</string>
     <string name="menu_item_trip_delete">Borrar</string>
     <string name="service_started">La conexión OBD ha comenzado.</string>
     <string name="service_stopped">La conexión OBD se ha detenido.</string>

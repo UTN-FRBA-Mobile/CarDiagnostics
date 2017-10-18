@@ -68,6 +68,7 @@ public class  StateActivity extends AppCompatActivity  {
     private List<Category> categories = new ArrayList<Category>();
     StateTask stateTask;
     ConnectionConfigTask cct;
+    final BluetoothAdapter btAdapter = getBluetoothAdapter();;
     private Sensor orientSensor = null;
     private DataBaseService dbService;
     private Menu menu;
@@ -78,19 +79,9 @@ public class  StateActivity extends AppCompatActivity  {
         setContentView(R.layout.car_state);
         doBindings();
         dbService = new DataBaseService(this);
-
-        final BluetoothAdapter btAdapter = getBluetoothAdapter();
+        categories = dbService.getGroups(null,null);
 
 //        initiateConfiguration();
-
-        if (btAdapter != null && btAdapter.isEnabled()) {
-            bluetoothDefaultIsEnable = btAdapter.isEnabled();
-            initiateConfiguration();
-       } else {
-            String error = getString(R.string.error);
-            String msg = getString(R.string.text_bluetooth_disabled);
-            ConfirmDialog.showCancellingDialog(this, error, msg, true);
-        }
 
     }
 
@@ -104,7 +95,6 @@ public class  StateActivity extends AppCompatActivity  {
         } else {
             showDialog(NO_ORIENTATION_SENSOR);
         }
-        categories = dbService.getGroups(null,null);
         cct = new ConnectionConfigTask(this);
         cct.execute();
 
@@ -169,6 +159,15 @@ public class  StateActivity extends AppCompatActivity  {
             submenu.add(Menu.NONE, g.getId(), Menu.NONE, g.getName());
         }
         submenu.add(Menu.NONE, CUSTOMIZED, Menu.NONE, getString(R.string.menu_customized));
+
+        if (btAdapter != null && btAdapter.isEnabled()) {
+            bluetoothDefaultIsEnable = btAdapter.isEnabled();
+            initiateConfiguration();
+        } else {
+            String error = getString(R.string.error);
+            String msg = getString(R.string.text_bluetooth_disabled);
+            ConfirmDialog.showCancellingDialog(this, error, msg, true);
+        }
 
         return true;
     }
