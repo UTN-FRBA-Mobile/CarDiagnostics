@@ -104,7 +104,7 @@ public abstract class PressureCommand extends ObdCommand implements
         if(velocidadActual > velocimetro.getMaxSpeed()){
             velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
         }
-        if(velocidadActual >=  0 && velocidadActual < velocimetro.getMaxSpeed()){
+        if(velocidadActual >=  0 && velocidadActual <= velocimetro.getMaxSpeed()){
             velocimetro.setSpeed(velocidadActual, 100, 300);
         }
     }

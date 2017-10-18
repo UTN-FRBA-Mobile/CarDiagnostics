@@ -61,14 +61,13 @@ public class WidebandAirFuelRatioCommand extends ObdCommand {
         velocimetro.addColoredRange(30, 50, Color.rgb(52,62,64));
         velocimetro.setUnitsTextSize(30);
         velocimetro.setUnitsText(getResultUnit());
-        velocimetro.setMaxSpeedPermitted(50);
         if(velocidadActual < 0) {
             velocimetro.setSpeed(0, 100, 300);
         }
         if(velocidadActual > velocimetro.getMaxSpeed()){
             velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
         }
-        if(velocidadActual >=  0 && velocidadActual < velocimetro.getMaxSpeed()){
+        if(velocidadActual >=  0 && velocidadActual <= velocimetro.getMaxSpeed()){
             velocimetro.setSpeed(velocidadActual, 100, 300);
         }
     }
