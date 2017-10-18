@@ -10,6 +10,8 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/accent</item>
 
+        <item name="colorPrimary">#4D7C8A</item>
+        <item name="colorPrimaryDark">#006064</item>
     </style>
 
     <!-- Application theme. -->

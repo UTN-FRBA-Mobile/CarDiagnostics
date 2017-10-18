@@ -1,67 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context="com.cardiag.activity.MainActivity">
 
-    <LinearLayout
+
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="251dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/fondo_auto_back"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:layout_weight="0.30"
+        app:srcCompat="@drawable/img_auto" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_weight="0.09" />
 
-        <Button
-            android:id="@+id/car_state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="0.10"
-            android:drawableLeft="@drawable/ic_list_black_24dp"
-            android:onClick="startStateActivity"
-            android:text="@string/car_state_text_button"
-            android:textAllCaps="false" />
+    <Button
+        android:id="@+id/car_state"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_above="@+id/error_codes"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_weight="0.22"
+        android:drawableLeft="@drawable/ic_list_black_24dp"
+        android:onClick="startStateActivity"
+        android:text="@string/car_state_text_button"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_weight="0.11" />
+    <Button
+        android:id="@+id/error_codes"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_above="@+id/service_finder"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="0.22"
+        android:drawableLeft="@drawable/ic_directions_car_black_24dp"
+        android:onClick="startErrorCodesActivity"
+        android:text="@string/error_codes_text_button"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/error_codes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="0.09"
-            android:drawableLeft="@drawable/ic_directions_car_black_24dp"
-            android:onClick="startErrorCodesActivity"
-            android:text="@string/error_codes_text_button"
-            android:textAllCaps="false" />
+    <Button
+        android:id="@+id/service_finder"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="0.19"
+        android:drawableLeft="@drawable/ic_place_black_24dp"
+        android:onClick="startMapsActivity"
+        android:text="@string/service_finder_text_button"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_weight="0.13" />
-
-        <Button
-            android:id="@+id/service_finder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="0.08"
-            android:drawableLeft="@drawable/ic_place_black_24dp"
-            android:onClick="startMapsActivity"
-            android:text="@string/service_finder_text_button"
-            android:textAllCaps="false" />
-
-    </LinearLayout>
 
 </RelativeLayout>
