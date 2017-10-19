@@ -12,6 +12,8 @@
 
         <item name="colorPrimary">#4D7C8A</item>
         <item name="colorPrimaryDark">#006064</item>
+
+        <item name="android:alertDialogTheme">@style/DialogStyle</item>
     </style>
 
     <!-- Application theme. -->
@@ -46,6 +48,11 @@
     <style name="CustomMenuItem" parent="@android:style/TextAppearance">
         <item name="android:popupBackground">@color/black</item>
         <item name="android:textColor">@color/text_color_white</item>
+    </style>
+
+    <style name="DialogStyle" parent="android:Theme.Material.Dialog">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">#4D7C8A</item>
     </style>
 
   </resources>
