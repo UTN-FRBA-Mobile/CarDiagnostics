@@ -59,6 +59,15 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/botonStop"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:drawableLeft="@mipmap/ic_stop"
+            android:onClick="stopLiveData"
+            android:padding="16dp"
+            android:text="@string/stop_live_data"
+            android:textSize="10sp" />
+        <Button
             android:id="@+id/botonPlay"
             android:layout_height="56dp"
             android:layout_weight="1"
@@ -68,15 +77,6 @@
             android:text="@string/start_live_data"
             android:textSize="10sp" />
 
-        <Button
-            android:id="@+id/botonStop"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:drawableLeft="@mipmap/ic_stop"
-            android:onClick="stopLiveData"
-            android:padding="16dp"
-            android:text="@string/stop_live_data"
-            android:textSize="10sp" />
     </TableRow>
 
 

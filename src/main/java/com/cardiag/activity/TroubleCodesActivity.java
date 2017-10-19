@@ -194,6 +194,8 @@ public class TroubleCodesActivity extends AppCompatActivity {
                 gtct = new GetTroubleCodesTask(this);
                 gtct.execute(remoteDevice);
                 break;
+            case android.R.id.home:
+                onBackPressed();
         }
 
         return true;
@@ -456,7 +458,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
     }
 
     private void dataOkDummy() {
-        String res= "P0010\nP0008\nP0021\nP057F\nP0212\nP0500\nP0453";
+        String res= "P0010\nP0008\nP057F\nP0212\nP0524\nP0453\nP0013\nP0171\nP2299";
         this.dataOk(res);
         return;
       //  lv.setTextFilterEnabled(true);
@@ -508,9 +510,4 @@ public class TroubleCodesActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
-    }
 }
