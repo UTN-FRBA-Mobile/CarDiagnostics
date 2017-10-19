@@ -10,6 +10,11 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.support.design.widget.CoordinatorLayout;
+import android.view.Gravity;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +36,7 @@ public class ConfigActivityMain extends PreferenceActivity  {
         if (!enableBluetooth(BLUETOOTH_REQUEST)) {
             initiateConfiguration();
         }
-
+        getListView().setBackground(getResources().getDrawable(R.drawable.fondo_auto_pref));
     }
 
     private void initiateConfiguration() {
@@ -106,7 +111,6 @@ public class ConfigActivityMain extends PreferenceActivity  {
                 return true;
             }
         });
-
     }
 
     @Override

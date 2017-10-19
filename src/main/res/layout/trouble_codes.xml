@@ -12,6 +12,9 @@
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/tvCodes" />
 
     <android.support.v7.widget.RecyclerView
@@ -21,6 +24,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_below="@+id/tvSolutions" />
 
     <TextView
@@ -47,6 +52,7 @@
         android:textColor="@color/text_color_white"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:layout_marginTop="20dp"
         android:visibility="invisible" />
 
 </RelativeLayout>
