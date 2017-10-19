@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             showTutorial();
             return;
         }
-        getSupportActionBar().setTitle("");
+//        getSupportActionBar().setTitle("");
     }
 
     public boolean enableBluetooth(int requestCode) {

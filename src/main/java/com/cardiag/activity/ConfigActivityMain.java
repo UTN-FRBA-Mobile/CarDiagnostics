@@ -118,7 +118,10 @@ public class ConfigActivityMain extends PreferenceActivity  {
         if (requestCode == BLUETOOTH_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 initiateConfiguration();
+            } else {
+                finish();
             }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
