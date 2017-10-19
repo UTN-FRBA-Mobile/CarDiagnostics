@@ -36,7 +36,7 @@ public class ConfigActivityMain extends PreferenceActivity  {
         if (!enableBluetooth(BLUETOOTH_REQUEST)) {
             initiateConfiguration();
         }
-        getListView().setBackground(getResources().getDrawable(R.drawable.fondo_auto_pref));
+//        getListView().setBackground(getResources().getDrawable(R.drawable.fondo_auto_pref));
     }
 
     private void initiateConfiguration() {

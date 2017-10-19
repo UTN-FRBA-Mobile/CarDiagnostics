@@ -31,7 +31,7 @@
     <string name="title_pref_commands">Comandos OBD</string>
     <string name="title_pref_obd">Preferencias OBD</string>
     <string name="service_starting">Iniciando conexión OBD...</string>
-    <string name="pref_bluetooth_list_devices_summary">Lista de los dispositivos Bluetooth vinculados.</string>
+    <string name="pref_bluetooth_list_devices_summary">Toque para ver los dispositivos Bluetooth vinculados.</string>
     <string name="pref_bluetooth_list_devices_title">Seleccionar Dispositivo Bluetooth</string>
     <string name="status_bluetooth_connected">conectado</string>
     <string name="status_bluetooth_disabled">deshabilitado</string>
