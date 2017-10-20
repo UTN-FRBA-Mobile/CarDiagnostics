@@ -60,7 +60,7 @@ public class TroubleCodesCommand extends ObdCommand {
 
     @Override
     protected void performCalculations() {
-        final String result = getResult();
+        final String result = getResult().replace(".", "");
         String workingData;
         int startIndex = 0;//Header size.
 

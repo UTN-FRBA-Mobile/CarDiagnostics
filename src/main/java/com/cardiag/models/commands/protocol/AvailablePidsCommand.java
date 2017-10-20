@@ -66,7 +66,7 @@ public abstract class AvailablePidsCommand extends ObdCommand {
     }
 
     public String getData(){
-        return String.valueOf(rawData).substring(4);
+        return String.valueOf(rawData).replace(".", "").substring(4);
     }
 
 
