@@ -44,24 +44,20 @@ public class DataBaseService extends SQLiteOpenHelper {
      * nuevos datos en la base de datos (Los estaticos)
      */
     public DataBaseService(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, 1);
         this.context = context;
         DATABASE_PATH = context.getFilesDir().getParentFile().getPath()
                 + "/databases/";
 
-        //deleteDataBase();
         createDataBase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //createDataBase();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            deleteDataBase();
-            createDataBase();
     }
 
     private void createDataBase() {
@@ -75,6 +71,36 @@ public class DataBaseService extends SQLiteOpenHelper {
                 copyDataBase();
             } catch (IOException e) {
                 //throw new Error("Error copying database");
+            }
+        }
+        else {
+            checkVersion();
+        }
+    }
+
+    private void checkVersion(){
+        cardiagDB = this.getReadableDatabase();
+        String version = "0";
+
+        String[] projection = {
+               "version"
+        };
+
+        Cursor c = cardiagDB.query(
+                "version",                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,//   selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null//     sortOrder                                 // The sort order
+        );
+
+        if (c.moveToFirst()) {
+            if(c.getInt(0) < DATABASE_VERSION){
+                //uptdate database with new version
+                deleteDataBase();
+                createDataBase();
             }
         }
     }
@@ -150,52 +176,6 @@ public class DataBaseService extends SQLiteOpenHelper {
 
     //////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    /*private void insertSteps(ArrayList<Step> steps) {
-        for (Step s : steps){
-            this.insertStep(s);
-        }
-    }*/
-
-   /* public void insertSolution(Solution solution) {
-        this.insertSteps(solution.getSteps());
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(SolutionEntry.DESCRIPTION, " ");
-        values.put(SolutionEntry.NAME, solution.getName());
-        values.put(SolutionEntry.PRIORITY,String.valueOf(solution.getPriority()));
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(SolutionEntry.TABLE_NAME, null, values);
-        solution.setId(newRowId);
-        this.insertStepSolutions(solution,db);
-        db.close();
-    }*/
-
-    /*private void insertStepSolutions(Solution solution, SQLiteDatabase db) {
-        String idsol = String.valueOf(solution.getId());
-        for (int i =0; i<solution.getSteps().size();i++){
-            Step step = solution.getSteps().get(i);
-            ContentValues values = new ContentValues();
-            values.put(StepSolEntry.IDSOL, idsol);
-            values.put(StepSolEntry.IDSTEP, String.valueOf(step.getId()));
-            values.put(StepSolEntry.ORDER, String.valueOf(i));
-            db.insert(StepSolEntry.TABLE_NAME, null, values);
-        }
-    }*/
-
-
-    /*private void insertStep(Step step) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(StepEntry.DESCRIPTION, step.getDesc());
-        values.put(StepEntry.PATH, step.getImgId());
-        //      values.put(StepEntry.ORDER,String.valueOf(step.getPosition()));
-        long newRowId = db.insert(StepEntry.TABLE_NAME, null, values);
-        step.setId(newRowId);
-        db.close();
-    }*/
-
-
     public ArrayList<Step> getSteps(int id) {
         if(id ==10) return this.getStepsDummy(id);
         cardiagDB = this.getReadableDatabase();
@@ -253,25 +233,6 @@ public class DataBaseService extends SQLiteOpenHelper {
 
         return s;
     }
-
-    /*public void insertDummySol() {
-        this.insertSolution(this.getDummySol());
-    }
-    private Solution getDummySol() {
-        ArrayList<Step> steps  = new ArrayList<Step>();
-        steps.add(new Step("s0101","Revisar cuidadosamente el circuito del banco 1 / circuito de VCT(sincronización variable del árbol de levas)"+
-                ", sistema de cableado y conectores, como lo indica el manual de reparación"));
-        steps.add( new Step("s0102","Con el motor caliente, cheque la operación de la OCV (válvula de control)"));
-        steps.add( new Step("s0103","sustitución / repare o reemplace según sea necesario"));
-
-        return  new Solution("Solucion", steps);
-    }
-    public void insertDummySteps() {
-        this.insertStep(new Step("s0101","Revisar cuidadosamente el circuito del banco 1 / circuito de VCT(sincronización variable del árbol de levas)"+
-                ", sistema de cableado y conectores, como lo indica el manual de reparación"));
-        this.insertStep( new Step("s0102","Con el motor caliente, cheque la operación de la OCV (válvula de control)"));
-        this.insertStep( new Step("s0103","sustitución / repare o reemplace según sea necesario"));
-    }*/
 
 
     //////////////////////Commands///////////////////////////
