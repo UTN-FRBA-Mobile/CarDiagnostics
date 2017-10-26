@@ -12,10 +12,11 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="251dp"
+        android:layout_height="261dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
         app:srcCompat="@drawable/img_auto" />
 
 

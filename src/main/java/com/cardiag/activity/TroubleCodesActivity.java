@@ -229,7 +229,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
         //String tmpVal = dtcVals.get(res.split("\n"));
         //String[] troubleCodes = new String[]{};
         //int i =1;
-        if (res != null) {
+        if (res != null || res.equals("")) {
             for (String dtcCode : res.split("\n")) {
                 //troubleCodes.add(new TroubleCode(dtcCode , dtcVals.get(dtcCode)));  //--lo saca de un achivo en ingles
                 troubleCodes.add(db.getTroubleCode(dtcCode));
