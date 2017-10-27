@@ -17,6 +17,8 @@ import com.cardiag.R;
 import com.cardiag.activity.StepsActivity;
 import com.cardiag.models.solutions.Step;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 /**
  * Created by lrocca on 13/06/2017.
  */
@@ -32,7 +34,7 @@ public class StepFragment extends Fragment {
     private String imgid;
     private String desc;
     private int total;
-
+    PhotoViewAttacher photoViewAttacher;
 
     public StepFragment() {
         // Required empty public constructor
@@ -65,6 +67,7 @@ public class StepFragment extends Fragment {
         // Show the current page index in the view
         TextView tvIndex = (TextView) rootView.findViewById(R.id.tvIndex);
         ImageView img = (ImageView) rootView.findViewById(R.id.imageView);
+        photoViewAttacher = new PhotoViewAttacher(img);
         tvIndex.setText(desc);
 
         TextView tvStepPosition = (TextView) rootView.findViewById(R.id.tvStep);

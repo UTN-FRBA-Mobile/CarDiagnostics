@@ -62,5 +62,6 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:+'
     compile 'com.ogaclejapan.smarttablayout:library:1.2.1@aar'
+    compile 'com.commit451:PhotoView:1.2.4'
     testCompile 'junit:junit:4.12'
 }
