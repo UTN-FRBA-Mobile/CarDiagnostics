@@ -88,13 +88,13 @@ public class DistanceMILOnCommand extends ObdCommand
 
 
         if(velocidadActual < 0) {
-            velocimetro.setSpeed(0, 100, 300);
+            velocimetro.setSpeed(0, 100, 0);
         }
         if(velocidadActual > velocimetro.getMaxSpeed()){
-            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 300);
+            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 0);
         }
         if(velocidadActual >=  0 && velocidadActual <= velocimetro.getMaxSpeed()){
-            velocimetro.setSpeed(velocidadActual, 100, 300);
+            velocimetro.setSpeed(velocidadActual, 100, 0);
         }
     }
 }

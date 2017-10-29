@@ -23,6 +23,7 @@ public abstract class AvailablePidsCommand extends ObdCommand {
      */
     public AvailablePidsCommand(String command, Integer pos) {
         super(command, pos);
+        digitCount = 12;
     }
 
     public AvailablePidsCommand(AvailablePidsCommand other) {

@@ -237,6 +237,7 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
     public void setAvailablePIDs(InputStream inputStream, OutputStream outputStream) throws IOException, InterruptedException {
 
         ArrayList<AvailablePidsCommand> availablePIDsCommand = new ArrayList<AvailablePidsCommand>();
+        Integer errorCount = 0;
 
         AvailablePidsCommand_01_20 av1 = new AvailablePidsCommand_01_20();
         AvailablePidsCommand_21_40 av2 = new AvailablePidsCommand_21_40();
@@ -249,6 +250,9 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
         availablePIDsCommand.add(av5);
 
         av1.run(inputStream, outputStream);
+        if (av1.getError()) {
+            throw new IOException();
+        }
         flags.addAll(av1.getFlags());
         //Run availability commands, checking for the next to be available
         for (AvailablePidsCommand cmd: availablePIDsCommand) {
@@ -257,9 +261,11 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
             }
             Thread.sleep(waitTime);
             cmd.run(inputStream, outputStream);
+            if (cmd.getError()) {
+                throw new IOException();
+            }
             flags.addAll(cmd.getFlags());
         }
-
     }
 
     public void runCommands(ArrayList<ObdCommand> cmds, InputStream is, OutputStream os) throws IOException, InterruptedException {
