@@ -32,7 +32,7 @@ import static com.cardiag.persistence.StepsContract.*;
  * Created by lrocca on 26/07/2017.
  */
 public class DataBaseService extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "CarDiag.db";
     public static String DATABASE_PATH;
 
@@ -449,7 +449,7 @@ public class DataBaseService extends SQLiteOpenHelper {
         ArrayList<Step> steps = new ArrayList<Step>();
         steps.add(new Step("logo","Cardiag \nTutorial"));
         steps.add(new Step("s10s54","Tome su dispositivo OBD para conectarlo."));
-        steps.add(new Step("s10s55","Proceda a conectarlo en la placa ECU de su vehículo. La entrada OBD2 suele encontrarse debajo del volante como se muestra en la imagen."));
+        steps.add(new Step("s10s55","Proceda a conectarlo en la placa ECU de su vehículo. La entrada OBD2 suele encontrarse debajo del volante como se muestra en la imágen."));
         steps.add(new Step("s10s56","Verifique la correcta conexión. En caso de que vea la luz roja parpadeando, eso indica que el mismo ya está funcionando."));
     //    steps.add(new Step("s10s57","Tome su dispositivo celular y diríjase a AJUSTES para configurar el dispositivo."));
         steps.add(new Step("s10s58","Ingrese al menú BLUETOOTH de su dispositivo movil (por fuera de la aplicación)."));
@@ -457,7 +457,7 @@ public class DataBaseService extends SQLiteOpenHelper {
         steps.add(new Step("s10s60","Ingrese el PIN para la vinculación si es que la configuro, caso contrario elija una en ese momento."));
        // steps.add(new Step("s10s61","El dispositivo OBD2 ya debe estar vinculado a su teléfono móvil y debe verse reflejado."));
       //  steps.add(new Step("s10s62","Ingrese a la aplicación CARDIAG. En el menú superior se van a desplegar algunas opciones que debe configurar como primer paso."));
-        steps.add(new Step("s10s63","Seleccione 'Elegir Dispositivo OBD2' del menu para vincular el aparato a la aplicación."));
+        steps.add(new Step("s10s63","Seleccione 'Elegir Dispositivo OBD2' del menú para vincular el aparato a la aplicación."));
      //   steps.add(new Step("s10s64","Allí se van a listar los dispositivos que están vinculados al teléfono. Tildamos el correspondiente al OBD2 para vincularlo con la aplicación CARDIAG."));
      //   steps.add(new Step("s10s65","Una vez hecho esto, ya está operativa la aplicación. Puede navegar entre los distintos menues y conocer el estado de su vehículo."));
         return steps;
