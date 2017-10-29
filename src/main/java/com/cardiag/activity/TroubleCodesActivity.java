@@ -145,8 +145,9 @@ public class TroubleCodesActivity extends AppCompatActivity {
         remoteDevice = prefs.getString(ConfigActivity.BLUETOOTH_LIST_KEY, null);
         initialice();
 
-        if (remoteDevice == null || "".equals(remoteDevice) || remoteDevice.equals("1C:5A:3E:12:AB:5A") ) {
-            this.dataOkDummy();
+        if (remoteDevice == null || "".equals(remoteDevice) /*|| remoteDevice.equals("1C:5A:3E:12:AB:5A")*/ ) {
+            ConfirmDialog.showCancellingDialog(this, getString(R.string.error), getString(R.string.status_no_device_selected), true);
+//            this.dataOkDummy();
 //            Log.e(TAG, "No Bluetooth device has been selected.");
 //            mHandler.obtainMessage(NO_BLUETOOTH_DEVICE_SELECTED).sendToTarget();
         } else {
@@ -179,11 +180,13 @@ public class TroubleCodesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
 
-        //TODO Limpiar la lista antes de correr esto o borrar el item del menu.
         switch (item.getItemId()) {
             case R.id.action_clear_codes:
+                troubleCodes.clear();
+                troubleCodesAdapter.notifyDataSetChanged();
+                solutions.clear();
+                solutionsAdapter.notifyDataSetChanged();
                 gtct = new GetTroubleCodesTask(this);
                 gtct.execute(remoteDevice);
                 break;
@@ -229,13 +232,20 @@ public class TroubleCodesActivity extends AppCompatActivity {
                 Log.d("TEST", dtcCode + " : " + dtcVals.get(dtcCode));
             }
         } else {
-            troubleCodes.add(new TroubleCode("There are no errors","", -1));
+            troubleCodes.add(new TroubleCode(getString(R.string.trouble_codes_no_error),"", -1));
         }
         troubleCodesAdapter.notifyDataSetChanged();
 
     }
 
     public void select(int selectedErrorPosition) {
+        TroubleCode troubleCode = troubleCodes.get(selectedErrorPosition);
+        String errorDesc = troubleCode.getName();
+        String stringDesc = getString(R.string.trouble_codes_no_error);
+        if (TextUtils.equals(errorDesc, stringDesc)) {
+            return;
+        }
+
         View tvsol = findViewById(R.id.tvSolutions);
         tvsol.setVisibility(View.VISIBLE);
         solutions.removeAll(solutions);
@@ -243,7 +253,7 @@ public class TroubleCodesActivity extends AppCompatActivity {
         final ViewGroup transitionsContainer = (ViewGroup) findViewById(R.id.activity_troubles);
         TransitionManager.beginDelayedTransition(transitionsContainer);
 
-        solutions.addAll(troubleCodes.get(selectedErrorPosition).getSolutions());
+        solutions.addAll(troubleCode.getSolutions());
         solutionsAdapter.notifyDataSetChanged();
     }
 

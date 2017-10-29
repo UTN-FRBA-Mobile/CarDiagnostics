@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.cardiag.activity.MainActivity;
@@ -70,7 +71,7 @@ public class ConfirmDialog {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);
 
-        final StateActivity sta = (StateActivity) context;
+        final AppCompatActivity sta = (AppCompatActivity) context;
         // set dialog message
         alertDialogBuilder
                 .setTitle(title)

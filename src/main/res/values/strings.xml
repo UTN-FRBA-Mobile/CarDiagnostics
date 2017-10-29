@@ -165,5 +165,6 @@
     <string name="tutorial_welcome">Welcome!</string>
     <string name="start_live_data">Start live data</string>
     <string name="stop_live_data">Stop live data</string>
-    <string name="end">Finalizar</string>
+    <string name="end">Finish</string>
+    <string name="trouble_codes_no_error">There are no errors</string>
 </resources>

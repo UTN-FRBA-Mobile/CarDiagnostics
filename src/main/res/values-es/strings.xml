@@ -92,5 +92,6 @@
     <string name="start_live_data">Iniciar datos</string>
     <string name="stop_live_data">Detener datos</string>
     <string name="end">Finalizar</string>
+    <string name="trouble_codes_no_error">No se detectaron errores</string>
 
 </resources>

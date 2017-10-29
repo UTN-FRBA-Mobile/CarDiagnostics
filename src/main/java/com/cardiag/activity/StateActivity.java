@@ -159,6 +159,7 @@ public class  StateActivity extends AppCompatActivity  {
             submenu.add(Menu.NONE, g.getId(), Menu.NONE, g.getName());
         }
         submenu.add(Menu.NONE, CUSTOMIZED, Menu.NONE, getString(R.string.menu_customized));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (btAdapter != null && btAdapter.isEnabled()) {
             bluetoothDefaultIsEnable = btAdapter.isEnabled();
@@ -184,6 +185,8 @@ public class  StateActivity extends AppCompatActivity  {
                 cct = new ConnectionConfigTask(this);
                 cct.execute();
                 return true;
+            case android.R.id.home:
+                onBackPressed();
          }
 
         for (Category g: categories) {
