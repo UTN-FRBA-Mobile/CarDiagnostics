@@ -214,6 +214,8 @@ public class  StateActivity extends AppCompatActivity  {
         showToast(getString(R.string.status_obd_data));
         botonPlay.setEnabled(false);
         botonStop.setEnabled(true);
+        botonStop.setVisibility(View.VISIBLE);
+        botonPlay.setVisibility(View.INVISIBLE);
         selectCommands.setEnabled(false);
         obdDataStatus.setText(getString(R.string.status_obd_data));
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -231,6 +233,8 @@ public class  StateActivity extends AppCompatActivity  {
         showToast(getString(R.string.status_obd_data_stopped));
         botonPlay.setEnabled(true);
         botonStop.setEnabled(false);
+        botonPlay.setVisibility(View.VISIBLE);
+        botonStop.setVisibility(View.INVISIBLE);
         selectCommands.setEnabled(true);
         obdDataStatus.setText(getString(R.string.status_obd_data_stopped));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
