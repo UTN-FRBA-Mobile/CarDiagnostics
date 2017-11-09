@@ -32,7 +32,7 @@ import static com.cardiag.persistence.StepsContract.*;
  * Created by lrocca on 26/07/2017.
  */
 public class DataBaseService extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "CarDiag.db";
     public static String DATABASE_PATH;
 
