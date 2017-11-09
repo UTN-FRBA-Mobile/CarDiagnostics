@@ -155,6 +155,7 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
         }
 
         if (TextUtils.equals(result, error)) {
+            stateActivity.prepareButtons(false);
             ConnectionConfigTask cct = new ConnectionConfigTask(stateActivity);
             ProgressDialog pDialog = cct.getProgressDialog();
             pDialog.setTitle(stateActivity.getString(R.string.dialog_reconnecting_title));

@@ -400,8 +400,11 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     public void prepareButtons(Boolean prepare){
+        if (!prepare && botonPlay.getVisibility() == View.INVISIBLE) {
+            botonPlay.setVisibility(View.VISIBLE);
+            botonStop.setVisibility(View.INVISIBLE);
+        }
         botonPlay.setEnabled(prepare);
-
         botonStop.setEnabled(prepare);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         selectCommands.setEnabled(prepare);
