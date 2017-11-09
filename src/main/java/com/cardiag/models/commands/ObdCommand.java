@@ -274,6 +274,7 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
     }
 
     protected void checkForErrors() {
+        rawData = rawData.replace(".", "");
         validateResponse();
         validateData();
         for (Class<? extends ResponseException> errorClass : ERROR_CLASSES) {
