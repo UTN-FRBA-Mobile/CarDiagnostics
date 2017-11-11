@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -30,7 +29,6 @@ import com.cardiag.models.commands.protocol.TimeoutCommand;
 import com.cardiag.models.config.ObdCommandSingleton;
 import com.cardiag.persistence.DataBaseService;
 import com.cardiag.persistence.ObdCommandContract;
-import com.cardiag.utils.BluetoothConnectionListener;
 import com.cardiag.utils.BluetoothManager;
 import com.cardiag.utils.ConfirmDialog;
 import com.cardiag.utils.enums.ObdProtocols;
@@ -40,7 +38,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Leo on 29/7/2017.
@@ -92,8 +89,8 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
         progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
-                stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
-                stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
+//                stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
+                stateActivity.showDisconectedMsg(true);
                 stateActivity.prepareButtons(false);
                 cct.closeSocket();
                 stateActivity.showToast(stateActivity.getString(R.string.state_dialog_error_initiating));
@@ -305,15 +302,16 @@ public class ConnectionConfigTask extends AsyncTask<String, ProgressData, Progre
             stateActivity.setSelectedCommands(commands);
             stateActivity.multiStateUpdate();
             stateActivity.prepareButtons(true);
-            stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_connected));
+//            stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_connected));
+            stateActivity.showDisconectedMsg(false);
 
         } else {
             String title = stateActivity.getString(R.string.error);
             stateActivity.prepareButtons(false);
-            stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
+//            stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
+            stateActivity.showDisconectedMsg(true);
             ConfirmDialog.showCancellingDialog(stateActivity, title, progress.getProgressMessage(), false);
         }
-        stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
     }
 
     @Override

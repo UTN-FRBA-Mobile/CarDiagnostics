@@ -42,7 +42,7 @@ public class ObdCommandCheckAdapter extends RecyclerView.Adapter<ObdCommandCheck
         String where = ObdCommandContract.CommandEntry.AVAILABILITY+"=?";
         String[] values = new String[]{"1"};
             this.cmds = db.getCommands(where, values);
-//          this.cmds = db.getCommands(null, null);
+    //              this.cmds = db.getCommands(null, null);
 
           for (ObdCommand cmd: cmds) {
               if (cmd.getSelected()) {

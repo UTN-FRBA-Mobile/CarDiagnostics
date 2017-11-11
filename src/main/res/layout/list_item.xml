@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:id="@+id/linearLayout_grid"
     android:background="#EB4E7A7E">
@@ -11,12 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="8dp" />
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <!--alguna imagen-->
-
-    </FrameLayout>
     <TextView
         android:id="@+id/textview_cmd_name"
         android:layout_width="wrap_content"

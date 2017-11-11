@@ -2,10 +2,12 @@ package com.cardiag.utils;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.cardiag.R;
@@ -18,7 +20,8 @@ import java.util.List;
  * Created by Leo on 30/7/2017.
  */
 
-public class ObdCommandAdapter extends BaseAdapter {
+//public class ObdCommandAdapter extends BaseAdapter {
+public class ObdCommandAdapter extends RecyclerView.Adapter<ObdCommandAdapter.OBDCommandViewHolder> {
 
     private List<ObdCommand> cmds;
     private Context mContext;
@@ -35,32 +38,43 @@ public class ObdCommandAdapter extends BaseAdapter {
         this.mContext = context;
    }
 
+//    @Override
+//    public int getCount() {
+//        return cmds.size();
+//    }
+//
+//    @Override
+//    public Object getItem(int i) {
+//        return null;
+//    }
+//
+//    @Override
+//    public long getItemId(int i) {
+//        return i;
+//    }
+
+//
+
     @Override
-    public int getCount() {
-        return cmds.size();
+    public OBDCommandViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ObdCommandAdapter.OBDCommandViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false));
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
-    }
+    public void onBindViewHolder(OBDCommandViewHolder holder, int position) {
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
+//        if (convertView == null) {
+//            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+//            convertView = layoutInflater.inflate(R.layout.list_item, null);
+//        }
 
-    @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
+    //        TextView cmdName = (TextView) convertView.findViewById(R.id.textview_cmd_name);
+    //        TextView cmdValue = (TextView) convertView.findViewById(R.id.textview_cmd_value);
+    //        velocimetro = (Velocimetro) convertView.findViewById(R.id.velocimetro);
 
-        if (convertView == null) {
-            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.list_item, null);
-        }
-
-        TextView cmdName = (TextView) convertView.findViewById(R.id.textview_cmd_name);
-        TextView cmdValue = (TextView) convertView.findViewById(R.id.textview_cmd_value);
-        velocimetro = (Velocimetro) convertView.findViewById(R.id.velocimetro);
+        TextView cmdName = holder.cmdName;
+        TextView cmdValue = holder.cmdValue;
+        velocimetro = holder.velocimetro;
 
         ObdCommand cmd = cmds.get(position);
         cmdName.setText(cmd.getName() + ": ");
@@ -73,7 +87,6 @@ public class ObdCommandAdapter extends BaseAdapter {
         velocidadMaxima = (double) velocimetro.getMaxSpeed();
         velocidadActual =  Double.parseDouble(cmd.getCalculatedResult());
 
-
         cmd.setVelocimetroProperties(velocimetro, velocidadActual);
 
         velocimetro.setLabelConverter(new Velocimetro.LabelConverter() {
@@ -83,14 +96,11 @@ public class ObdCommandAdapter extends BaseAdapter {
             }
         });
 
-
-
-        return convertView;
     }
 
     @Override
-    public void notifyDataSetChanged() {
-       super.notifyDataSetChanged();
+    public int getItemCount() {
+        return cmds.size();
     }
 
     public List<ObdCommand> getCmds() {
@@ -99,6 +109,20 @@ public class ObdCommandAdapter extends BaseAdapter {
 
     public void setCmds(List<ObdCommand> cmds) {
         this.cmds = cmds;
+    }
+
+    static class OBDCommandViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView cmdName;
+        private TextView cmdValue;
+        private Velocimetro velocimetro;
+        public OBDCommandViewHolder(View itemView) {
+            super(itemView);
+
+            cmdName = (TextView) itemView.findViewById(R.id.textview_cmd_name);
+            cmdValue = (TextView) itemView.findViewById(R.id.textview_cmd_value);
+            velocimetro = (Velocimetro) itemView.findViewById(R.id.velocimetro);
+        }
     }
 }
 

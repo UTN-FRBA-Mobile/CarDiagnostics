@@ -53,6 +53,7 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
     protected Integer digitCount = 6;
     private Boolean error = false;
     private Integer timeOut = ObdCommandSingleton.TIME_OUT;
+    private String res = "";
 
     /**
      * Default ctor to use
@@ -336,13 +337,13 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
         velocimetro.setUnitsTextSize(40);
 
         if(velocidadActual < 0) {
-            velocimetro.setSpeed(0, 100, 0);
+            velocimetro.setSpeed(0, 0, 0);
         }
         if(velocidadActual > velocimetro.getMaxSpeed()){
-            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 100, 0);
+            velocimetro.setSpeed(velocimetro.getMaxSpeed(), 0, 0);
         }
         if(velocidadActual >=  0 && velocidadActual <= velocimetro.getMaxSpeed()){
-            velocimetro.setSpeed(velocidadActual, 100, 0);
+            velocimetro.setSpeed(velocidadActual, 0, 0);
         }
     }
 
@@ -519,5 +520,13 @@ public abstract class ObdCommand implements Comparable<ObdCommand> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRes() {
+        return res;
+    }
+
+    public void setRes(String res) {
+        this.res = res;
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -13,17 +14,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +41,7 @@ import com.cardiag.persistence.DataBaseService;
 import com.cardiag.utils.ConfirmDialog;
 import com.cardiag.utils.ObdCommandAdapter;
 import com.cardiag.utils.ObdCommandCheckAdapter;
+import com.cardiag.utils.SpacesItemDecoration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,16 +57,17 @@ public class  StateActivity extends AppCompatActivity  {
     private static final int RECONNECT = 1;
     private static final int REQUEST_ENABLE_BT = 1234;
     private static Boolean bluetoothDefaultIsEnable = false;
-    private GridView gridView;
+    private RecyclerView gridView;
+//    private GridView gridView;
     private MenuItem reconnect;
     private MenuItem selectCommands;
     private Button botonPlay;
     private Button botonStop;
     private TextView obdStatus;
-    private TextView obdDataStatus;
+    private LinearLayout mainLayout;
+    private LinearLayout errorLayout;
     private SensorManager sensorManager;
     private PowerManager.WakeLock wakeLock;
-//    private SharedPreferences prefs;
     private ArrayList<Boolean> availablePidsFlags = new ArrayList<Boolean>();
     private BluetoothSocket sock = null;
     private ArrayList<ObdCommand> commands = new ArrayList<ObdCommand>();
@@ -103,11 +110,16 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     private void doBindings() {
-        gridView = (GridView) findViewById(R.id.data_grid);
+//        gridView = (GridView) findViewById(R.id.data_grid);
+        gridView = (RecyclerView) findViewById(R.id.data_grid);
+        gridView.setLayoutManager(new GridLayoutManager(this,2));
+        int px = dpToPx(7.5f);
+        gridView.addItemDecoration(new SpacesItemDecoration(px));
         botonPlay = (Button) findViewById(R.id.botonPlay);
         botonStop = (Button) findViewById(R.id.botonStop);
         obdStatus = (TextView) findViewById(R.id.obd_status);
-        obdDataStatus = (TextView) findViewById(R.id.obd_data_status);
+        mainLayout = (LinearLayout) findViewById(R.id.vehicle_view);
+        errorLayout = (LinearLayout) findViewById(R.id.obd_status_layout);
     }
 
     @Override
@@ -167,7 +179,8 @@ public class  StateActivity extends AppCompatActivity  {
         } else {
             String error = getString(R.string.error);
             String msg = getString(R.string.text_bluetooth_disabled);
-            ConfirmDialog.showCancellingDialog(this, error, msg, true);
+            ConfirmDialog.showCancellingDialog(this, error, msg, false);
+            prepareButtons(false);
         }
 
         return true;
@@ -211,13 +224,14 @@ public class  StateActivity extends AppCompatActivity  {
     }
 
     public void startLiveData(View view) {
+
         showToast(getString(R.string.status_obd_data));
         botonPlay.setEnabled(false);
         botonStop.setEnabled(true);
         botonStop.setVisibility(View.VISIBLE);
         botonPlay.setVisibility(View.INVISIBLE);
+
         selectCommands.setEnabled(false);
-        obdDataStatus.setText(getString(R.string.status_obd_data));
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (stateTask != null && !stateTask.isCancelled()) {
@@ -236,7 +250,6 @@ public class  StateActivity extends AppCompatActivity  {
         botonPlay.setVisibility(View.VISIBLE);
         botonStop.setVisibility(View.INVISIBLE);
         selectCommands.setEnabled(true);
-        obdDataStatus.setText(getString(R.string.status_obd_data_stopped));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (stateTask != null) {
             stateTask.cancel(true);
@@ -412,25 +425,27 @@ public class  StateActivity extends AppCompatActivity  {
         }
     }
 
-    public void setObdStatusText(String text) {
-        obdStatus.setText(text);
-    }
-    public void setObdDataStatusText(String text) {
-        obdDataStatus.setText(text);
-    }
+    public void showDisconectedMsg(Boolean show){
+        LinearLayout errorLayoutNew = (LinearLayout) findViewById(R.id.obd_status_layout);
 
-    public StateTask getStateTask() {
-        return stateTask;
+        if (show && errorLayoutNew == null) {
+            mainLayout.addView(errorLayout,0);
+            return;
+        }
+        if (!show && errorLayoutNew != null){
+            mainLayout.removeView(errorLayout);
+            return;
+        }
     }
-
-    public ConnectionConfigTask getCct() {
-        return cct;
-    }
-
     @Override
     public void onBackPressed() {
         cancelTasks();
         super.onBackPressed();
+    }
+
+    public int dpToPx(float dp) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }
 

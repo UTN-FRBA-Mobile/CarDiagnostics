@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -44,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
             showTutorial();
             return;
         }
-//        getSupportActionBar().setTitle("");
     }
 
     public boolean enableBluetooth(int requestCode) {
@@ -105,6 +106,13 @@ public class MainActivity extends AppCompatActivity {
     public void startMapsActivity(View v) {
 
         if(enableGps(REQUEST_ENABLE_BT_MAPS)){
+            return;
+        }
+        String msg = getString(R.string.no_network_error);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo == null || (netInfo != null && netInfo.isConnectedOrConnecting())) {
+            ConfirmDialog.showCancellingDialog(this, "",msg,false);
             return;
         }
         startActivity(new Intent(this, MapsActivity.class));

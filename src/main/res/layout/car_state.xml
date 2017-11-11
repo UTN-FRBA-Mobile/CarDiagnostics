@@ -9,49 +9,42 @@
     android:weightSum="1"
     tools:context="com.cardiag.activity.StateActivity">
 
-    <Space
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/obd_status_layout">
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="9dp" />
 
         <TextView
             android:id="@+id/obd_status"
             android:layout_height="wrap_content"
+            android:background="#EB4E7A7E"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
             android:layout_marginRight="7.5dp"
-            android:layout_weight="1"
-            android:background="#EB4E7A7E"
-            android:gravity="center"
-            android:textColor="@android:color/white" />
-
-        <TextView
-            android:id="@+id/obd_data_status"
-            android:layout_height="wrap_content"
             android:layout_marginLeft="7.5dp"
-            android:layout_weight="1"
-            android:background="#EB4E7A7E"
-            android:gravity="center"
-            android:textColor="@color/white" />
-    </TableRow>
+            android:text="@string/status_obd_disconnected"/>
+
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="3.75dp" />
 
-    <GridView
+    <android.support.v7.widget.RecyclerView
 
         android:id="@+id/data_grid"
         android:layout_width="fill_parent"
         android:layout_height="373dp"
         android:layout_weight="1"
-        android:fadingEdgeLength="0px"
-        android:horizontalSpacing="15dp"
-        android:numColumns="2"
-        android:verticalSpacing="15dp">
+        >
 
-    </GridView>
+    </android.support.v7.widget.RecyclerView>
 
     <TableRow
         android:layout_width="match_parent"

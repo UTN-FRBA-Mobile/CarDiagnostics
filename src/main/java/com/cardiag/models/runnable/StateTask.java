@@ -94,7 +94,6 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
 
     @Override
     protected void onProgressUpdate(ObdCommand... progress) {
-        ObdCommand command = progress[0];
         stateActivity.stateUpdate();
     }
 
@@ -149,10 +148,10 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
         String error = stateActivity.getString(R.string.error);
         closeSocket();
 
-        if (TextUtils.equals(result, ok)) {
-            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
-            return;
-        }
+//        if (TextUtils.equals(result, ok)) {
+//            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
+//            return;
+//        }
 
         if (TextUtils.equals(result, error)) {
             stateActivity.prepareButtons(false);
@@ -160,13 +159,14 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
             ProgressDialog pDialog = cct.getProgressDialog();
             pDialog.setTitle(stateActivity.getString(R.string.dialog_reconnecting_title));
             cct.execute();
-            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
+//            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
             return;
         }
 
         String title = stateActivity.getString(R.string.error);
-        stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
-        stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
+        stateActivity.showDisconectedMsg(true);
+//        stateActivity.setObdStatusText(stateActivity.getString(R.string.status_obd_disconnected));
+//        stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
         stateActivity.prepareButtons(false);
         ConfirmDialog.showCancellingDialog(stateActivity, title, result, false);
 
@@ -191,7 +191,7 @@ public class StateTask extends AsyncTask<String, ObdCommand, String> {
             sock.getInputStream().close();
             sock.getOutputStream().close();
             sock.close();
-            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
+//            stateActivity.setObdDataStatusText(stateActivity.getString(R.string.status_obd_data_stopped));
         } catch (IOException e1) {
             e1.printStackTrace();
         }
