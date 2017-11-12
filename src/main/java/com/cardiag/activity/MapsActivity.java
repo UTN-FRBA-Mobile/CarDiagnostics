@@ -2,10 +2,14 @@ package com.cardiag.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 
 import com.cardiag.R;
 import com.cardiag.services.maps.ObtenerDireccionesService;
+import com.cardiag.utils.ConfirmDialog;
 import com.cardiag.utils.enums.MapService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,7 +54,7 @@ public class MapsActivity extends AppCompatActivity
     GoogleApiClient mGoogleApiClient;
     Location location;
     Marker mCurrLocationMarker;
-
+    private static final int REQUEST_ENABLE_BT_MAPS = 3;
     private Button mapSearchBtn;
 
 
@@ -57,6 +62,12 @@ public class MapsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        if (!isGPSConnected(true)){
+            return;
+        }
+        isInternetConnected();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
@@ -71,8 +82,12 @@ public class MapsActivity extends AppCompatActivity
            public void onClick(View v)
            {
 
-
                if(estaciones.isChecked() || talleres.isChecked()){
+                   if (!isInternetConnected() || !isGPSConnected(false)) {
+                       estaciones.setChecked(false);
+                       talleres.setChecked(false);
+                       return;
+                   }
                    mostrarEstaciones(estaciones);
                    mostrarTalleres(talleres);
                }else{
@@ -83,7 +98,13 @@ public class MapsActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
+
                 if(estaciones.isChecked() || talleres.isChecked()){
+                    if(!isInternetConnected() || !isGPSConnected(false)) {
+                        estaciones.setChecked(false);
+                        talleres.setChecked(false);
+                        return;
+                    }
                     mostrarEstaciones(estaciones);
                     mostrarTalleres(talleres);
                 }else{
@@ -347,6 +368,27 @@ public class MapsActivity extends AppCompatActivity
         obtenerDireccionesService = new ObtenerDireccionesService(mMap, tipo, MapsActivity.this);
         obtenerDireccionesService.execute(lat, lng);   // Parámetros que recibe doInBackground
 
+    }
+
+    public Boolean isInternetConnected() {
+        String msg = getString(R.string.no_network_error);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo == null || (netInfo != null && !netInfo.isConnectedOrConnecting())) {
+            ConfirmDialog.showCancellingDialog(this, "",msg,false);
+            return false;
+        }
+        return  true;
+    }
+
+    private boolean isGPSConnected(Boolean cancellingDialog) {
+        String msg = getString(R.string.no_gps_error);
+        LocationManager lm = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+        if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            ConfirmDialog.showCancellingDialog(this, "",msg,cancellingDialog);
+            return false;
+        }
+        return true;
     }
 
     @Override

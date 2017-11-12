@@ -93,42 +93,6 @@ public class ObdCommandCheckAdapter extends RecyclerView.Adapter<ObdCommandCheck
         return cmds.size();
     }
 
-
-//    @Override
-//    public View getView(final int position, View convertView, final ViewGroup parent) {
-//
-//        final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-//        convertView = layoutInflater.inflate(R.layout.list_check_item, null);
-//
-//        final ObdCommand cmd = cmds.get(position);
-//        final CheckedTextView checkedTextView = (CheckedTextView) convertView.findViewById(R.id.selected_command);
-//
-//        if (cmd.getSelected()) {
-//            checkedTextView.setChecked(cmd.getSelected());
-//            checkedTextView.setCheckMarkDrawable(android.R.drawable.checkbox_on_background);
-//        }
-//
-//        checkedTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                CheckedTextView checkedTextView1 = (CheckedTextView) view;
-//                if (cmd.getSelected()) {
-//                    checkedTextView1.setCheckMarkDrawable(android.R.drawable.checkbox_off_background);
-//                    cmd.setSelected(false);
-//                    selectedCmds.remove(cmd);
-//                } else {
-//                    cmd.setSelected(true);
-//                    checkedTextView1.setCheckMarkDrawable(android.R.drawable.checkbox_on_background);
-//                    selectedCmds.add(cmd);
-//                }
-//            }
-//        });
-//
-//        checkedTextView.setText(cmd.getName());
-//
-//        return convertView;
-//    }
-
     public ArrayList<ObdCommand> getSelectedCmds() {
         return selectedCmds;
     }

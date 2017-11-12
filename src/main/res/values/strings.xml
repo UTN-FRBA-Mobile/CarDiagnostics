@@ -140,6 +140,7 @@
     <string name="no_device_selected">No device selected.</string>
     <string name="selected_device">Selected device:</string>
     <string name="no_network_error">Please connect your device to a network.</string>
+    <string name="no_gps_error">Please enable your GPS first.</string>
 
     <string-array name="developers">
         <item> Coello, Leandro</item>

@@ -43,7 +43,7 @@ public class ConfirmDialog {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);
 
-        final MainActivity mainActivity = (MainActivity) context;
+        final AppCompatActivity mainActivity = (AppCompatActivity) context;
         // set dialog message
         alertDialogBuilder
                 .setMessage("Una aplicación quiere activar el GPS en este dispositivo")

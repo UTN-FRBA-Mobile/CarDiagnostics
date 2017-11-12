@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.cardiag.R;
@@ -20,7 +18,6 @@ import java.util.List;
  * Created by Leo on 30/7/2017.
  */
 
-//public class ObdCommandAdapter extends BaseAdapter {
 public class ObdCommandAdapter extends RecyclerView.Adapter<ObdCommandAdapter.OBDCommandViewHolder> {
 
     private List<ObdCommand> cmds;
@@ -38,23 +35,6 @@ public class ObdCommandAdapter extends RecyclerView.Adapter<ObdCommandAdapter.OB
         this.mContext = context;
    }
 
-//    @Override
-//    public int getCount() {
-//        return cmds.size();
-//    }
-//
-//    @Override
-//    public Object getItem(int i) {
-//        return null;
-//    }
-//
-//    @Override
-//    public long getItemId(int i) {
-//        return i;
-//    }
-
-//
-
     @Override
     public OBDCommandViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ObdCommandAdapter.OBDCommandViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false));
@@ -62,15 +42,6 @@ public class ObdCommandAdapter extends RecyclerView.Adapter<ObdCommandAdapter.OB
 
     @Override
     public void onBindViewHolder(OBDCommandViewHolder holder, int position) {
-
-//        if (convertView == null) {
-//            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-//            convertView = layoutInflater.inflate(R.layout.list_item, null);
-//        }
-
-    //        TextView cmdName = (TextView) convertView.findViewById(R.id.textview_cmd_name);
-    //        TextView cmdValue = (TextView) convertView.findViewById(R.id.textview_cmd_value);
-    //        velocimetro = (Velocimetro) convertView.findViewById(R.id.velocimetro);
 
         TextView cmdName = holder.cmdName;
         TextView cmdValue = holder.cmdValue;

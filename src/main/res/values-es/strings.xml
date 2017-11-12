@@ -94,5 +94,7 @@
     <string name="end">Finalizar</string>
     <string name="trouble_codes_no_error">No se detectaron errores</string>
     <string name="no_network_error">Por favor conecte su móvil a Internet.</string>
+    <string name="no_gps_error">Por favor, encienda el GPS.</string>
+
 
 </resources>

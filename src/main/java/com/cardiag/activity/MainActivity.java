@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         String msg = getString(R.string.no_network_error);
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo == null || (netInfo != null && netInfo.isConnectedOrConnecting())) {
+        if (netInfo == null || (netInfo != null && !netInfo.isConnectedOrConnecting())) {
             ConfirmDialog.showCancellingDialog(this, "",msg,false);
             return;
         }
